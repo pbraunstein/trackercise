@@ -19,6 +19,8 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     DEBUG = False
+    SQLALCHEMY_DATABASE_URI = "postgresql://localhost/trackercize"
+
 
 class LocalConfig(Config):
     DEBUG = True
