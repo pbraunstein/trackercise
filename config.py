@@ -10,6 +10,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URI']
     SECRET_KEY = ''.join([choice(SECRET_KEY_CHAR_SET) for x in range(SECRET_KEY_LENGTH)])  # randomly generated
 
 
@@ -19,8 +20,6 @@ class ProductionConfig(Config):
 
 class DevelopmentConfig(Config):
     DEBUG = False
-    SQLALCHEMY_DATABASE_URI = "postgresql://localhost/trackercize"
-
 
 class LocalConfig(Config):
     DEBUG = True
