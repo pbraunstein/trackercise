@@ -10,7 +10,7 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URI']
+    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
     SECRET_KEY = ''.join([choice(SECRET_KEY_CHAR_SET) for x in range(SECRET_KEY_LENGTH)])  # randomly generated
 
 
