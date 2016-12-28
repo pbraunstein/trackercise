@@ -21,6 +21,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
     DEBUG = False
 
+
 class LocalConfig(Config):
     DEBUG = True
 
