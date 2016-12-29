@@ -58,6 +58,9 @@ def import_rep_taxonomies():
 
 @manager.command
 def import_rep_history():
+    """
+    Imports the rep exercise history sample data into the rep_exercises_history db table
+    """
     entries = []
     with open(os.path.join(app.root_path, 'sample_data/rep_history.csv'), 'rb') as csvfile:
         history_reader = reader(csvfile)
@@ -89,9 +92,11 @@ def _booleanize(yes_or_no):
 
 def _generate_rep_history_from_row(row):
     """
-    Raises ValueError
-    :param row:
-    :return:
+    Generates a RepExercisesHistory object from one row of the csv file
+
+    !!! Raises ValueError
+    :param row: from csv sample data for rep exercises history csv file
+    :return: RepExercisesHistory taxonomy object representing one row in the db table
     """
     # if weight is body weight, signal that with -1
     if row[3] == 'body':
