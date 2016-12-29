@@ -25,8 +25,8 @@ class RepExercisesHistory(db.Model):
                                                                        self.date)
 
 
-class RepExerciseTaxonomy(db.Model):
-    __tablename__ = 'rep_exercise_taxonomy'
+class RepExercisesTaxonomy(db.Model):
+    __tablename__ = 'rep_exercises_taxonomy'
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String())

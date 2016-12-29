@@ -5,7 +5,7 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
 from app import app, db
-from models import RepExerciseTaxonomy, RepExercisesHistory
+from models import RepExercisesTaxonomy, RepExercisesHistory
 
 app.config.from_object(os.environ['APP_SETTINGS'])
 
@@ -37,7 +37,7 @@ def import_rep_taxonomies():
         taxonomy_reader.next()  # skip header line
         for row in taxonomy_reader:
             try:
-                entries.append(RepExerciseTaxonomy(
+                entries.append(RepExercisesTaxonomy(
                     row[0],
                     _booleanize(row[1]),
                     _booleanize(row[2]),
