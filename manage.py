@@ -5,7 +5,7 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
 from app import app, db
-from models import RepExerciseTaxonomy
+from models import RepExerciseTaxonomy, RepExercisesHistory
 
 app.config.from_object(os.environ['APP_SETTINGS'])
 
@@ -18,9 +18,10 @@ manager.add_command('db', MigrateCommand)
 @manager.command
 def run_importers():
     """
-    Not yet implemented
+    Import rep taxonomy and rep history
     """
     import_rep_taxonomies()
+    import_rep_history()
 
 
 @manager.command
@@ -55,9 +56,24 @@ def import_rep_taxonomies():
     db.session.commit()
 
 
+@manager.command
+def import_rep_history():
+    entries = []
+    with open(os.path.join(app.root_path, 'sample_data/rep_history.csv'), 'rb') as csvfile:
+        history_reader = reader(csvfile)
+        history_reader.next()  # skip header line
+        for row in history_reader:
+            try:
+                entries.append(_generate_rep_history_from_row(row))
+            except ValueError:
+                pass
+    db.session.add_all(entries)
+    db.session.commit()
+
+
 def _booleanize(yes_or_no):
     """
-    Takes in the string YES or NO and booleanizes it
+    Takes in the string YES or NO and booleanizes it to True of False
 
     :param yes_or_no: the string to booleanize
     :return: the boolean
@@ -71,9 +87,23 @@ def _booleanize(yes_or_no):
         raise ValueError("{0} is not a yes or no".format(yes_or_no))
 
 
-@manager.command
-def import_rep_history():
-    raise NotImplementedError("import_rep_history is not yet implemented")
+def _generate_rep_history_from_row(row):
+    """
+    Raises ValueError
+    :param row:
+    :return:
+    """
+    # if weight is body weight, signal that with -1
+    if row[3] == 'body':
+        row[3] = '-1'
+    return RepExercisesHistory(
+        user_id='phil',
+        name=row[0],
+        sets=int(row[1]),
+        reps=int(row[2]),
+        weight=float(row[3]),
+        date=row[4]
+    )
 
 if __name__ == '__main__':
     manager.run()
