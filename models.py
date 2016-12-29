@@ -57,7 +57,7 @@ class RepExerciseTaxonomy(db.Model):
 
     def __repr__(self):
         return '<{0}:  is_back: {1}  is_chest: {2}  is_shoulders: {3}  is_biceps: {4}  is_triceps: {5}  is_legs: {6}' \
-               'is_core: {7}  is_balance: {8}  is_cardio{9}  is_weight_per_hand:  {10}>'\
+               '  is_core: {7}  is_balance: {8}  is_cardio: {9}  is_weight_per_hand:  {10}>'\
             .format(
                 self.name,
                 self.is_back,
