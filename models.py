@@ -75,4 +75,11 @@ class RepExercisesTaxonomy(db.Model):
             )
 
     class Users(db.Model):
-        pass
+        id = db.Column(db.Integer, primary_key=True)
+        nickname = db.Column(db.String(), nullable=False)
+
+        def __init__(self, nickname):
+            self.nickname = nickname
+
+        def __repr__(self):
+            return '<Member Number: {0}  Nickname: {1}>'.format(self.id, self.nickname)
