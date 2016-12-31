@@ -13,7 +13,7 @@ from models import RepExercisesHistory, RepExercisesTaxonomy
 
 @app.route('/')
 def hello():
-    results_1 = db.engine.execute('select * from rep_exercises_history;')
+    results_1 = RepExercisesHistory.query.all()
     entries_1 = list(results_1)
     entries_1 = [_prepare_entry(x) for x in entries_1]
     results_2 = db.engine.execute('select * from rep_exercises_taxonomy;')
@@ -25,9 +25,8 @@ def hello():
 
 
 def _prepare_entry(entry):
-    values = entry.values()
-    values[-1] = str(values[-1])
-    return values
+    entry.date = str(entry.date)
+    return entry
 
 
 def _prepare_taxonomy_entry(entry):

@@ -93,7 +93,7 @@
                 User Name
             </th>
             <th>
-                Exercise Name
+                Exercise Id
             </th>
             <th>
                 Sets
@@ -107,36 +107,30 @@
             <th>
                 Date
             </th>
-            <th>
-                Exercise Id
-            </th>
 
         </tr>
         {% for item in entries[0] %}
             <tr>
                 <td>
-                    {{ item[0] }}
+                    {{ item.id }}
                 </td>
                 <td>
-                    {{ item[1] }}
+                    {{ item.user_id }}
                 </td>
                 <td>
-                    {{ item[2] }}
+                    {{ item.exercise_id }}
                 </td>
                 <td>
-                    {{ item[3] }}
+                    {{ item.sets }}
                 </td>
                 <td>
-                    {{ item[4] }}
+                    {{ item.reps }}
                 </td>
                 <td>
-                    {{ item[5] }}
+                    {{ item.weight }}
                 </td>
                 <td>
-                    {{ item[6] }}
-                </td>
-                <td>
-                    {{ item[7] }}
+                    {{ item.date }}
                 </td>
             </tr>
         {% endfor %}
