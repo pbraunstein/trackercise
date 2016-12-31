@@ -12,36 +12,43 @@ from models import RepExercisesHistory, RepExercisesTaxonomy
 
 
 @app.route('/')
-def hello():
-    results_1 = RepExercisesHistory.query.all()
-    entries_1 = list(results_1)
-    entries_1 = [_prepare_entry(x) for x in entries_1]
-    results_2 = db.engine.execute('select * from rep_exercises_taxonomy;')
-    entries_2 = list(results_2)
-    entries_2a = [list(x) for x in entries_2]
-    entries_2b = [_prepare_taxonomy_entry(x) for x in entries_2a]
-    entries = [entries_1, entries_2b]
+def index():
+    taxonomy_results = list(RepExercisesTaxonomy.query.all())
+    taxonomy_results = [_prepare_taxonomy_entry(x) for x in taxonomy_results]
+    history_results = list(RepExercisesHistory.query.all())
+    history_results = [_prepare_history_entry(x) for x in history_results]
+    entries = [taxonomy_results, history_results]
+
     return render_template('index.html', entries=entries)
 
 
-def _prepare_entry(entry):
+def _prepare_history_entry(entry):
+    """
+    Stringifies date of RepExercisesHistory entry
+    """
     entry.date = str(entry.date)
     return entry
 
 
 def _prepare_taxonomy_entry(entry):
-    def filter_subentry(x):
-        if type(x) == int:
-            return x
-        elif x == True:
-            return 'YES'
-        elif x == False:
-            return 'NO'
-        else:
-            return x
+    """
+    Turns boolean True or False to YES or NO for RepExercisesTaxonomy entry
+    """
+    def debooleanize(value):
+        return 'YES' if value else 'NO'
 
-    return [filter_subentry(x) for x in entry]
+    entry.is_back = debooleanize(entry.is_back)
+    entry.is_chest = debooleanize(entry.is_chest)
+    entry.is_shoulders = debooleanize(entry.is_shoulders)
+    entry.is_biceps = debooleanize(entry.is_biceps)
+    entry.is_triceps = debooleanize(entry.is_triceps)
+    entry.is_legs = debooleanize(entry.is_legs)
+    entry.is_core = debooleanize(entry.is_core)
+    entry.is_balance = debooleanize(entry.is_balance)
+    entry.is_cardio = debooleanize(entry.is_cardio)
+    entry.is_weight_per_hand = debooleanize(entry.is_weight_per_hand)
 
+    return entry
 
 
 if __name__ == '__main__':
