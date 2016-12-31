@@ -2,6 +2,88 @@
 <title>Flaskr</title>
 <div class=page>
   <h1>Trackercize!</h1>
+    <h2>Taxonomy Table</h2>
+    <table>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Back
+            </th>
+            <th>
+                Chest
+            </th>
+            <th>
+                Shoulders
+            </th>
+            <th>
+                Biceps
+            </th>
+            <th>
+                Triceps
+            </th>
+            <th>
+                Legs
+            </th>
+            <th>
+                Core
+            </th>
+            <th>
+                Balance
+            </th>
+            <th>
+                Cardio
+            </th>
+            <th>
+                Weight Per Hand
+            </th>
+        </tr>
+        {% for item in entries[1] %}
+        <tr>
+            <td>
+                {{ item[0] }}
+            </td>
+            <td>
+                {{ item[1] }}
+            </td>
+            <td>
+                {{ item[2] }}
+            </td>
+            <td>
+                {{ item[3] }}
+            </td>
+            <td>
+                {{ item[4] }}
+            </td>
+            <td>
+                {{ item[5] }}
+            </td>
+            <td>
+                {{ item[6] }}
+            </td>
+            <td>
+                {{ item[7] }}
+            </td>
+            <td>
+                {{ item[8] }}
+            </td>
+            <td>
+                {{ item[9] }}
+            </td>
+            <td>
+                {{ item[10] }}
+            </td>
+            <td>
+                {{ item[11] }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h2>History Table</h2>
     <table>
         <tr>
             <th>
@@ -25,9 +107,12 @@
             <th>
                 Date
             </th>
+            <th>
+                Exercise Id
+            </th>
 
         </tr>
-        {% for item in entries %}
+        {% for item in entries[0] %}
             <tr>
                 <td>
                     {{ item[0] }}
@@ -49,6 +134,9 @@
                 </td>
                 <td>
                     {{ item[6] }}
+                </td>
+                <td>
+                    {{ item[7] }}
                 </td>
             </tr>
         {% endfor %}

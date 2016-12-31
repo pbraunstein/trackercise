@@ -13,9 +13,14 @@ from models import RepExercisesHistory, RepExercisesTaxonomy
 
 @app.route('/')
 def hello():
-    results = db.engine.execute('select * from rep_exercises_history;')
-    entries = list(results)
-    entries = [_prepare_entry(x) for x in entries]
+    results_1 = db.engine.execute('select * from rep_exercises_history;')
+    entries_1 = list(results_1)
+    entries_1 = [_prepare_entry(x) for x in entries_1]
+    results_2 = db.engine.execute('select * from rep_exercises_taxonomy;')
+    entries_2 = list(results_2)
+    entries_2a = [list(x) for x in entries_2]
+    entries_2b = [_prepare_taxonomy_entry(x) for x in entries_2a]
+    entries = [entries_1, entries_2b]
     return render_template('index.html', entries=entries)
 
 
@@ -23,6 +28,21 @@ def _prepare_entry(entry):
     values = entry.values()
     values[-1] = str(values[-1])
     return values
+
+
+def _prepare_taxonomy_entry(entry):
+    def filter_subentry(x):
+        if type(x) == int:
+            return x
+        elif x == True:
+            return 'YES'
+        elif x == False:
+            return 'NO'
+        else:
+            return x
+
+    return [filter_subentry(x) for x in entry]
+
 
 
 if __name__ == '__main__':
