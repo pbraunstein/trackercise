@@ -73,3 +73,6 @@ class RepExercisesTaxonomy(db.Model):
                 self.is_cardio,
                 self.is_weight_per_hand
             )
+
+    class Users(db.Model):
+        pass
