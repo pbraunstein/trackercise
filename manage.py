@@ -38,7 +38,7 @@ def import_rep_taxonomies():
         for row in taxonomy_reader:
             try:
                 entries.append(RepExercisesTaxonomy(
-                    row[0],
+                    row[0].upper(),
                     _booleanize(row[1]),
                     _booleanize(row[2]),
                     _booleanize(row[3]),
@@ -103,12 +103,28 @@ def _generate_rep_history_from_row(row):
         row[3] = '-1'
     return RepExercisesHistory(
         user_id='phil',
-        name=row[0],
+        exercise_id=_get_exercise_id_for_name(row[0]),
         sets=int(row[1]),
         reps=int(row[2]),
         weight=float(row[3]),
         date=row[4]
     )
+
+
+def _get_exercise_id_for_name(exercise_name):
+    """
+    Gets the id of an exercise in the rep_exercises_taxonomy table
+
+    !!! Throws TypeError
+
+    :param exercise_name: name of exercise to look up
+    :return: id of exercise in rep_exercises_taxonomy table
+    """
+    exercise_name = exercise_name.upper()
+    result = RepExercisesTaxonomy.query.filter_by(name=exercise_name).first()
+    if result is None:
+        raise TypeError("No types match: {0} row is {1}".format(exercise_name))
+    return result.id
 
 if __name__ == '__main__':
     manager.run()
