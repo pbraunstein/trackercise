@@ -28,6 +28,7 @@ def run_importers():
 @manager.command
 def import_users():
     db.session.add(Users('Phil'))
+    db.session.commit()
 
 
 @manager.command

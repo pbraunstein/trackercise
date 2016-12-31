@@ -25,4 +25,4 @@ def upgrade():
 def downgrade():
     op.drop_constraint('rep_exercises_history_user_id_fkey', 'rep_exercises_history', type_='foreignkey')
     op.drop_column('rep_exercises_history', 'user_id')
-    op.add_column('rep_exercises_history', sa.Column('user_id', sa.String(), nullable=False))
+    op.add_column('rep_exercises_history', sa.Column('user_id', sa.String()))
