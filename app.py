@@ -8,16 +8,17 @@ app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-from models import RepExercisesHistory, RepExercisesTaxonomy
+from models import Users, RepExercisesHistory, RepExercisesTaxonomy
 
 
 @app.route('/')
 def index():
+    user_results = list(Users.query.all())
     taxonomy_results = list(RepExercisesTaxonomy.query.all())
     taxonomy_results = [_prepare_taxonomy_entry(x) for x in taxonomy_results]
     history_results = list(RepExercisesHistory.query.all())
     history_results = [_prepare_history_entry(x) for x in history_results]
-    entries = [taxonomy_results, history_results]
+    entries = [user_results, taxonomy_results, history_results]
 
     return render_template('index.html', entries=entries)
 
