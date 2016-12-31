@@ -5,7 +5,7 @@ from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
 from app import app, db
-from models import RepExercisesTaxonomy, RepExercisesHistory
+from models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
 app.config.from_object(os.environ['APP_SETTINGS'])
 
@@ -20,8 +20,15 @@ def run_importers():
     """
     Import rep taxonomy and rep history
     """
+    import_users()
     import_rep_taxonomies()
     import_rep_history()
+
+
+@manager.command
+def import_users():
+    db.session.add(Users('Phil'))
+    db.session.commit()
 
 
 @manager.command
@@ -62,12 +69,13 @@ def import_rep_history():
     Imports the rep exercise history sample data into the rep_exercises_history db table
     """
     entries = []
+    user_id = Users.query.first().id
     with open(os.path.join(app.root_path, 'sample_data/rep_history.csv'), 'rb') as csvfile:
         history_reader = reader(csvfile)
         history_reader.next()  # skip header line
         for row in history_reader:
             try:
-                entries.append(_generate_rep_history_from_row(row))
+                entries.append(_generate_rep_history_from_row(row, user_id))
             except ValueError:
                 pass
     db.session.add_all(entries)
@@ -90,19 +98,20 @@ def _booleanize(yes_or_no):
         raise ValueError("{0} is not a yes or no".format(yes_or_no))
 
 
-def _generate_rep_history_from_row(row):
+def _generate_rep_history_from_row(row, user_id):
     """
     Generates a RepExercisesHistory object from one row of the csv file
 
     !!! Raises ValueError
     :param row: from csv sample data for rep exercises history csv file
+    :param user_id: id of user
     :return: RepExercisesHistory taxonomy object representing one row in the db table
     """
     # if weight is body weight, signal that with -1
     if row[3] == 'body':
         row[3] = '-1'
     return RepExercisesHistory(
-        user_id='phil',
+        user_id=user_id,
         exercise_id=_get_exercise_id_for_name(row[0]),
         sets=int(row[1]),
         reps=int(row[2]),

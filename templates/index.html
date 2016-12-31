@@ -2,6 +2,27 @@
 <title>Track Your Workout</title>
 <div class=page>
   <h1>Trackercize!</h1>
+    <h2>User Table</h2>
+    <table>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Nickname
+            </th>
+        </tr>
+        {% for item in entries[0] %}
+        <tr>
+            <td>
+                {{ item.id }}
+            </td>
+            <td>
+                {{ item.nickname }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
     <h2>Taxonomy Table</h2>
     <table>
         <tr>
@@ -42,7 +63,7 @@
                 Weight Per Hand
             </th>
         </tr>
-        {% for item in entries[0] %}
+        {% for item in entries[1] %}
         <tr>
             <td>
                 {{ item.id }}
@@ -90,7 +111,7 @@
                 Entry No.
             </th>
             <th>
-                User Name
+                User Id
             </th>
             <th>
                 Exercise Id
@@ -109,7 +130,7 @@
             </th>
 
         </tr>
-        {% for item in entries[1] %}
+        {% for item in entries[2] %}
             <tr>
                 <td>
                     {{ item.id }}

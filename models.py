@@ -3,30 +3,6 @@ from sqlalchemy import ForeignKey
 from app import db
 
 
-class RepExercisesHistory(db.Model):
-    __tablename__ = 'rep_exercises_history'
-
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.String())
-    exercise_id = db.Column(db.Integer, ForeignKey('rep_exercises_taxonomy.id'), nullable=False)
-    sets = db.Column(db.Integer)
-    reps = db.Column(db.Integer)
-    weight = db.Column(db.Float)
-    date = db.Column(db.DateTime)
-
-    def __init__(self, user_id, exercise_id, sets, reps, weight, date):
-        self.user_id = user_id
-        self.exercise_id = exercise_id
-        self.sets = sets
-        self.reps = reps
-        self.weight = weight
-        self.date = date
-
-    def __repr__(self):
-        return '<{0}: {1} sets of {2} reps at {3} lbs. on {4}>'.format(self.exercise_id, self.sets, self.reps,
-                                                                       self.weight, self.date)
-
-
 class RepExercisesTaxonomy(db.Model):
     __tablename__ = 'rep_exercises_taxonomy'
 
@@ -73,3 +49,40 @@ class RepExercisesTaxonomy(db.Model):
                 self.is_cardio,
                 self.is_weight_per_hand
             )
+
+
+class Users(db.Model):
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    nickname = db.Column(db.String(), nullable=False)
+
+    def __init__(self, nickname):
+        self.nickname = nickname
+
+    def __repr__(self):
+        return '<Member Number: {0}  Nickname: {1}>'.format(self.id, self.nickname)
+
+
+class RepExercisesHistory(db.Model):
+    __tablename__ = 'rep_exercises_history'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    exercise_id = db.Column(db.Integer, ForeignKey('rep_exercises_taxonomy.id'), nullable=False)
+    sets = db.Column(db.Integer)
+    reps = db.Column(db.Integer)
+    weight = db.Column(db.Float)
+    date = db.Column(db.DateTime)
+
+    def __init__(self, user_id, exercise_id, sets, reps, weight, date):
+        self.user_id = user_id
+        self.exercise_id = exercise_id
+        self.sets = sets
+        self.reps = reps
+        self.weight = weight
+        self.date = date
+
+    def __repr__(self):
+        return '<{0}: {1} sets of {2} reps at {3} lbs. on {4}>'.format(self.exercise_id, self.sets, self.reps,
+                                                                       self.weight, self.date)
