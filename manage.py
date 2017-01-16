@@ -27,7 +27,8 @@ def run_importers():
 
 @manager.command
 def import_users():
-    db.session.add(Users('Phil'))
+    sample_user = Users('Phil', 'this-is-a-fake-email@phil.phil', 'password')
+    db.session.add(sample_user)
     db.session.commit()
 
 

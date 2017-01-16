@@ -56,9 +56,29 @@ class Users(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(), nullable=False)
+    email = db.Column(db.String())
+    password = db.Column(db.String())
+    authenticated = db.Column(db.Boolean)
 
-    def __init__(self, nickname):
+    def __init__(self, nickname, email, password):
         self.nickname = nickname
+        self.email = email
+        self.password = password
+        self.authenticated = False  # all users start out not authenticated
+
+    def is_active(self):
+        """All users are active"""
+        return True
+
+    def get_id(self):
+        return self.id
+
+    def is_authenticated(self):
+        return self.authenticated
+
+    def is_anonymous(self):
+        """No users can be anonymous"""
+        return False
 
     def __repr__(self):
         return '<Member Number: {0}  Nickname: {1}>'.format(self.id, self.nickname)

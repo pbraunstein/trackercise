@@ -11,6 +11,12 @@
             <th>
                 Nickname
             </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Password
+            </th>
         </tr>
         {% for item in entries[0] %}
         <tr>
@@ -19,6 +25,12 @@
             </td>
             <td>
                 {{ item.nickname }}
+            </td>
+            <td>
+                {{ item.email }}
+            </td>
+            <td>
+                ******
             </td>
         </tr>
         {% endfor %}
