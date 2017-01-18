@@ -23,6 +23,16 @@ def index():
     return render_template('index.html', entries=entries)
 
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    return render_template('login.html')
+
+
+@app.route('/logout', methods=['GET', 'POST'])
+def logout():
+    return render_template('logout.html')
+
+
 def _prepare_history_entry(entry):
     """
     Stringifies date of RepExercisesHistory entry
