@@ -1,5 +1,6 @@
-import os
 from csv import reader
+import hashlib
+import os
 
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
@@ -27,7 +28,10 @@ def run_importers():
 
 @manager.command
 def import_users():
-    sample_user = Users('Phil', 'this-is-a-fake-email@phil.phil', 'password')
+    hasher = hashlib.sha256()
+    hasher.update('password')
+    password = hasher.hexdigest()
+    sample_user = Users('Phil', 'this-is-a-fake-email@phil.phil', password)
     db.session.add(sample_user)
     db.session.commit()
 
