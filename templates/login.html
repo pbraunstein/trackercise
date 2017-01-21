@@ -1,3 +1,11 @@
 <!doctype html>
 <title>Login</title>
 <h1>Login</h1>
+<form method=post>
+     {{ form.csrf_token }}
+    <h3>{{ form.username.label }}</h3>
+    <p>{{ form.username }}</p>
+    <h3>{{ form.password.label }}</h3>
+    <p>{{ form.password }}</p>
+    {{ form.submit }}
+</form>

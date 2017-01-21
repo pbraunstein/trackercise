@@ -1,7 +1,10 @@
 import os
 
 from flask import Flask, render_template
+from flask import flash
 from flask_sqlalchemy import SQLAlchemy
+
+from forms import LoginForm
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -25,7 +28,12 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        print "Validated"
+    else:
+        print "Not Validated"
+    return render_template('login.html', form=form)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
