@@ -1,3 +1,4 @@
+import hashlib
 import os
 
 from flask import Flask, render_template, redirect
@@ -30,12 +31,14 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if form.password.data == 'password':
-            flash("YES")
-            return redirect('/')
+        user = Users.query.get(form.username.data)
+        inputted_password_hash = hashlib.sha256(form.password.data).hexdigest()
+        if user is None:
+            flash('We do not have a user whose email is {0}'.format(form.username.data))
+        elif inputted_password_hash != user.password:
+            flash('Incorrect password')
         else:
-            flash("NO")
-
+            flash('SUCCESS')
     else:
         flash("Not Validated")
     return render_template('login.html', form=form)
@@ -76,4 +79,4 @@ def _prepare_taxonomy_entry(entry):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
