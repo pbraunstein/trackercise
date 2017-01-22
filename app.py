@@ -79,4 +79,4 @@ def _prepare_taxonomy_entry(entry):
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
