@@ -54,9 +54,10 @@ class RepExercisesTaxonomy(db.Model):
 class Users(db.Model):
     __tablename__ = 'users'
 
-    email = db.Column(db.String(), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
     nickname = db.Column(db.String(), nullable=False)
-    password = db.Column(db.String(), nullable=False)
+    email = db.Column(db.String())
+    password = db.Column(db.String())
     authenticated = db.Column(db.Boolean)
 
     def __init__(self, nickname, email, password):
@@ -70,7 +71,7 @@ class Users(db.Model):
         return True
 
     def get_id(self):
-        return self.email
+        return self.id
 
     def is_authenticated(self):
         return self.authenticated
@@ -87,7 +88,7 @@ class RepExercisesHistory(db.Model):
     __tablename__ = 'rep_exercises_history'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, ForeignKey('users.email'), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
     exercise_id = db.Column(db.Integer, ForeignKey('rep_exercises_taxonomy.id'), nullable=False)
     sets = db.Column(db.Integer)
     reps = db.Column(db.Integer)
