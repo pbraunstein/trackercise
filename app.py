@@ -30,8 +30,12 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        flash("Validated")
-        return redirect('/')
+        if form.password.data == 'password':
+            flash("YES")
+            return redirect('/')
+        else:
+            flash("NO")
+
     else:
         flash("Not Validated")
     return render_template('login.html', form=form)
