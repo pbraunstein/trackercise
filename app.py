@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, render_template, redirect
+from flask import flash
 from flask_sqlalchemy import SQLAlchemy
 
 from forms import LoginForm
@@ -29,7 +30,10 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
+        flash("Validated")
         return redirect('/')
+    else:
+        flash("Not Validated")
     return render_template('login.html', form=form)
 
 
