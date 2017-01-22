@@ -1,7 +1,11 @@
+import hashlib
 import os
 
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
+from flask import flash
 from flask_sqlalchemy import SQLAlchemy
+
+from forms import LoginForm
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -25,7 +29,19 @@ def index():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = Users.query.get(form.username.data)
+        inputted_password_hash = hashlib.sha256(form.password.data).hexdigest()
+        if user is None:
+            flash('We do not have a user whose email is {0}'.format(form.username.data))
+        elif inputted_password_hash != user.password:
+            flash('Incorrect password')
+        else:
+            flash('SUCCESS')
+    else:
+        flash("Not Validated")
+    return render_template('login.html', form=form)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
@@ -63,4 +79,4 @@ def _prepare_taxonomy_entry(entry):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)

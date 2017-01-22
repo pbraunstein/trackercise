@@ -80,7 +80,7 @@ class Users(db.Model):
         return False
 
     def __repr__(self):
-        return '<Member Number: {0}  Nickname: {1}>'.format(self.id, self.nickname)
+        return '<Member Email: {0}  Nickname: {1}>'.format(self.email, self.nickname)
 
 
 class RepExercisesHistory(db.Model):
