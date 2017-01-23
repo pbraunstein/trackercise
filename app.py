@@ -42,9 +42,8 @@ def login():
         elif inputted_password_hash != user.password:
             flash('Incorrect password')
         else:
+            flash('Successful Login')
             return redirect('/')
-    else:
-        flash("Not Validated")
     return render_template('login.html', form=form)
 
 
