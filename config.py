@@ -11,7 +11,7 @@ class Config(object):
     TESTING = False
     CSRF_ENABLED = True
     SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-    SECRET_KEY = ''.join([choice(SECRET_KEY_CHAR_SET) for x in range(SECRET_KEY_LENGTH)])  # randomly generated
+    SECRET_KEY = 'this_is_secret'
 
 
 class ProductionConfig(Config):
