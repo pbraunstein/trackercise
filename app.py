@@ -3,6 +3,7 @@ import os
 
 from flask import Flask, render_template, redirect
 from flask import flash
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
 from forms import LoginForm
@@ -11,6 +12,9 @@ app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 
 from models import Users, RepExercisesHistory, RepExercisesTaxonomy
 
@@ -47,6 +51,11 @@ def login():
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     return render_template('logout.html')
+
+
+@login_manager.user_loader
+def user_loader(user_email):
+    return Users.query.get(user_email)
 
 
 def _prepare_history_entry(entry):
