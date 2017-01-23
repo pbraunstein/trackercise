@@ -3,6 +3,7 @@ import os
 
 from flask import Flask, render_template, redirect
 from flask import flash
+from flask_login import LoginManager, login_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 
 from forms import LoginForm
@@ -11,11 +12,15 @@ app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
+
 
 from models import Users, RepExercisesHistory, RepExercisesTaxonomy
 
 
 @app.route('/')
+@login_required
 def index():
     user_results = list(Users.query.all())
     taxonomy_results = list(RepExercisesTaxonomy.query.all())
@@ -38,15 +43,22 @@ def login():
         elif inputted_password_hash != user.password:
             flash('Incorrect password')
         else:
-            flash('SUCCESS')
-    else:
-        flash("Not Validated")
+            flash('Successful Login')
+            login_user(user)
+            return redirect('/')
     return render_template('login.html', form=form)
 
 
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
-    return render_template('logout.html')
+    flash('You have been logged out')
+    logout_user()
+    return redirect('/login')
+
+
+@login_manager.user_loader
+def user_loader(user_email):
+    return Users.query.get(user_email)
 
 
 def _prepare_history_entry(entry):
