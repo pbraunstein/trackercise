@@ -66,7 +66,7 @@ def register():
         elif _user_already_exists(form.email.data):
             flash('Email already exists')
         else:
-            _add_user_to_database(form.email.data, form.password.data)
+            _add_user_to_database(form.email.data, form.nickname.data, form.password.data)
             return redirect('/login')
     return render_template('register.html', form=form)
 
@@ -84,9 +84,9 @@ def _user_already_exists(email):
         return False
 
 
-def _add_user_to_database(email, plain_text_password):
+def _add_user_to_database(email, nickname, plain_text_password):
     hashed_password = hashlib.sha256(plain_text_password).hexdigest()
-    new_user = Users(email=email, nickname='placeholder', password=hashed_password)
+    new_user = Users(email=email, nickname=nickname, password=hashed_password)
     db.session.add(new_user)
     db.session.commit()
 
