@@ -6,7 +6,7 @@ from flask import flash
 from flask_login import LoginManager, login_user, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import LoginForm
+from forms import LoginForm, RegisterForm
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -54,6 +54,15 @@ def logout():
     flash('You have been logged out')
     logout_user()
     return redirect('/login')
+
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+    if form.validate_on_submit():
+        flash("YES")
+    else:
+        flash("NO")
 
 
 @login_manager.user_loader
