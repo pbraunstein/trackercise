@@ -2,3 +2,5 @@
 .python-version
 *.pyc
 secrets.txt
+.env
+*.swp
