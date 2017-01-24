@@ -1,11 +1,10 @@
 {% extends 'layout.html' %}
-{% block header %}{% endblock %}
 {% block body %}
-<h1>Login</h1>
+{% block content %}{% endblock %}
 <form method=post>
     {{ form.csrf_token }}
-    <h3>{{ form.username.label }}</h3>
-    <p>{{ form.username }}</p>
+    <h3>{{ form.email.label }}</h3>
+    <p>{{ form.email }}</p>
     <h3>{{ form.password.label }}</h3>
     <p>{{ form.password }}</p>
     {{ form.submit }}

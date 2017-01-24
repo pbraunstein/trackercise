@@ -36,7 +36,7 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = Users.query.get(form.username.data)
+        user = Users.query.get(form.email.data)
         inputted_password_hash = hashlib.sha256(form.password.data).hexdigest()
         if user is None:
             flash('We do not have a user whose email is {0}'.format(form.username.data))
@@ -63,6 +63,7 @@ def register():
         flash("YES")
     else:
         flash("NO")
+    return render_template('register.html', form=form)
 
 
 @login_manager.user_loader
