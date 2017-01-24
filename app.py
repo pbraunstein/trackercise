@@ -58,12 +58,37 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    _user_already_exists('a')
     form = RegisterForm()
     if form.validate_on_submit():
-        flash("YES")
-    else:
-        flash("NO")
+        if not _user_email_is_valid(form.email.data):
+            flash('Email not valid')
+        elif _user_already_exists(form.email.data):
+            flash('Email already exists')
+        else:
+            _add_user_to_database(form.email.data, form.password.data)
+            return redirect('/login')
     return render_template('register.html', form=form)
+
+
+def _user_email_is_valid(email):
+    return '@' in email and '.' in email
+
+
+def _user_already_exists(email):
+    users = Users.query.all()
+    user_emails = [x.email for x in users]
+    if email in user_emails:
+        return True
+    else:
+        return False
+
+
+def _add_user_to_database(email, plain_text_password):
+    hashed_password = hashlib.sha256(plain_text_password).hexdigest()
+    new_user = Users(email=email, nickname='placeholder', password=hashed_password)
+    db.session.add(new_user)
+    db.session.commit()
 
 
 @login_manager.user_loader
