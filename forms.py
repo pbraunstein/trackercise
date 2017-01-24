@@ -12,4 +12,5 @@ class LoginForm(UserForm):
 
 
 class RegisterForm(UserForm):
+    nickname = StringField(label="What do you like to be called?", validators=[validators.DataRequired()])
     password = PasswordField(label="Create a Password", validators=[validators.DataRequired()])

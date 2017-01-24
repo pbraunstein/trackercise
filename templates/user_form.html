@@ -3,6 +3,7 @@
 {% block content %}{% endblock %}
 <form method=post>
     {{ form.csrf_token }}
+    {% block nickname  %}{% endblock %}
     <h3>{{ form.email.label }}</h3>
     <p>{{ form.email }}</p>
     <h3>{{ form.password.label }}</h3>
