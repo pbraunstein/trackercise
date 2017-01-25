@@ -7,6 +7,9 @@
     <table>
         <tr>
             <th>
+                User id
+            </th>
+            <th>
                 Email
             </th>
             <th>
@@ -18,6 +21,9 @@
         </tr>
         {% for item in entries[0] %}
         <tr>
+            <td>
+                {{ item.id }}
+            </td>
             <td>
                 {{ item.email }}
             </td>
@@ -118,7 +124,7 @@
                 Entry No.
             </th>
             <th>
-                Email of User
+                User ID
             </th>
             <th>
                 Exercise Id
@@ -143,7 +149,7 @@
                     {{ item.id }}
                 </td>
                 <td>
-                    {{ item.user_email }}
+                    {{ item.user_id }}
                 </td>
                 <td>
                     {{ item.exercise_id }}

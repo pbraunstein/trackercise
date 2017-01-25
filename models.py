@@ -54,7 +54,8 @@ class RepExercisesTaxonomy(db.Model):
 class Users(db.Model):
     __tablename__ = 'users'
 
-    email = db.Column(db.String(), primary_key=True, unique=True)
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String())
     nickname = db.Column(db.String(), nullable=False)
     password = db.Column(db.String())
     authenticated = db.Column(db.Boolean)
@@ -70,7 +71,7 @@ class Users(db.Model):
         return True
 
     def get_id(self):
-        return self.email
+        return self.id
 
     def is_authenticated(self):
         return self.authenticated
@@ -87,15 +88,15 @@ class RepExercisesHistory(db.Model):
     __tablename__ = 'rep_exercises_history'
 
     id = db.Column(db.Integer, primary_key=True)
-    user_email = db.Column(db.String(), ForeignKey('users.email'), nullable=False)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
     exercise_id = db.Column(db.Integer, ForeignKey('rep_exercises_taxonomy.id'), nullable=False)
     sets = db.Column(db.Integer)
     reps = db.Column(db.Integer)
     weight = db.Column(db.Float)
     date = db.Column(db.DateTime)
 
-    def __init__(self, user_email, exercise_id, sets, reps, weight, date):
-        self.user_email = user_email
+    def __init__(self, user_id, exercise_id, sets, reps, weight, date):
+        self.user_id = user_id
         self.exercise_id = exercise_id
         self.sets = sets
         self.reps = reps
