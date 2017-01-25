@@ -36,7 +36,7 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = Users.query.get(form.email.data)
+        user = _get_user_with_email(form.email.data)
         inputted_password_hash = hashlib.sha256(form.password.data).hexdigest()
         if user is None:
             flash('We do not have a user whose email is {0}'.format(form.username.data))
@@ -47,6 +47,10 @@ def login():
             login_user(user)
             return redirect('/')
     return render_template('login.html', form=form)
+
+
+def _get_user_with_email(email):
+    return db.session.query(Users).filter(Users.email == email).first()
 
 
 @app.route('/logout', methods=['GET', 'POST'])
