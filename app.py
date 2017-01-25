@@ -39,7 +39,7 @@ def login():
         user = _get_user_with_email(form.email.data)
         inputted_password_hash = hashlib.sha256(form.password.data).hexdigest()
         if user is None:
-            flash('We do not have a user whose email is {0}'.format(form.username.data))
+            flash('We do not have a user of that username')
         elif inputted_password_hash != user.password:
             flash('Incorrect password')
         else:
