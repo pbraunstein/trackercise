@@ -62,7 +62,6 @@ def logout():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    _user_already_exists('a')
     form = RegisterForm()
     if form.validate_on_submit():
         if not _user_email_is_valid(form.email.data):
