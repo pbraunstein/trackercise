@@ -3,10 +3,11 @@ import os
 
 from flask import Flask, render_template, redirect
 from flask import flash
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 
 from forms import LoginForm, RegisterForm
+
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -15,7 +16,9 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-
+# These are here to avoid circular imports
+from brain.loginerator import Loginerator
+from brain.login_results import LoginResults
 from models import Users, RepExercisesHistory, RepExercisesTaxonomy
 
 
@@ -36,15 +39,13 @@ def index():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        user = _get_user_with_email(form.email.data)
-        inputted_password_hash = hashlib.sha256(form.password.data).hexdigest()
-        if user is None:
+        login_result = Loginerator.login(form.email.data, form.password.data)
+        if login_result == LoginResults.NO_SUCH_USER:
             flash('We do not have a user of that username')
-        elif inputted_password_hash != user.password:
+        elif login_result == LoginResults.INCORRECT_PASSWORD:
             flash('Incorrect password')
-        else:
+        elif login_result == LoginResults.LOGGED_IN:
             flash('Successful Login')
-            login_user(user)
             return redirect('/')
     return render_template('login.html', form=form)
 
