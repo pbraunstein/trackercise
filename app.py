@@ -1,4 +1,3 @@
-import hashlib
 import os
 
 from flask import Flask, render_template, redirect
@@ -19,6 +18,8 @@ login_manager.init_app(app)
 # These are here to avoid circular imports
 from brain.loginerator import Loginerator
 from brain.login_results import LoginResults
+from brain.register_city import RegisterCity
+from brain.register_results import RegisterResults
 from models import Users, RepExercisesHistory, RepExercisesTaxonomy
 
 
@@ -50,10 +51,6 @@ def login():
     return render_template('login.html', form=form)
 
 
-def _get_user_with_email(email):
-    return db.session.query(Users).filter(Users.email == email).first()
-
-
 @app.route('/logout', methods=['GET', 'POST'])
 def logout():
     flash('You have been logged out')
@@ -65,34 +62,15 @@ def logout():
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
-        if not _user_email_is_valid(form.email.data):
+        reg_result = RegisterCity.register(form.email.data, form.nickname.data, form.password.data)
+        if reg_result == RegisterResults.INVALID_EMAIL:
             flash('Email not valid')
-        elif _user_already_exists(form.email.data):
+        elif reg_result == RegisterResults.EMAIL_ALREADY_EXISTS:
             flash('Email already exists')
-        else:
-            _add_user_to_database(form.email.data, form.nickname.data, form.password.data)
+        elif reg_result == RegisterResults.REGISTERED:
+            flash('New user registered successfully')
             return redirect('/login')
     return render_template('register.html', form=form)
-
-
-def _user_email_is_valid(email):
-    return '@' in email and '.' in email
-
-
-def _user_already_exists(email):
-    users = Users.query.all()
-    user_emails = [x.email for x in users]
-    if email in user_emails:
-        return True
-    else:
-        return False
-
-
-def _add_user_to_database(email, nickname, plain_text_password):
-    hashed_password = hashlib.sha256(plain_text_password).hexdigest()
-    new_user = Users(email=email, nickname=nickname, password=hashed_password)
-    db.session.add(new_user)
-    db.session.commit()
 
 
 @login_manager.user_loader

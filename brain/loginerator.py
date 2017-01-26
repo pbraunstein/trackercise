@@ -8,7 +8,7 @@ from utilities import hash_password
 
 class Loginerator(object):
     """
-    Class that manages the logic of logging in.
+    Manages the logic of logging in.
 
     I N T E R F A C E   G U A R E N T E E D
     ---------------------------------------
