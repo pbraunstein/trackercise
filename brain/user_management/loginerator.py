@@ -1,7 +1,7 @@
 from flask_login import login_user, logout_user
 
 from app import db
-from login_results import LoginResults
+from login_result import LoginResult
 from models import Users
 from brain.utilities import hash_password
 
@@ -25,12 +25,12 @@ class Loginerator(object):
         user = cls._get_user_with_email(email)
         inputted_password_hash = hash_password(password)
         if user is None:
-            return LoginResults.NO_SUCH_USER
+            return LoginResult.NO_SUCH_USER
         elif inputted_password_hash != user.password:
-            return LoginResults.INCORRECT_PASSWORD
+            return LoginResult.INCORRECT_PASSWORD
         else:  # credentials are a match
             login_user(user)
-            return LoginResults.LOGGED_IN
+            return LoginResult.LOGGED_IN
 
     @staticmethod
     def logout():

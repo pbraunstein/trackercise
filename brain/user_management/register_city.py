@@ -1,6 +1,6 @@
 from app import db
 from models import Users
-from register_results import RegisterResults
+from register_result import RegisterResult
 from brain.utilities import hash_password
 
 
@@ -17,12 +17,12 @@ class RegisterCity(object):
     @classmethod
     def register(cls, email, nickname, password):
         if not cls._user_email_is_valid(email):
-            return RegisterResults.INVALID_EMAIL
+            return RegisterResult.INVALID_EMAIL
         elif cls._user_already_exists(email):
-            return RegisterResults.EMAIL_ALREADY_EXISTS
+            return RegisterResult.EMAIL_ALREADY_EXISTS
         else:  # all clear to register
             cls._add_user_to_database(email, nickname, password)
-            return RegisterResults.REGISTERED
+            return RegisterResult.REGISTERED
 
     @staticmethod
     def _user_email_is_valid(email):
