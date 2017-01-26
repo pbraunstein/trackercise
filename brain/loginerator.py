@@ -10,8 +10,8 @@ class Loginerator(object):
     """
     Class that manages the logic of logging in.
 
-    I N T E R F A C E S  G U A R E N T E E D
-    ----------------------------------------
+    I N T E R F A C E   G U A R E N T E E D
+    ---------------------------------------
     login(email, password):
         -- Logs in a user if user exists and password is correct
         -- Returns a LoginResult describing what happened
