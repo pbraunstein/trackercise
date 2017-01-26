@@ -16,10 +16,11 @@ login_manager.init_app(app)
 
 # These are here to avoid circular imports
 from brain.admin.all_data import AllData
+from brain.custom_exceptions import ThisShouldNeverHappenException
 from brain.user_management.loginerator import Loginerator
-from brain.user_management.login_results import LoginResults
+from brain.user_management.login_result import LoginResult
 from brain.user_management.register_city import RegisterCity
-from brain.user_management.register_results import RegisterResults
+from brain.user_management.register_result import RegisterResult
 from models import Users, RepExercisesHistory, RepExercisesTaxonomy
 
 
@@ -34,13 +35,15 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         login_result = Loginerator.login(form.email.data, form.password.data)
-        if login_result == LoginResults.NO_SUCH_USER:
+        if login_result == LoginResult.NO_SUCH_USER:
             flash('We do not have a user of that username')
-        elif login_result == LoginResults.INCORRECT_PASSWORD:
+        elif login_result == LoginResult.INCORRECT_PASSWORD:
             flash('Incorrect password')
-        elif login_result == LoginResults.LOGGED_IN:
+        elif login_result == LoginResult.LOGGED_IN:
             flash('Successful Login')
             return redirect('/')
+        else:
+            raise ThisShouldNeverHappenException("Invalid LoginResult Returned {0}".format(login_result))
     return render_template('login.html', form=form)
 
 
@@ -56,13 +59,15 @@ def register():
     form = RegisterForm()
     if form.validate_on_submit():
         reg_result = RegisterCity.register(form.email.data, form.nickname.data, form.password.data)
-        if reg_result == RegisterResults.INVALID_EMAIL:
+        if reg_result == RegisterResult.INVALID_EMAIL:
             flash('Email not valid')
-        elif reg_result == RegisterResults.EMAIL_ALREADY_EXISTS:
+        elif reg_result == RegisterResult.EMAIL_ALREADY_EXISTS:
             flash('Email already exists')
-        elif reg_result == RegisterResults.REGISTERED:
+        elif reg_result == RegisterResult.REGISTERED:
             flash('New user registered successfully')
             return redirect('/login')
+        else:
+            raise ThisShouldNeverHappenException("Invalid RegisterResult Returned {0}".format(reg_result))
     return render_template('register.html', form=form)
 
 

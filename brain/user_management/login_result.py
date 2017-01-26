@@ -1,4 +1,4 @@
-class LoginResults(object):
+class LoginResult(object):
     """
     Enum class so everyone can agree on a common language for logging in
     """
