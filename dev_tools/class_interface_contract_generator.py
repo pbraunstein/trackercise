@@ -8,8 +8,8 @@ from sys import argv
 # This is very ugly fragile code. Enjoy!
 
 INT_GUARENT = """
-    I N T E R F A C E S  G U A R E N T E E D\n
-    ----------------------------------------\n
+    I N T E R F A C E   G U A R E N T E E D
+    ---------------------------------------
 """
 
 
@@ -20,7 +20,6 @@ def main():
     if not os.path.exists(file_path):
         raise IOError("{0} file doesn't exist".format(file_path))
 
-    class_name = None
     found_class = False
     needs_doc_string = False
     file_contents = None
@@ -31,7 +30,6 @@ def main():
 
     for i in range(len(file_contents)):
         if file_contents[i].startswith('class'):
-            class_name = file_contents[i].split(' ')[1].split('(')[0]
             found_class = True
             if '\"\"\"' not in file_contents[i+1]:
                 needs_doc_string = True
@@ -43,14 +41,9 @@ def main():
     # remove dev
     methods = [re.sub('def ', '', x) for x in methods]
 
-    #remove cls and self if exists
+    # remove cls and self if exists
     methods = [re.sub('cls, ', '', x) for x in methods]
     methods = [re.sub('self, ', '', x) for x in methods]
-
-
-    print class_name
-    print needs_doc_string
-    print methods
 
     if not needs_doc_string:
         print "No docstring needed"
@@ -64,14 +57,18 @@ def main():
             else:
                 filew.write(line)
 
+    os.rename('temp_file', file_path)
+
 
 def generate_docstring(methods):
-    docstring = '    \"\"\"\n    \n\n'
+    docstring = '    \"\"\"\n    desc\n'
     docstring += INT_GUARENT
-    for m in methods:
-        docstring += m
+    for i in range(len(methods)):
+        docstring += methods[i]
         docstring += '\n'
-        docstring += '        \n'
+        docstring += '        -- \n'
+        if i < len(methods) - 1:
+            docstring += '\n'
     docstring += '    \"\"\"\n'
     return docstring
 
