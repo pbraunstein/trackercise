@@ -7,7 +7,6 @@ from flask_sqlalchemy import SQLAlchemy
 
 from forms import LoginForm, RegisterForm
 
-
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -16,10 +15,10 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 # These are here to avoid circular imports
-from brain.loginerator import Loginerator
-from brain.login_results import LoginResults
-from brain.register_city import RegisterCity
-from brain.register_results import RegisterResults
+from brain.user_management.loginerator import Loginerator
+from brain.user_management.login_results import LoginResults
+from brain.user_management.register_city import RegisterCity
+from brain.user_management.register_results import RegisterResults
 from models import Users, RepExercisesHistory, RepExercisesTaxonomy
 
 

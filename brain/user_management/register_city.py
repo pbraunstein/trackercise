@@ -1,7 +1,7 @@
 from app import db
 from models import Users
 from register_results import RegisterResults
-from utilities import hash_password
+from brain.utilities import hash_password
 
 
 class RegisterCity(object):
