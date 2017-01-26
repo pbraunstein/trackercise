@@ -1,9 +1,11 @@
 import os
+import re
 from sys import argv
 
 # This is V1. Assumes one class per file. No nested classes.
 # The existing doc string is only detected if it is directly underneath the class name (no vertical space)
 # Docstrings are only detected if they are with double quotes not single quotes.
+# This is very ugly fragile code. Enjoy!
 
 INT_GUARENT = """
     I N T E R F A C E S  G U A R E N T E E D\n
@@ -22,6 +24,7 @@ def main():
     found_class = False
     needs_doc_string = False
     file_contents = None
+    methods = []
 
     with open(file_path, 'r') as filer:
         file_contents = filer.readlines()
@@ -29,13 +32,48 @@ def main():
     for i in range(len(file_contents)):
         if file_contents[i].startswith('class'):
             class_name = file_contents[i].split(' ')[1].split('(')[0]
+            found_class = True
             if '\"\"\"' not in file_contents[i+1]:
                 needs_doc_string = True
+        elif file_contents[i].startswith('    def ') and found_class:
+            if file_contents[i].split('def')[1][1] == '_':  # designated private method
+                continue
+            methods.append(file_contents[i].rstrip())
+
+    # remove dev
+    methods = [re.sub('def ', '', x) for x in methods]
+
+    #remove cls and self if exists
+    methods = [re.sub('cls, ', '', x) for x in methods]
+    methods = [re.sub('self, ', '', x) for x in methods]
+
 
     print class_name
     print needs_doc_string
+    print methods
+
+    if not needs_doc_string:
+        print "No docstring needed"
+        return
+
+    with open('temp_file', 'w') as filew:
+        for line in file_contents:
+            if line.startswith('class'):
+                filew.write(line)
+                filew.write(generate_docstring(methods))
+            else:
+                filew.write(line)
 
 
+def generate_docstring(methods):
+    docstring = '    \"\"\"\n    \n\n'
+    docstring += INT_GUARENT
+    for m in methods:
+        docstring += m
+        docstring += '\n'
+        docstring += '        \n'
+    docstring += '    \"\"\"\n'
+    return docstring
 
 if __name__ == '__main__':
     main()
