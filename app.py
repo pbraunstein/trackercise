@@ -16,6 +16,7 @@ login_manager.init_app(app)
 
 # These are here to avoid circular imports
 from brain.admin.all_data import AllData
+from brain.custom_exceptions import ThisShouldNeverHappenException
 from brain.user_management.loginerator import Loginerator
 from brain.user_management.login_results import LoginResults
 from brain.user_management.register_city import RegisterCity
@@ -41,6 +42,8 @@ def login():
         elif login_result == LoginResults.LOGGED_IN:
             flash('Successful Login')
             return redirect('/')
+        else:
+            raise ThisShouldNeverHappenException("Invalid LoginResult Returned {0}".format(login_result))
     return render_template('login.html', form=form)
 
 
@@ -63,6 +66,8 @@ def register():
         elif reg_result == RegisterResults.REGISTERED:
             flash('New user registered successfully')
             return redirect('/login')
+        else:
+            raise ThisShouldNeverHappenException("Invalid RegisterResult Returned {0}".format(reg_result))
     return render_template('register.html', form=form)
 
 
