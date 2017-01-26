@@ -8,7 +8,7 @@ from sys import argv
 # This is very ugly fragile code. Enjoy!
 
 INT_GUARENT = """
-    I N T E R F A C E   G U A R E N T E E D
+    I N T E R F A C E   G U A R A N T E E D
     ---------------------------------------
 """
 
