@@ -8,7 +8,7 @@ class RegisterCity(object):
     """
     Manages the logic of registering
 
-    I N T E R F A C E   G U A R E N T E E D
+    I N T E R F A C E   G U A R A N T E E D
     ---------------------------------------
     register(email, nickname, password):
         -- Register a user if the email is valid and doesn't yet exist
