@@ -29,7 +29,7 @@ class Loginerator(object):
         elif inputted_password_hash != user.password:
             return LoginResult.INCORRECT_PASSWORD
         else:  # credentials are a match
-            login_user(user)
+            cls._login_this_user(user)
             return LoginResult.LOGGED_IN
 
     @staticmethod
@@ -39,3 +39,8 @@ class Loginerator(object):
     @staticmethod
     def _get_user_with_email(email):
         return db.session.query(Users).filter(Users.email == email).first()
+
+    @staticmethod
+    def _login_this_user(user):
+        """Only exists for mocking purposes"""
+        login_user(user)
