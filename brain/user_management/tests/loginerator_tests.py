@@ -22,7 +22,7 @@ class LogineratorTests(unittest.TestCase):
         result = Loginerator.login('test@test.test', 'super_secret_password')
         self.assertEqual(result, LoginResult.INCORRECT_PASSWORD)
 
-    @patch.object(Loginerator, '_login_this_user')
+    @patch('brain.user_management.loginerator.login_user')
     @patch('brain.user_management.loginerator.hash_password')
     @patch.object(Loginerator, '_get_user_with_email')
     def test_login_success(self, get_user_mock, hash_mock, login_mock):
