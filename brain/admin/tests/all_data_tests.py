@@ -1,7 +1,7 @@
 from datetime import date
 import unittest
 
-import app
+import app  # otherwise broken by circular imports :(
 from brain.admin.all_data import AllData
 from models import RepExercisesHistory, RepExercisesTaxonomy
 
