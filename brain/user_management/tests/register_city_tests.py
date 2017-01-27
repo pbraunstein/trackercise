@@ -8,6 +8,7 @@ from brain.user_management.register_result import RegisterResult
 
 
 class RegisterCityTests(unittest.TestCase):
+    # register tests
     @patch.object(RegisterCity, '_user_email_is_valid')
     def test_register_invalid_email(self, validator_mock):
         validator_mock.return_value = False
@@ -30,3 +31,16 @@ class RegisterCityTests(unittest.TestCase):
         exists_mock.return_value = False
         result = RegisterCity.register('test@test.test', 'test_man', 'password')
         self.assertEqual(result, RegisterResult.REGISTERED)
+
+    # _user_email_is_valid_tests
+    def test_user_email_is_valid_no_at(self):
+        is_valid = RegisterCity._user_email_is_valid('hi.')
+        self.assertFalse(is_valid)
+
+    def test_user_email_is_valid_no_dot(self):
+        is_valid = RegisterCity._user_email_is_valid('hi@')
+        self.assertFalse(is_valid)
+
+    def test_user_email_is_valid_valid_email(self):
+        is_valid = RegisterCity._user_email_is_valid('hi@.')
+        self.assertTrue(is_valid)
