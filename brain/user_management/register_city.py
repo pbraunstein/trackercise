@@ -1,5 +1,3 @@
-# from app import db
-# from models import Users
 from register_result import RegisterResult
 from brain.utilities import hash_password
 
