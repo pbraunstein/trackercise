@@ -12,3 +12,12 @@ class UsersService(object):
         new_user = Users(email=email, nickname=nickname, password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
+
+    @staticmethod
+    def user_with_email_already_exists(email):
+        users = Users.query.all()
+        user_emails = [x.email for x in users]
+        if email in user_emails:
+            return True
+        else:
+            return False

@@ -20,7 +20,7 @@ class RegisterCity(object):
     def register(cls, email, nickname, password):
         if not cls._user_email_is_valid(email):
             return RegisterResult.INVALID_EMAIL
-        elif cls._user_already_exists(email):
+        elif UsersService.user_with_email_already_exists(email):
             return RegisterResult.EMAIL_ALREADY_EXISTS
         else:  # all clear to register
             hashed_password = hash_password(password)
@@ -30,12 +30,3 @@ class RegisterCity(object):
     @staticmethod
     def _user_email_is_valid(email):
         return '@' in email and '.' in email
-
-    @staticmethod
-    def _user_already_exists(email):
-        users = Users.query.all()
-        user_emails = [x.email for x in users]
-        if email in user_emails:
-            return True
-        else:
-            return False
