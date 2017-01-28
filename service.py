@@ -3,6 +3,23 @@ from models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
 
 class UsersService(object):
+    """
+    Service class for interacting with the Users SQLAlchemy object
+
+    I N T E R F A C E   G U A R A N T E E D
+    ---------------------------------------
+    get_user_with_email(email):
+        -- Returns the Users with the email passed in. Returns None if no user exists with the given email
+
+    add_user_to_database(email, nickname, hashed_password):
+        -- Adds a user to the database
+
+    user_with_email_already_exists(email):
+        -- Returns True if a user with that email already exists. Otherwise returns False.
+
+    get_list_of_all_users():
+        -- Exports all Users as a list [Users(), ...]
+    """
     @staticmethod
     def get_user_with_email(email):
         return db.session.query(Users).filter(Users.email == email).first()
@@ -28,12 +45,28 @@ class UsersService(object):
 
 
 class RepExercisesTaxonomyService(object):
+    """
+    Service class for interacting with the RepExercisesTaxonomy SQLAlchemy object
+
+    I N T E R F A C E   G U A R A N T E E D
+    ---------------------------------------
+    get_list_of_all_exercises():
+        -- Exports all RepExercisesTaxonomy entries as a list [RepExercisesTaxonomy(), ...]
+    """
     @staticmethod
     def get_list_of_all_exercises():
         return list(RepExercisesTaxonomy.query.all())
 
 
 class RepExercisesHistoryService(object):
+    """
+    Service class for interacting with the RepExercisesHistory SQLAlchemy object
+
+    I N T E R F A C E   G U A R A N T E E D
+    ---------------------------------------
+    get_list_of_all_history():
+        -- Exports all RepExercisesHistory entries as a list [RepExercisesHistory(), ...]
+    """
     @staticmethod
     def get_list_of_all_history():
         return list(RepExercisesHistory.query.all())

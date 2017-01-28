@@ -30,7 +30,6 @@ def main():
         if file_contents[i].startswith('class'):
             if '\"\"\"' not in file_contents[i+1]:
                 current_class = get_class_name_from_line(file_contents[i])
-                print current_class
                 class_methods[current_class] = []
         elif file_contents[i].startswith('    def '):
             if file_contents[i].split('def')[1][1] == '_' or current_class is None:
