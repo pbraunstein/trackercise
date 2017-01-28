@@ -1,7 +1,9 @@
-from app import db
-from models import Users
+# from app import db
+# from models import Users
 from register_result import RegisterResult
 from brain.utilities import hash_password
+
+from service import UsersService
 
 
 class RegisterCity(object):
@@ -21,7 +23,8 @@ class RegisterCity(object):
         elif cls._user_already_exists(email):
             return RegisterResult.EMAIL_ALREADY_EXISTS
         else:  # all clear to register
-            cls._add_user_to_database(email, nickname, password)
+            hashed_password = hash_password(password)
+            UsersService.add_user_to_database(email, nickname, hashed_password)
             return RegisterResult.REGISTERED
 
     @staticmethod
@@ -36,11 +39,3 @@ class RegisterCity(object):
             return True
         else:
             return False
-
-    @staticmethod
-    def _add_user_to_database(email, nickname, plain_text_password):
-        """Owns hashing password"""
-        hashed_password = hash_password(plain_text_password)
-        new_user = Users(email=email, nickname=nickname, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
