@@ -1,5 +1,5 @@
 from app import db
-from models import Users
+from models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
 
 class UsersService(object):
@@ -21,3 +21,19 @@ class UsersService(object):
             return True
         else:
             return False
+
+    @staticmethod
+    def get_list_of_all_users():
+        return list(Users.query.all())
+
+
+class RepExercisesTaxonomyService(object):
+    @staticmethod
+    def get_list_of_all_exercises():
+        return list(RepExercisesTaxonomy.query.all())
+
+
+class RepExercisesHistoryService(object):
+    @staticmethod
+    def get_list_of_all_history():
+        return list(RepExercisesHistory.query.all())

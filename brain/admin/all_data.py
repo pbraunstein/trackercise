@@ -1,4 +1,4 @@
-from models import Users, RepExercisesHistory, RepExercisesTaxonomy
+from service import UsersService, RepExercisesTaxonomyService, RepExercisesHistoryService
 
 
 class AllData(object):
@@ -13,10 +13,10 @@ class AllData(object):
 
     @classmethod
     def get_all_data(cls):
-        user_results = list(Users.query.all())
-        taxonomy_results = list(RepExercisesTaxonomy.query.all())
+        user_results = UsersService.get_list_of_all_users()
+        taxonomy_results = RepExercisesTaxonomyService.get_list_of_all_exercises()
         taxonomy_results = [cls._prepare_taxonomy_entry(x) for x in taxonomy_results]
-        history_results = list(RepExercisesHistory.query.all())
+        history_results = RepExercisesHistoryService.get_list_of_all_history()
         history_results = [cls._prepare_history_entry(x) for x in history_results]
         return [user_results, taxonomy_results, history_results]
 
