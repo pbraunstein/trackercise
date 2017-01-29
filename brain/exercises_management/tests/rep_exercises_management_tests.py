@@ -56,6 +56,6 @@ class RepExercisesManagementTests(unittest.TestCase):
     @patch('brain.exercises_management.rep_exercises_management.RepExercisesTaxonomyService.get_list_of_all_exercises')
     def test_get_valid_id_exercise_pairs(self, taxonomy_service_mock):
         taxonomy_service_mock.return_value = self.exercises
-        expected_results = [(1, 'exercise_1'), (2, 'exercise_2'), (3, 'exercise_3')]
+        expected_results = [('1', 'exercise_1'), ('2', 'exercise_2'), ('3', 'exercise_3')]
         actual_results = RepExercisesManagement.get_valid_id_exercise_pairs()
         self.assertListEqual(actual_results, expected_results)
