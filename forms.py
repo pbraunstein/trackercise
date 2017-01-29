@@ -19,5 +19,4 @@ class RegisterForm(UserForm):
 class AddRepHistoryForm(Form):
     exercise = SelectField(
         label="Which exercise did you do?",
-        choices=[('plop1', 'PLOP1'), ('plop2', 'PLOP2'), ('value', 'LABEL')]
     )
