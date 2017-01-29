@@ -1,6 +1,6 @@
 from flask_login import login_user, logout_user
 
-from login_result import LoginResult
+from brain.user_management.login_result import LoginResult
 from brain.utilities import hash_password
 from service import UsersService
 
