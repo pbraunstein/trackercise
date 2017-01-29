@@ -5,7 +5,7 @@ from flask import flash
 from flask_login import LoginManager, logout_user, login_required
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, AddRepHistoryForm
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -39,7 +39,8 @@ def user_data():
 @app.route('/add-rep-history')
 @login_required
 def add_rep_history():
-    pass
+    form = AddRepHistoryForm()
+    return render_template('add_rep_history.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])

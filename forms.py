@@ -1,5 +1,5 @@
 from flask_wtf import Form
-from wtforms import StringField, PasswordField, SubmitField, validators
+from wtforms import StringField, PasswordField, SubmitField, SelectField, validators
 
 
 class UserForm(Form):
@@ -14,3 +14,10 @@ class LoginForm(UserForm):
 class RegisterForm(UserForm):
     nickname = StringField(label="What do you like to be called?", validators=[validators.DataRequired()])
     password = PasswordField(label="Create a Password", validators=[validators.DataRequired()])
+
+
+class AddRepHistoryForm(Form):
+    exercise = SelectField(
+        label="Which exercise did you do?",
+        choices=[('plop1', 'PLOP1'), ('plop2', 'PLOP2'), ('value', 'LABEL')]
+    )
