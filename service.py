@@ -66,6 +66,9 @@ class RepExercisesHistoryService(object):
     ---------------------------------------
     get_list_of_all_history():
         -- Exports all RepExercisesHistory entries as a list [RepExercisesHistory(), ...]
+
+    get_users_exercises():
+        -- Exports all RepExercisesHistory entries of a particular user [RepExercisesHistory(), ...]
     """
     @staticmethod
     def get_list_of_all_history():
