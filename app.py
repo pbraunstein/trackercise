@@ -24,10 +24,15 @@ from brain.user_management.register_result import RegisterResult
 from models import Users, RepExercisesHistory, RepExercisesTaxonomy
 
 
-@app.route('/')
 @login_required
 def all_data():
     return render_template('all_data.html', entries=AllData.get_all_data())
+
+
+@app.route('/')
+@login_required
+def user_data():
+    return render_template('user_data.html')
 
 
 @app.route('/login', methods=['GET', 'POST'])
