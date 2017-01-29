@@ -1,6 +1,5 @@
 # get user name
 # get user's exercises
-# get user's taxonomies (set of exercise ids maybe?)
 
 from flask_login import current_user
 
@@ -8,8 +7,15 @@ from flask_login import current_user
 class UserData(object):
     @classmethod
     def get_user_data(cls):
-        pass
+        return {
+            'nickname': cls._get_current_user_nickname(),
+            'rep_history': cls._get_user_rep_history()
+        }
 
     @staticmethod
-    def get_current_user():
+    def _get_current_user_nickname():
         return current_user.nickname
+
+    @staticmethod
+    def _get_user_rep_history():
+        pass
