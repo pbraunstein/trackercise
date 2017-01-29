@@ -15,7 +15,7 @@ class UserData(object):
 
     @classmethod
     def _get_user_rep_history(cls):
-        exercises = RepExercisesHistoryService.get_users_exercises(cls._get_current_user_id())
+        exercises = RepExercisesHistoryService.get_list_of_users_exercises(cls._get_current_user_id())
         return [prepare_history_entry(x) for x in exercises]
 
     @staticmethod

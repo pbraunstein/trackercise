@@ -52,10 +52,18 @@ class RepExercisesTaxonomyService(object):
     ---------------------------------------
     get_list_of_all_exercises():
         -- Exports all RepExercisesTaxonomy entries as a list [RepExercisesTaxonomy(), ...]
+
+    get_list_of_taxonomies_by_exercise_ids():
+        -- Exports all RepExercisesTaxonomy entries corresponding to a given list of exercise_ids
+            [RepExercisesTaxonomy(), ...]
     """
     @staticmethod
     def get_list_of_all_exercises():
         return list(RepExercisesTaxonomy.query.all())
+
+    @staticmethod
+    def get_list_of_taxonomies_by_exercise_ids(exercise_ids):
+        return list(db.session.query(RepExercisesTaxonomy).filter(RepExercisesTaxonomy.exercise_id.in_(exercise_ids)))
 
 
 class RepExercisesHistoryService(object):
@@ -67,7 +75,7 @@ class RepExercisesHistoryService(object):
     get_list_of_all_history():
         -- Exports all RepExercisesHistory entries as a list [RepExercisesHistory(), ...]
 
-    get_users_exercises():
+    get_list_of_users_exercises():
         -- Exports all RepExercisesHistory entries of a particular user [RepExercisesHistory(), ...]
     """
     @staticmethod
@@ -75,5 +83,5 @@ class RepExercisesHistoryService(object):
         return list(RepExercisesHistory.query.all())
 
     @staticmethod
-    def get_users_exercises(user_id):
+    def get_list_of_users_exercises(user_id):
         return list(db.session.query(RepExercisesHistory).filter_by(user_id=user_id).all())
