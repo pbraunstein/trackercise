@@ -37,7 +37,7 @@ def user_data():
     return render_template('user_data.html', context=UserData.get_user_data())
 
 
-@app.route('/add-rep-history')
+@app.route('/add-rep-history', methods=['GET', 'POST'])
 @login_required
 def add_rep_history():
     form = AddRepHistoryForm()
