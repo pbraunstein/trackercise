@@ -1,6 +1,3 @@
-# get user name
-# get user's exercises
-
 from flask_login import current_user
 
 from brain.utilities import prepare_history_entry
