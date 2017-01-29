@@ -31,8 +31,11 @@ def import_users():
     hasher = hashlib.sha256()
     hasher.update('password')
     password = hasher.hexdigest()
-    sample_user = Users('pbraunstein12@gmail.com', 'Phil', password)
-    db.session.add(sample_user)
+    users = []
+    users.append(Users('a@.', 'apple', password))
+    users.append(Users('o@.', 'orange', password))
+    users.append(Users('c@.', 'cherry', password))
+    db.session.add_all(users)
     db.session.commit()
 
 
@@ -74,15 +77,24 @@ def import_rep_history():
     Imports the rep exercise history sample data into the rep_exercises_history db table
     """
     entries = []
-    user_id = Users.query.first().id
+    users = Users.query.all()
+    user_ids = [x.id for x in users]
+    counter = 1
     with open(os.path.join(app.root_path, 'sample_data/rep_history.csv'), 'rb') as csvfile:
         history_reader = reader(csvfile)
         history_reader.next()  # skip header line
         for row in history_reader:
             try:
+                if counter % 10 == 0:
+                    user_id = user_ids[2]
+                elif counter % 2 != 0:
+                    user_id = user_ids[0]
+                else:
+                    user_id = user_ids[1]
                 entries.append(_generate_rep_history_from_row(row, user_id))
             except ValueError:
                 pass
+            counter += 1
     db.session.add_all(entries)
     db.session.commit()
 
