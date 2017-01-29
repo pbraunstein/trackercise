@@ -33,9 +33,7 @@ def all_data():
 @app.route('/')
 @login_required
 def user_data():
-    name = UserData.get_user_data()
-    context = {'name': name}
-    return render_template('user_data.html', context=context)
+    return render_template('user_data.html', context=UserData.get_user_data())
 
 
 @app.route('/login', methods=['GET', 'POST'])
