@@ -26,8 +26,8 @@ from models import Users, RepExercisesHistory, RepExercisesTaxonomy
 
 @app.route('/')
 @login_required
-def index():
-    return render_template('index.html', entries=AllData.get_all_data())
+def all_data():
+    return render_template('all_data.html', entries=AllData.get_all_data())
 
 
 @app.route('/login', methods=['GET', 'POST'])
