@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h3>Welcome {{ context.nickname }}: Your User ID is {{ context.user_id }}.</h3>
+    <h4>Your Exercise History</h4>
+    <table>
+        <tr>
+            <th>
+                Entry No.
+            </th>
+            <th>
+                User ID
+            </th>
+            <th>
+                Exercise Id
+            </th>
+            <th>
+                Sets
+            </th>
+            <th>
+                Reps
+            </th>
+            <th>
+                Weight
+            </th>
+            <th>
+                Date
+            </th>
+
+        </tr>
+        {% for item in context.rep_history %}
+            <tr>
+                <td>
+                    {{ item.id }}
+                </td>
+                <td>
+                    {{ item.user_id }}
+                </td>
+                <td>
+                    {{ item.exercise_id }}
+                </td>
+                <td>
+                    {{ item.sets }}
+                </td>
+                <td>
+                    {{ item.reps }}
+                </td>
+                <td>
+                    {{ item.weight }}
+                </td>
+                <td>
+                    {{ item.date }}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

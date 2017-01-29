@@ -70,3 +70,7 @@ class RepExercisesHistoryService(object):
     @staticmethod
     def get_list_of_all_history():
         return list(RepExercisesHistory.query.all())
+
+    @staticmethod
+    def get_users_exercises(user_id):
+        return list(db.session.query(RepExercisesHistory).filter_by(user_id=user_id).all())

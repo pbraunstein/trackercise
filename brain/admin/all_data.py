@@ -1,3 +1,4 @@
+from brain.utilities import prepare_history_entry
 from service import UsersService, RepExercisesTaxonomyService, RepExercisesHistoryService
 
 
@@ -17,16 +18,9 @@ class AllData(object):
         taxonomy_results = RepExercisesTaxonomyService.get_list_of_all_exercises()
         taxonomy_results = [cls._prepare_taxonomy_entry(x) for x in taxonomy_results]
         history_results = RepExercisesHistoryService.get_list_of_all_history()
-        history_results = [cls._prepare_history_entry(x) for x in history_results]
+        history_results = [prepare_history_entry(x) for x in history_results]
         return [user_results, taxonomy_results, history_results]
 
-    @staticmethod
-    def _prepare_history_entry(entry):
-        """
-        Stringifies date of RepExercisesHistory entry
-        """
-        entry.date = str(entry.date)
-        return entry
 
     @staticmethod
     def _prepare_taxonomy_entry(entry):

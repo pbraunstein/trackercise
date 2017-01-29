@@ -16,6 +16,7 @@ login_manager.init_app(app)
 
 # These are here to avoid circular imports
 from brain.admin.all_data import AllData
+from brain.admin.user_data import UserData
 from brain.custom_exceptions import ThisShouldNeverHappenException
 from brain.user_management.loginerator import Loginerator
 from brain.user_management.login_result import LoginResult
@@ -24,10 +25,15 @@ from brain.user_management.register_result import RegisterResult
 from models import Users, RepExercisesHistory, RepExercisesTaxonomy
 
 
+@login_required
+def all_data():
+    return render_template('all_data.html', entries=AllData.get_all_data())
+
+
 @app.route('/')
 @login_required
-def index():
-    return render_template('index.html', entries=AllData.get_all_data())
+def user_data():
+    return render_template('user_data.html', context=UserData.get_user_data())
 
 
 @app.route('/login', methods=['GET', 'POST'])
