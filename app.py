@@ -18,6 +18,7 @@ login_manager.init_app(app)
 from brain.admin.all_data import AllData
 from brain.admin.user_data import UserData
 from brain.custom_exceptions import ThisShouldNeverHappenException
+from brain.exercises_management.rep_exercises_management import RepExercisesManagement
 from brain.user_management.loginerator import Loginerator
 from brain.user_management.login_result import LoginResult
 from brain.user_management.register_city import RegisterCity
@@ -40,6 +41,7 @@ def user_data():
 @login_required
 def add_rep_history():
     form = AddRepHistoryForm()
+    form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
     return render_template('add_rep_history.html', form=form)
 
 
