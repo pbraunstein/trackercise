@@ -7,11 +7,11 @@ from service import RepExercisesHistoryService, RepExercisesTaxonomyService
 class UserData(object):
     @classmethod
     def get_user_data(cls):
-        user_data = {}
-        user_data['nickname'] = cls._get_current_user_nickname()
-        user_data['user_id'] = cls._get_current_user_id()
-        user_data['rep_history'] = cls._get_user_rep_history()
-        user_data['rep_taxonomies'] = cls._get_taxonomies_for_exercises([x.exercise_id for x in user_data['rep_history']])
+        user_data = {'nickname': cls._get_current_user_nickname(), 'user_id': cls._get_current_user_id(),
+                     'rep_history': cls._get_user_rep_history()}
+        user_data['rep_taxonomies'] = cls._get_taxonomies_for_exercises(
+            [x.exercise_id for x in user_data['rep_history']]
+        )
         return user_data
 
     @classmethod
