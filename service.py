@@ -63,7 +63,7 @@ class RepExercisesTaxonomyService(object):
 
     @staticmethod
     def get_list_of_taxonomies_by_exercise_ids(exercise_ids):
-        return list(db.session.query(RepExercisesTaxonomy).filter(RepExercisesTaxonomy.exercise_id.in_(exercise_ids)))
+        return list(db.session.query(RepExercisesTaxonomy).filter(RepExercisesTaxonomy.id.in_(exercise_ids)))
 
 
 class RepExercisesHistoryService(object):

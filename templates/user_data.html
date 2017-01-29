@@ -53,4 +53,85 @@
             </tr>
         {% endfor %}
     </table>
+ <h4>Taxonomy Table</h4>
+    <table>
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Back
+            </th>
+            <th>
+                Chest
+            </th>
+            <th>
+                Shoulders
+            </th>
+            <th>
+                Biceps
+            </th>
+            <th>
+                Triceps
+            </th>
+            <th>
+                Legs
+            </th>
+            <th>
+                Core
+            </th>
+            <th>
+                Balance
+            </th>
+            <th>
+                Cardio
+            </th>
+            <th>
+                Weight Per Hand
+            </th>
+        </tr>
+        {% for item in context.rep_taxonomies %}
+        <tr>
+            <td>
+                {{ item.id }}
+            </td>
+            <td>
+                {{ item.name }}
+            </td>
+            <td>
+                {{ item.is_back }}
+            </td>
+            <td>
+                {{ item.is_chest }}
+            </td>
+            <td>
+                {{ item.is_shoulders }}
+            </td>
+            <td>
+                {{ item.is_biceps }}
+            </td>
+            <td>
+                {{ item.is_triceps }}
+            </td>
+            <td>
+                {{ item.is_legs }}
+            </td>
+            <td>
+                {{ item.is_core }}
+            </td>
+            <td>
+                {{ item.is_balance }}
+            </td>
+            <td>
+                {{ item.is_cardio }}
+            </td>
+            <td>
+                {{ item.is_weight_per_hand }}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
