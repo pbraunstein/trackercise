@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block body %}
+<form method=post>
+    {{ form.csrf_token }}
+    <h3>{{ form.exercise.label }}</h3>
+    <p>{{ form.exercise }}</p>
+    <h3>{{ form.sets.label }}</h3>
+    <p>{{ form.sets }}</p>
+    <h3>{{ form.reps.label }}</h3>
+    <p>{{ form.reps }}</p>
+    <h3>{{ form.weight.label }}</h3>
+    <p>{{ form.weight }}</p>
+    {{ form.submit }}
+</form>
+{% endblock %}

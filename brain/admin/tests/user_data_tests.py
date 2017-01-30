@@ -1,6 +1,7 @@
 from datetime import date
 import unittest
 
+import app
 from brain.admin.user_data import UserData
 from models import RepExercisesHistory
 

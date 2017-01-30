@@ -2,10 +2,10 @@ import os
 
 from flask import Flask, render_template, redirect
 from flask import flash
-from flask_login import LoginManager, logout_user, login_required
+from flask_login import LoginManager, logout_user, login_required, current_user
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, AddRepHistoryForm
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
@@ -18,6 +18,7 @@ login_manager.init_app(app)
 from brain.admin.all_data import AllData
 from brain.admin.user_data import UserData
 from brain.custom_exceptions import ThisShouldNeverHappenException
+from brain.exercises_management.rep_exercises_management import RepExercisesManagement
 from brain.user_management.loginerator import Loginerator
 from brain.user_management.login_result import LoginResult
 from brain.user_management.register_city import RegisterCity
@@ -34,6 +35,29 @@ def all_data():
 @login_required
 def user_data():
     return render_template('user_data.html', context=UserData.get_user_data())
+
+
+@app.route('/add-rep-history', methods=['GET', 'POST'])
+@login_required
+def add_rep_history():
+    form = AddRepHistoryForm()
+    form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
+    if form.validate_on_submit():
+        entry_added = RepExercisesManagement.submit_history_entry(
+            user_id=current_user.id,
+            exercise_id=form.exercise.data,
+            sets=form.sets.data,
+            reps=form.reps.data,
+            weight=form.weight.data
+        )
+        flash('you just logged exercise_id={0}, sets={1}, reps{2}, weight{3}'.format(
+            entry_added.exercise_id,
+            entry_added.sets,
+            entry_added.reps,
+            entry_added.weight
+        ))
+        return redirect('/')
+    return render_template('add_rep_history.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
