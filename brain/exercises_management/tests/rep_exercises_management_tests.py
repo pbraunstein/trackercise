@@ -1,9 +1,10 @@
+from datetime import date
 from mock import patch
 import unittest
 
 import app
 from brain.exercises_management.rep_exercises_management import RepExercisesManagement
-from models import RepExercisesTaxonomy
+from models import RepExercisesTaxonomy, RepExercisesHistory
 
 
 class RepExercisesManagementTests(unittest.TestCase):
@@ -59,3 +60,27 @@ class RepExercisesManagementTests(unittest.TestCase):
         expected_results = [('1', 'exercise_1'), ('2', 'exercise_2'), ('3', 'exercise_3')]
         actual_results = RepExercisesManagement.get_valid_id_exercise_pairs()
         self.assertListEqual(actual_results, expected_results)
+
+    @patch('brain.exercises_management.rep_exercises_management.RepExercisesHistoryService.add_entry_to_db')
+    def test_submit_history_entry(self, db_mock):
+        expected_result = RepExercisesHistory(
+            user_id=3,
+            exercise_id=12,
+            sets=3,
+            reps=12,
+            weight=12.5,
+            date=date.today()
+        )
+        actual_result = RepExercisesManagement.submit_history_entry(user_id=3,
+                                                                    exercise_id=12,
+                                                                    sets=3,
+                                                                    reps=12,
+                                                                    weight=12.5,
+                                                                    )
+        self.assertEqual(actual_result.user_id, expected_result.user_id)
+        self.assertEqual(actual_result.exercise_id, expected_result.exercise_id)
+        self.assertEqual(actual_result.sets, expected_result.sets)
+        self.assertEqual(actual_result.reps, expected_result.reps)
+        self.assertEqual(actual_result.weight, expected_result.weight)
+        self.assertEqual(actual_result.date, expected_result.date)
+

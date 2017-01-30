@@ -43,6 +43,7 @@ def add_rep_history():
     form = AddRepHistoryForm()
     form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
     if form.validate_on_submit():
+        print form.exercise.data
         return redirect('/')
     return render_template('add_rep_history.html', form=form)
 
