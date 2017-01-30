@@ -2,7 +2,7 @@ import os
 
 from flask import Flask, render_template, redirect
 from flask import flash
-from flask_login import LoginManager, logout_user, login_required
+from flask_login import LoginManager, logout_user, login_required, current_user
 from flask_sqlalchemy import SQLAlchemy
 
 from forms import LoginForm, RegisterForm, AddRepHistoryForm
@@ -43,7 +43,19 @@ def add_rep_history():
     form = AddRepHistoryForm()
     form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
     if form.validate_on_submit():
-        print form.exercise.data
+        entry_added = RepExercisesManagement.submit_history_entry(
+            user_id=current_user.id,
+            exercise_id=form.exercise.data,
+            sets=form.sets.data,
+            reps=form.reps.data,
+            weight=form.weight.data
+        )
+        flash('you just logged exercise_id={0}, sets={1}, reps{2}, weight{3}'.format(
+            entry_added.exercise_id,
+            entry_added.sets,
+            entry_added.reps,
+            entry_added.weight
+        ))
         return redirect('/')
     return render_template('add_rep_history.html', form=form)
 

@@ -92,4 +92,4 @@ class RepExercisesHistoryService(object):
     @staticmethod
     def add_entry_to_db(entry):
         db.session.add(entry)
-        db.commit()
+        db.session.commit()
