@@ -22,5 +22,5 @@ class AddRepHistoryForm(Form):
     sets = IntegerField(label='How many sets did you do?', validators=[validators.DataRequired()])
     reps = IntegerField(label='How many reps of each set did you do?', validators=[validators.DataRequired()])
     weight = FloatField(label='What weight did you use?', validators=[validators.DataRequired()])
-    date = DateField(label='When was this?', validators=[validators.DataRequired()])
+    exercise_date= DateField(label='When was this?', validators=[validators.DataRequired()])
     submit = SubmitField()
