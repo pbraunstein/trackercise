@@ -92,19 +92,21 @@ class RepExercisesManagementTests(unittest.TestCase):
 
     @patch('brain.exercises_management.rep_exercises_management.RepExercisesHistoryService.add_entry_to_db')
     def test_submit_history_entry(self, db_mock):
+        expected_date = date(year=2000, month=12, day=23)
         expected_result = RepExercisesHistory(
             user_id=3,
             exercise_id=12,
             sets=3,
             reps=12,
             weight=12.5,
-            exercise_date=date.today()
+            exercise_date=expected_date
         )
         actual_result = RepExercisesManagement.submit_history_entry(user_id=3,
                                                                     exercise_id=12,
                                                                     sets=3,
                                                                     reps=12,
                                                                     weight=12.5,
+                                                                    exercise_date=expected_date
                                                                     )
         self.assertEqual(actual_result.user_id, expected_result.user_id)
         self.assertEqual(actual_result.exercise_id, expected_result.exercise_id)
