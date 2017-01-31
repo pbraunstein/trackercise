@@ -51,11 +51,12 @@ def add_rep_history():
             weight=form.weight.data,
             exercise_date=form.exercise_date.data
         )
-        flash('you just logged exercise_id={0}, sets={1}, reps{2}, weight{3}'.format(
+        flash('you just logged exercise_id={0}, sets={1}, reps={2}, weight={3}, date={4}'.format(
             entry_added.exercise_id,
             entry_added.sets,
             entry_added.reps,
-            entry_added.weight
+            entry_added.weight,
+            entry_added.date
         ))
         return redirect('/')
     return render_template('add_rep_history.html', form=form)
