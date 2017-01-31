@@ -95,13 +95,13 @@ class RepExercisesHistory(db.Model):
     weight = db.Column(db.Float)
     date = db.Column(db.DateTime)
 
-    def __init__(self, user_id, exercise_id, sets, reps, weight, exercise_date):
+    def __init__(self, user_id, exercise_id, sets, reps, weight, date):
         self.user_id = user_id
         self.exercise_id = exercise_id
         self.sets = sets
         self.reps = reps
         self.weight = weight
-        self.date = exercise_date
+        self.date = date
 
     def __repr__(self):
         return '<{0}: {1} sets of {2} reps at {3} lbs. on {4}>'.format(self.exercise_id, self.sets, self.reps,

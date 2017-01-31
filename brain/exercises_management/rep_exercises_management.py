@@ -3,6 +3,18 @@ from models import RepExercisesHistory
 
 
 class RepExercisesManagement(object):
+    """
+    Interactions with the RepExercises both Histories and Taxonomies
+
+    I N T E R F A C E   G U A R A N T E E D
+    ---------------------------------------
+    get_valid_id_exercise_pairs():
+        -- Returns list of tuples of all available rep exercise taxonomies sorted by the name of the exercise
+            [(exercise.id, exercise.name), ...]
+
+    submit_history_entry(user_id, exercise_id, sets, reps, weight, exercise_date):
+        -- Adds a RepExerciseHistory to the database for the user whose user_id is passed in
+    """
     @staticmethod
     def get_valid_id_exercise_pairs():
         valid_exercises = RepExercisesTaxonomyService.get_list_of_all_exercises()
@@ -19,7 +31,7 @@ class RepExercisesManagement(object):
             sets=sets,
             reps=reps,
             weight=weight,
-            exercise_date=exercise_date
+            date=exercise_date
         )
         RepExercisesHistoryService.add_entry_to_db(entry_to_add)
 
