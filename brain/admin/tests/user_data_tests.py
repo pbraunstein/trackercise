@@ -15,7 +15,7 @@ class UserDataTests(unittest.TestCase):
                 sets=1,
                 reps=23,
                 weight=12,
-                date=date.today()
+                exercise_date=date.today()
             ),
             RepExercisesHistory(
                 user_id=1,
@@ -23,7 +23,7 @@ class UserDataTests(unittest.TestCase):
                 sets=1,
                 reps=23,
                 weight=12,
-                date=date.today()
+                exercise_date=date.today()
             ),
             RepExercisesHistory(
                 user_id=1,
@@ -31,7 +31,7 @@ class UserDataTests(unittest.TestCase):
                 sets=1,
                 reps=23,
                 weight=12,
-                date=date.today()
+                exercise_date=date.today()
             )
         ]
 

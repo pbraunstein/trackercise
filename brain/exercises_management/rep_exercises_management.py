@@ -1,5 +1,3 @@
-from datetime import date
-
 from service import RepExercisesHistoryService, RepExercisesTaxonomyService
 from models import RepExercisesHistory
 
@@ -14,14 +12,14 @@ class RepExercisesManagement(object):
         return id_exercise_pairs_sorted
 
     @staticmethod
-    def submit_history_entry(user_id, exercise_id, sets, reps, weight):
+    def submit_history_entry(user_id, exercise_id, sets, reps, weight, exercise_date):
         entry_to_add = RepExercisesHistory(
             user_id=user_id,
             exercise_id=exercise_id,
             sets=sets,
             reps=reps,
             weight=weight,
-            date=date.today()
+            exercise_date=exercise_date
         )
         RepExercisesHistoryService.add_entry_to_db(entry_to_add)
 
