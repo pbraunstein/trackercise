@@ -1,12 +1,12 @@
-from csv import reader
 import hashlib
 import os
+from csv import reader
 
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
 from app import app, db
-from models import Users, RepExercisesTaxonomy, RepExercisesHistory
+from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
 app.config.from_object(os.environ['APP_SETTINGS'])
 

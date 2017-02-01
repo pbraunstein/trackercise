@@ -1,5 +1,5 @@
+from app.models import RepExercisesHistory
 from service import RepExercisesHistoryService, RepExercisesTaxonomyService
-from models import RepExercisesHistory
 
 
 class RepExercisesManagement(object):

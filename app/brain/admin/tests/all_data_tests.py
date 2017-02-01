@@ -1,7 +1,7 @@
 import unittest
 
 from app.brain.admin.all_data import AllData
-from models import RepExercisesTaxonomy
+from app.models import RepExercisesTaxonomy
 
 
 class AllDataTests(unittest.TestCase):

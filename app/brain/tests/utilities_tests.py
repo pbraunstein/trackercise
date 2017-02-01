@@ -2,7 +2,7 @@ import unittest
 from datetime import date
 
 from app.brain.utilities import prepare_history_entry
-from models import RepExercisesHistory
+from app.models import RepExercisesHistory
 
 
 class UtilitiesTests(unittest.TestCase):

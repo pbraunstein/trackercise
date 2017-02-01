@@ -2,7 +2,7 @@ import unittest
 from datetime import date
 
 from app.brain.admin.user_data import UserData
-from models import RepExercisesHistory
+from app.models import RepExercisesHistory
 
 
 class UserDataTests(unittest.TestCase):

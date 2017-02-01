@@ -4,7 +4,7 @@ from datetime import date
 from mock import patch
 
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
-from models import RepExercisesTaxonomy, RepExercisesHistory
+from app.models import RepExercisesTaxonomy, RepExercisesHistory
 
 
 class RepExercisesManagementTests(unittest.TestCase):

@@ -1,5 +1,5 @@
 from app import db
-from models import Users, RepExercisesTaxonomy, RepExercisesHistory
+from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
 
 class UsersService(object):
