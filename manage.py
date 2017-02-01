@@ -5,10 +5,10 @@ from csv import reader
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
-from app import app, db
+from app import db, create_app
 from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
-app.config.from_object(os.environ['APP_SETTINGS'])
+app = create_app('development')
 
 migrate = Migrate(app, db)
 manager = Manager(app)
