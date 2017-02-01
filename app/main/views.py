@@ -1,5 +1,5 @@
-from Flask import flash, redirect, render_template
-from flask_login import login_required
+from flask import flash, redirect, render_template
+from flask_login import login_required, logout_user, current_user
 
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
@@ -9,6 +9,7 @@ from app.brain.user_management.loginerator import Loginerator
 from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
+from app.main import main_blueprint as main
 from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm
 
 
@@ -17,13 +18,13 @@ def all_data():
     return render_template('all_data.html', entries=AllData.get_all_data())
 
 
-@app.route('/')
+@main.route('/')
 @login_required
 def user_data():
     return render_template('user_data.html', context=UserData.get_user_data())
 
 
-@app.route('/add-rep-history', methods=['GET', 'POST'])
+@main.route('/add-rep-history', methods=['GET', 'POST'])
 @login_required
 def add_rep_history():
     form = AddRepHistoryForm()
@@ -48,7 +49,7 @@ def add_rep_history():
     return render_template('add_rep_history.html', form=form)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -65,14 +66,14 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/logout', methods=['GET', 'POST'])
+@main.route('/logout', methods=['GET', 'POST'])
 def logout():
     flash('You have been logged out')
     logout_user()
     return redirect('/login')
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@main.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
