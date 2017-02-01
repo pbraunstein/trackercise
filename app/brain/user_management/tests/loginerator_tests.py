@@ -2,9 +2,8 @@ import unittest
 
 from mock import patch, PropertyMock
 
-import app  # otherwise broken by circular imports :(
-from brain.user_management.loginerator import Loginerator
-from brain.user_management.login_result import LoginResult
+from app.brain import LoginResult
+from app.brain import Loginerator
 
 
 class LogineratorTests(unittest.TestCase):

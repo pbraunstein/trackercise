@@ -15,15 +15,15 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 # These are here to avoid circular imports
-from brain.admin.all_data import AllData
-from brain.admin.user_data import UserData
-from brain.custom_exceptions import ThisShouldNeverHappenException
-from brain.exercises_management.rep_exercises_management import RepExercisesManagement
-from brain.user_management.loginerator import Loginerator
-from brain.user_management.login_result import LoginResult
-from brain.user_management.register_city import RegisterCity
-from brain.user_management.register_result import RegisterResult
-from models import Users, RepExercisesHistory, RepExercisesTaxonomy
+from app.brain.admin.all_data import AllData
+from app.brain.admin.user_data import UserData
+from app.brain.custom_exceptions import ThisShouldNeverHappenException
+from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
+from app.brain.user_management.loginerator import Loginerator
+from app.brain.user_management.login_result import LoginResult
+from app.brain.user_management.register_city import RegisterCity
+from app.brain.user_management.register_result import RegisterResult
+from models import Users
 
 
 @login_required

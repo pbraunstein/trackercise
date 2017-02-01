@@ -1,8 +1,7 @@
-from datetime import date
 import unittest
+from datetime import date
 
-import app
-from brain.admin.user_data import UserData
+from app.brain.admin.user_data import UserData
 from models import RepExercisesHistory
 
 

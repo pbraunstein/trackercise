@@ -1,8 +1,7 @@
 import unittest
 
-import app  # otherwise broken by circular imports :(
-from brain.admin.all_data import AllData
-from models import RepExercisesHistory, RepExercisesTaxonomy
+from app.brain import AllData
+from models import RepExercisesTaxonomy
 
 
 class AllDataTests(unittest.TestCase):

@@ -1,6 +1,6 @@
 from flask_login import current_user
 
-from brain.utilities import prepare_history_entry
+from app.brain import prepare_history_entry
 from service import RepExercisesHistoryService, RepExercisesTaxonomyService
 
 

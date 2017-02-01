@@ -1,9 +1,9 @@
-from datetime import date
-from mock import patch
 import unittest
+from datetime import date
 
-import app
-from brain.exercises_management.rep_exercises_management import RepExercisesManagement
+from mock import patch
+
+from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
 from models import RepExercisesTaxonomy, RepExercisesHistory
 
 
