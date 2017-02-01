@@ -5,7 +5,7 @@ from flask import flash
 from flask_login import LoginManager, logout_user, login_required, current_user
 from flask_sqlalchemy import SQLAlchemy
 
-from forms import LoginForm, RegisterForm, AddRepHistoryForm
+from app.main.forms import LoginForm, RegisterForm, AddRepHistoryForm
 
 app = Flask(__name__)
 app.config.from_object(os.environ['APP_SETTINGS'])
