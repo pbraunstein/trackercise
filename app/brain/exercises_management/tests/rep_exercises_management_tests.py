@@ -99,7 +99,7 @@ class RepExercisesManagementTests(unittest.TestCase):
             sets=3,
             reps=12,
             weight=12.5,
-            exercise_date=expected_date
+            date=expected_date
         )
         actual_result = RepExercisesManagement.submit_history_entry(user_id=3,
                                                                     exercise_id=12,
