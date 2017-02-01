@@ -31,10 +31,7 @@ def import_users():
     hasher = hashlib.sha256()
     hasher.update('password')
     password = hasher.hexdigest()
-    users = []
-    users.append(Users('a@.', 'apple', password))
-    users.append(Users('o@.', 'orange', password))
-    users.append(Users('c@.', 'cherry', password))
+    users = [Users('a@.', 'apple', password), Users('o@.', 'orange', password), Users('c@.', 'cherry', password)]
     db.session.add_all(users)
     db.session.commit()
 
