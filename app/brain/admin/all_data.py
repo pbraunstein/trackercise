@@ -1,4 +1,4 @@
-from app.brain import prepare_history_entry
+from app.brain.utilities import prepare_history_entry
 from service import UsersService, RepExercisesTaxonomyService, RepExercisesHistoryService
 
 

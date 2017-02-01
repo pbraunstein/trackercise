@@ -1,7 +1,7 @@
 import unittest
 from datetime import date
 
-from app.brain import prepare_history_entry
+from app.brain.utilities import prepare_history_entry
 from models import RepExercisesHistory
 
 

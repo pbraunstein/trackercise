@@ -2,8 +2,8 @@ import unittest
 
 from mock import patch, PropertyMock
 
-from app.brain import LoginResult
-from app.brain import Loginerator
+from app.brain.user_management.login_result import LoginResult
+from app.brain.user_management.loginerator import Loginerator
 
 
 class LogineratorTests(unittest.TestCase):

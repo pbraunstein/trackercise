@@ -1,6 +1,6 @@
 import unittest
 
-from app.brain import AllData
+from app.brain.admin.all_data import AllData
 from models import RepExercisesTaxonomy
 
 

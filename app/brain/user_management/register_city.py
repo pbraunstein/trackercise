@@ -1,5 +1,5 @@
-from app.brain import RegisterResult
-from app.brain import hash_password
+from app.brain.user_management.register_result import RegisterResult
+from app.brain.utilities import hash_password
 
 from service import UsersService
 

@@ -1,9 +1,10 @@
 import unittest
 
-from brain.user_management.register_result import RegisterResult
 from mock import patch
 
+from app.brain.user_management.register_result import RegisterResult
 from app.brain.user_management.register_city import RegisterCity
+
 
 
 class RegisterCityTests(unittest.TestCase):
