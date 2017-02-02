@@ -130,7 +130,7 @@ def _generate_rep_history_from_row(row, user_id):
         sets=int(row[1]),
         reps=int(row[2]),
         weight=float(row[3]),
-        exercise_date=row[4]
+        date=row[4]
     )
 
 

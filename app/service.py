@@ -56,6 +56,9 @@ class RepExercisesTaxonomyService(object):
     get_list_of_taxonomies_by_exercise_ids():
         -- Exports all RepExercisesTaxonomy entries corresponding to a given list of exercise_ids
             [RepExercisesTaxonomy(), ...]
+
+    add_entry_to_db(entry):
+        -- Takes a RepExercisesTaxonomy and adds it to the database
     """
     @staticmethod
     def get_list_of_all_exercises():
@@ -64,6 +67,11 @@ class RepExercisesTaxonomyService(object):
     @staticmethod
     def get_list_of_taxonomies_by_exercise_ids(exercise_ids):
         return list(db.session.query(RepExercisesTaxonomy).filter(RepExercisesTaxonomy.id.in_(exercise_ids)))
+
+    @staticmethod
+    def add_entry_to_db(entry):
+        db.session.add(entry)
+        db.session.commit()
 
 
 class RepExercisesHistoryService(object):

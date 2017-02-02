@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block body %}
+<form method=post>
+    {{ form.csrf_token }}
+    <p>{{ form.name.label }} {{ form.name}}</p>
+    <p>{{ form.is_back.label }} {{ form.is_back }}</p>
+    <p>{{ form.is_chest.label }} {{ form.is_chest }}</p>
+    <p>{{ form.is_shoulders.label }} {{ form.is_shoulders }}</p>
+    <p>{{ form.is_biceps.label }} {{ form.is_biceps }}</p>
+    <p>{{ form.is_triceps.label }} {{ form.is_triceps }}</p>
+    <p>{{ form.is_legs.label }} {{ form.is_legs }}</p>
+    <p>{{ form.is_core.label }} {{ form.is_core }}</p>
+    <p>{{ form.is_balance.label }} {{ form.is_balance }}</p>
+    <p>{{ form.is_cardio.label }} {{ form.is_cardio }}</p>
+    <p>{{ form.is_weight_per_hand.label }} {{ form.is_weight_per_hand }}</p>
+    {{ form.submit }}
+</form>
+{% endblock %}

@@ -2,7 +2,7 @@ from flask_login import login_user, logout_user
 
 from app.brain.user_management.login_result import LoginResult
 from app.brain.utilities import hash_password
-from service import UsersService
+from app.service import UsersService
 
 
 class Loginerator(object):

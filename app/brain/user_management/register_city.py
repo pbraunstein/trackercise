@@ -1,7 +1,7 @@
 from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import hash_password
 
-from service import UsersService
+from app.service import UsersService
 
 
 class RegisterCity(object):

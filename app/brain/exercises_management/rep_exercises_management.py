@@ -1,5 +1,5 @@
-from app.models import RepExercisesHistory
-from service import RepExercisesHistoryService, RepExercisesTaxonomyService
+from app.models import RepExercisesHistory, RepExercisesTaxonomy
+from app.service import RepExercisesHistoryService, RepExercisesTaxonomyService
 
 
 class RepExercisesManagement(object):
@@ -13,7 +13,11 @@ class RepExercisesManagement(object):
             [(exercise.id, exercise.name), ...]
 
     submit_history_entry(user_id, exercise_id, sets, reps, weight, exercise_date):
-        -- Adds a RepExerciseHistory to the database for the user whose user_id is passed in
+        -- Creates and adds a RepExerciseHistory to the database for the user whose user_id is passed in
+
+    submit_taxonomy_entry(name, is_back, is_chest, is_shoulders, is_biceps, is_triceps, is_legs, is_core, is_balance,
+        is_cardio, is_weight_per_hand):
+        -- Creates and adds a RepExercisesTaxonomy to the database
     """
     @staticmethod
     def get_valid_id_exercise_pairs():
@@ -34,5 +38,25 @@ class RepExercisesManagement(object):
             date=exercise_date
         )
         RepExercisesHistoryService.add_entry_to_db(entry_to_add)
+
+        return entry_to_add
+
+    @staticmethod
+    def submit_taxonomy_entry(name, is_back, is_chest, is_shoulders, is_biceps, is_triceps, is_legs, is_core,
+                              is_balance, is_cardio, is_weight_per_hand):
+        entry_to_add = RepExercisesTaxonomy(
+            name=name,
+            is_back=is_back,
+            is_chest=is_chest,
+            is_shoulders=is_shoulders,
+            is_biceps=is_biceps,
+            is_triceps=is_triceps,
+            is_legs=is_legs,
+            is_core=is_core,
+            is_balance=is_balance,
+            is_cardio=is_cardio,
+            is_weight_per_hand=is_weight_per_hand
+        )
+        RepExercisesTaxonomyService.add_entry_to_db(entry_to_add)
 
         return entry_to_add
