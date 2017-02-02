@@ -115,3 +115,46 @@ class RepExercisesManagementTests(unittest.TestCase):
         self.assertEqual(actual_result.reps, expected_result.reps)
         self.assertEqual(actual_result.weight, expected_result.weight)
         self.assertEqual(actual_result.date, expected_result.date)
+
+    @patch('app.brain.exercises_management.rep_exercises_management.RepExercisesTaxonomyService.add_entry_to_db')
+    def test_submit_taxonomy_entry(self, db_mock):
+        exercise_name = 'super_awesome_exercise'
+        expected_entry = RepExercisesTaxonomy(
+            name=exercise_name,
+            is_back=True,
+            is_chest=False,
+            is_shoulders=False,
+            is_biceps=True,
+            is_triceps=True,
+            is_legs=False,
+            is_core=False,
+            is_balance=True,
+            is_cardio=True,
+            is_weight_per_hand=True
+        )
+
+        actual_entry = RepExercisesManagement.submit_taxonomy_entry(
+            name=exercise_name,
+            is_back=True,
+            is_chest=False,
+            is_shoulders=False,
+            is_biceps=True,
+            is_triceps=True,
+            is_legs=False,
+            is_core=False,
+            is_balance=True,
+            is_cardio=True,
+            is_weight_per_hand=True
+        )
+
+        self.assertEqual(actual_entry.name, expected_entry.name)
+        self.assertEqual(actual_entry.is_back, expected_entry.is_back)
+        self.assertEqual(actual_entry.is_chest, expected_entry.is_chest)
+        self.assertEqual(actual_entry.is_shoulders, expected_entry.is_shoulders)
+        self.assertEqual(actual_entry.is_biceps, expected_entry.is_biceps)
+        self.assertEqual(actual_entry.is_triceps, expected_entry.is_triceps)
+        self.assertEqual(actual_entry.is_legs, expected_entry.is_legs)
+        self.assertEqual(actual_entry.is_core, expected_entry.is_core)
+        self.assertEqual(actual_entry.is_balance, expected_entry.is_balance)
+        self.assertEqual(actual_entry.is_cardio, expected_entry.is_cardio)
+        self.assertEqual(actual_entry.is_weight_per_hand, expected_entry.is_weight_per_hand)
