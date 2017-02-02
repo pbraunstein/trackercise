@@ -7,8 +7,8 @@ class Config(object):
     DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
-    SQLALCHEMY_DATABASE_URI = os.environ['DATABASE_URL']
-    SECRET_KEY = os.environ['TRACKERCISE_SECRET_KEY']
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'fake-db'
+    SECRET_KEY = os.environ.get('TRACKERCISE_SECRET_KEY') or 'not-really-that-secret'
 
 
 class ProductionConfig(Config):
