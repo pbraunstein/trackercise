@@ -65,6 +65,11 @@ class RepExercisesTaxonomyService(object):
     def get_list_of_taxonomies_by_exercise_ids(exercise_ids):
         return list(db.session.query(RepExercisesTaxonomy).filter(RepExercisesTaxonomy.id.in_(exercise_ids)))
 
+    @staticmethod
+    def add_entry_to_db(entry):
+        db.session.add(entry)
+        db.session.commit()
+
 
 class RepExercisesHistoryService(object):
     """
