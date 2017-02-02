@@ -13,12 +13,12 @@ from app.main import main_blueprint as main
 from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTaxonomyForm
 
 
+@main.route('/')
 @login_required
 def all_data():
     return render_template('all_data.html', entries=AllData.get_all_data())
 
 
-@main.route('/')
 @login_required
 def user_data():
     return render_template('user_data.html', context=UserData.get_user_data())
@@ -54,6 +54,32 @@ def add_rep_history():
 def add_rep_taxonomy():
     form = AddRepTaxonomyForm()
     if form.validate_on_submit():
+        RepExercisesManagement.submit_taxonomy_entry(
+            name=form.name.data.upper(),
+            is_back=form.is_back.data,
+            is_chest=form.is_chest.data,
+            is_shoulders=form.is_shoulders.data,
+            is_biceps=form.is_biceps.data,
+            is_triceps=form.is_triceps.data,
+            is_legs=form.is_legs.data,
+            is_core=form.is_core.data,
+            is_balance=form.is_balance.data,
+            is_cardio=form.is_cardio.data,
+            is_weight_per_hand=form.is_weight_per_hand.data
+        )
+        flash('{0}:, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}'.format(
+            form.name.data,
+            form.is_back.data,
+            form.is_chest.data,
+            form.is_shoulders.data,
+            form.is_biceps.data,
+            form.is_triceps.data,
+            form.is_legs.data,
+            form.is_core.data,
+            form.is_balance.data,
+            form.is_cardio.data,
+            form.is_weight_per_hand.data
+        ))
         return redirect('/')
     return render_template('add_rep_taxonomy.html', form=form)
 
