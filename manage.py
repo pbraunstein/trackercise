@@ -17,11 +17,6 @@ manager.add_command('db', MigrateCommand)
 
 
 @manager.command
-def run_app():
-    app.run()
-
-
-@manager.command
 def run_importers():
     """
     Import rep taxonomy and rep history
