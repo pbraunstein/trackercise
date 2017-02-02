@@ -1,7 +1,7 @@
 from flask_login import current_user
 
 from app.brain.utilities import prepare_history_entry
-from service import RepExercisesHistoryService, RepExercisesTaxonomyService
+from app.service import RepExercisesHistoryService, RepExercisesTaxonomyService
 
 
 class UserData(object):

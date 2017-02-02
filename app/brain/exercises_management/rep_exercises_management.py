@@ -1,5 +1,5 @@
 from app.models import RepExercisesHistory
-from service import RepExercisesHistoryService, RepExercisesTaxonomyService
+from app.service import RepExercisesHistoryService, RepExercisesTaxonomyService
 
 
 class RepExercisesManagement(object):
@@ -34,5 +34,12 @@ class RepExercisesManagement(object):
             date=exercise_date
         )
         RepExercisesHistoryService.add_entry_to_db(entry_to_add)
+
+        return entry_to_add
+
+    @staticmethod
+    def submit_taxonomy_entry(name, is_back, is_chest, is_shoulders, is_biceps, is_triceps, is_legs, is_core,
+                              is_balance, is_cardio, is_weight_per_hand):
+        entry_to_add = None
 
         return entry_to_add

@@ -1,5 +1,5 @@
 from app.brain.utilities import prepare_history_entry
-from service import UsersService, RepExercisesTaxonomyService, RepExercisesHistoryService
+from app.service import UsersService, RepExercisesTaxonomyService, RepExercisesHistoryService
 
 
 class AllData(object):
