@@ -1,7 +1,7 @@
 import unittest
 from datetime import date
 
-from mock import patch, MagicMock
+from mock import patch
 
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
 from app.models import RepExercisesTaxonomy, RepExercisesHistory
