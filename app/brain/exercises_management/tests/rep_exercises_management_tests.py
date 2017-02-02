@@ -1,10 +1,10 @@
-from datetime import date
-from mock import patch
 import unittest
+from datetime import date
 
-import app
-from brain.exercises_management.rep_exercises_management import RepExercisesManagement
-from models import RepExercisesTaxonomy, RepExercisesHistory
+from mock import patch
+
+from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
+from app.models import RepExercisesTaxonomy, RepExercisesHistory
 
 
 class RepExercisesManagementTests(unittest.TestCase):
@@ -82,7 +82,7 @@ class RepExercisesManagementTests(unittest.TestCase):
         self.exercises[3].id = 4
         self.exercises[4].id = 5
 
-    @patch('brain.exercises_management.rep_exercises_management.RepExercisesTaxonomyService.get_list_of_all_exercises')
+    @patch('app.brain.exercises_management.rep_exercises_management.RepExercisesTaxonomyService.get_list_of_all_exercises')
     def test_get_valid_id_exercise_pairs(self, taxonomy_service_mock):
         taxonomy_service_mock.return_value = self.exercises
         expected_results = [('4', 'a_exercise'), ('3', 'b_exercise'), ('1', 'c_exercise'), ('5', 'd_exercise'),
@@ -90,7 +90,7 @@ class RepExercisesManagementTests(unittest.TestCase):
         actual_results = RepExercisesManagement.get_valid_id_exercise_pairs()
         self.assertListEqual(actual_results, expected_results)
 
-    @patch('brain.exercises_management.rep_exercises_management.RepExercisesHistoryService.add_entry_to_db')
+    @patch('app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService.add_entry_to_db')
     def test_submit_history_entry(self, db_mock):
         expected_date = date(year=2000, month=12, day=23)
         expected_result = RepExercisesHistory(
@@ -99,7 +99,7 @@ class RepExercisesManagementTests(unittest.TestCase):
             sets=3,
             reps=12,
             weight=12.5,
-            exercise_date=expected_date
+            date=expected_date
         )
         actual_result = RepExercisesManagement.submit_history_entry(user_id=3,
                                                                     exercise_id=12,

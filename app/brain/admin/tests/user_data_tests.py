@@ -1,9 +1,8 @@
-from datetime import date
 import unittest
+from datetime import date
 
-import app
-from brain.admin.user_data import UserData
-from models import RepExercisesHistory
+from app.brain.admin.user_data import UserData
+from app.models import RepExercisesHistory
 
 
 class UserDataTests(unittest.TestCase):
@@ -15,7 +14,7 @@ class UserDataTests(unittest.TestCase):
                 sets=1,
                 reps=23,
                 weight=12,
-                exercise_date=date.today()
+                date=date.today()
             ),
             RepExercisesHistory(
                 user_id=1,
@@ -23,7 +22,7 @@ class UserDataTests(unittest.TestCase):
                 sets=1,
                 reps=23,
                 weight=12,
-                exercise_date=date.today()
+                date=date.today()
             ),
             RepExercisesHistory(
                 user_id=1,
@@ -31,7 +30,7 @@ class UserDataTests(unittest.TestCase):
                 sets=1,
                 reps=23,
                 weight=12,
-                exercise_date=date.today()
+                date=date.today()
             )
         ]
 

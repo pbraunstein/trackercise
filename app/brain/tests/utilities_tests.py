@@ -1,8 +1,8 @@
-from datetime import date
 import unittest
+from datetime import date
 
-from brain.utilities import prepare_history_entry
-from models import RepExercisesHistory
+from app.brain.utilities import prepare_history_entry
+from app.models import RepExercisesHistory
 
 
 class UtilitiesTests(unittest.TestCase):
@@ -13,7 +13,7 @@ class UtilitiesTests(unittest.TestCase):
             sets=1,
             reps=10,
             weight=20,
-            exercise_date=date.today()
+            date=date.today()
         )
         test_entry = prepare_history_entry(test_entry)
         self.assertIsInstance(test_entry.date, str)

@@ -1,14 +1,14 @@
-from csv import reader
 import hashlib
 import os
+from csv import reader
 
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
-from app import app, db
-from models import Users, RepExercisesTaxonomy, RepExercisesHistory
+from app import db, create_app
+from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
-app.config.from_object(os.environ['APP_SETTINGS'])
+app = create_app('development')
 
 migrate = Migrate(app, db)
 manager = Manager(app)
@@ -31,10 +31,7 @@ def import_users():
     hasher = hashlib.sha256()
     hasher.update('password')
     password = hasher.hexdigest()
-    users = []
-    users.append(Users('a@.', 'apple', password))
-    users.append(Users('o@.', 'orange', password))
-    users.append(Users('c@.', 'cherry', password))
+    users = [Users('a@.', 'apple', password), Users('o@.', 'orange', password), Users('c@.', 'cherry', password)]
     db.session.add_all(users)
     db.session.commit()
 

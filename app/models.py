@@ -1,6 +1,7 @@
 from sqlalchemy import ForeignKey
 
 from app import db
+from app import login_manager
 
 
 class RepExercisesTaxonomy(db.Model):
@@ -106,3 +107,8 @@ class RepExercisesHistory(db.Model):
     def __repr__(self):
         return '<{0}: {1} sets of {2} reps at {3} lbs. on {4}>'.format(self.exercise_id, self.sets, self.reps,
                                                                        self.weight, self.date)
+
+
+@login_manager.user_loader
+def user_loader(user_email):
+    return Users.query.get(user_email)

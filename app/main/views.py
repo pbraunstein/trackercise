@@ -1,29 +1,16 @@
-import os
+from flask import flash, redirect, render_template
+from flask_login import login_required, logout_user, current_user
 
-from flask import Flask, render_template, redirect
-from flask import flash
-from flask_login import LoginManager, logout_user, login_required, current_user
-from flask_sqlalchemy import SQLAlchemy
-
-from forms import LoginForm, RegisterForm, AddRepHistoryForm
-
-app = Flask(__name__)
-app.config.from_object(os.environ['APP_SETTINGS'])
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
-login_manager = LoginManager()
-login_manager.init_app(app)
-
-# These are here to avoid circular imports
-from brain.admin.all_data import AllData
-from brain.admin.user_data import UserData
-from brain.custom_exceptions import ThisShouldNeverHappenException
-from brain.exercises_management.rep_exercises_management import RepExercisesManagement
-from brain.user_management.loginerator import Loginerator
-from brain.user_management.login_result import LoginResult
-from brain.user_management.register_city import RegisterCity
-from brain.user_management.register_result import RegisterResult
-from models import Users, RepExercisesHistory, RepExercisesTaxonomy
+from app.brain.admin.all_data import AllData
+from app.brain.admin.user_data import UserData
+from app.brain.custom_exceptions import ThisShouldNeverHappenException
+from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
+from app.brain.user_management.loginerator import Loginerator
+from app.brain.user_management.login_result import LoginResult
+from app.brain.user_management.register_city import RegisterCity
+from app.brain.user_management.register_result import RegisterResult
+from app.main import main_blueprint as main
+from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm
 
 
 @login_required
@@ -31,13 +18,13 @@ def all_data():
     return render_template('all_data.html', entries=AllData.get_all_data())
 
 
-@app.route('/')
+@main.route('/')
 @login_required
 def user_data():
     return render_template('user_data.html', context=UserData.get_user_data())
 
 
-@app.route('/add-rep-history', methods=['GET', 'POST'])
+@main.route('/add-rep-history', methods=['GET', 'POST'])
 @login_required
 def add_rep_history():
     form = AddRepHistoryForm()
@@ -62,7 +49,7 @@ def add_rep_history():
     return render_template('add_rep_history.html', form=form)
 
 
-@app.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -79,14 +66,14 @@ def login():
     return render_template('login.html', form=form)
 
 
-@app.route('/logout', methods=['GET', 'POST'])
+@main.route('/logout', methods=['GET', 'POST'])
 def logout():
     flash('You have been logged out')
     logout_user()
     return redirect('/login')
 
 
-@app.route('/register', methods=['GET', 'POST'])
+@main.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
     if form.validate_on_submit():
@@ -101,12 +88,3 @@ def register():
         else:
             raise ThisShouldNeverHappenException("Invalid RegisterResult Returned {0}".format(reg_result))
     return render_template('register.html', form=form)
-
-
-@login_manager.user_loader
-def user_loader(user_email):
-    return Users.query.get(user_email)
-
-
-if __name__ == '__main__':
-    app.run()
