@@ -10,7 +10,7 @@ from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
 from app.main import main_blueprint as main
-from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm
+from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTaxonomyForm
 
 
 @login_required
@@ -47,6 +47,15 @@ def add_rep_history():
         ))
         return redirect('/')
     return render_template('add_rep_history.html', form=form)
+
+
+@main.route('/add-rep-taxonomy', methods=['GET', 'POST'])
+@login_required
+def add_rep_taxonomy():
+    form = AddRepTaxonomyForm()
+    if form.validate_on_submit():
+        return redirect('/')
+    return render_template('add_rep_taxonomy.html', form=form)
 
 
 @main.route('/login', methods=['GET', 'POST'])
