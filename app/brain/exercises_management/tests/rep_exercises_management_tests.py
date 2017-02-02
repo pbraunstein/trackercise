@@ -1,7 +1,7 @@
 import unittest
 from datetime import date
 
-from mock import patch
+from mock import patch, MagicMock
 
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
 from app.models import RepExercisesTaxonomy, RepExercisesHistory
@@ -109,12 +109,16 @@ class RepExercisesManagementTests(unittest.TestCase):
                                                                     weight=12.5,
                                                                     exercise_date=expected_date
                                                                     )
+        # make sure results are the same
         self.assertEqual(actual_result.user_id, expected_result.user_id)
         self.assertEqual(actual_result.exercise_id, expected_result.exercise_id)
         self.assertEqual(actual_result.sets, expected_result.sets)
         self.assertEqual(actual_result.reps, expected_result.reps)
         self.assertEqual(actual_result.weight, expected_result.weight)
         self.assertEqual(actual_result.date, expected_result.date)
+
+        # make sure the service method was called
+        db_mock.assert_called_once_with(actual_result)
 
     @patch('app.brain.exercises_management.rep_exercises_management.RepExercisesTaxonomyService.add_entry_to_db')
     def test_submit_taxonomy_entry(self, db_mock):
@@ -147,6 +151,7 @@ class RepExercisesManagementTests(unittest.TestCase):
             is_weight_per_hand=True
         )
 
+        # make sure results are the same
         self.assertEqual(actual_entry.name, expected_entry.name)
         self.assertEqual(actual_entry.is_back, expected_entry.is_back)
         self.assertEqual(actual_entry.is_chest, expected_entry.is_chest)
@@ -158,3 +163,6 @@ class RepExercisesManagementTests(unittest.TestCase):
         self.assertEqual(actual_entry.is_balance, expected_entry.is_balance)
         self.assertEqual(actual_entry.is_cardio, expected_entry.is_cardio)
         self.assertEqual(actual_entry.is_weight_per_hand, expected_entry.is_weight_per_hand)
+
+        # make sure the service method was called
+        db_mock.assert_called_once_with(actual_entry)

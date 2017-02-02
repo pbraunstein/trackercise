@@ -1,4 +1,4 @@
-from app.models import RepExercisesHistory
+from app.models import RepExercisesHistory, RepExercisesTaxonomy
 from app.service import RepExercisesHistoryService, RepExercisesTaxonomyService
 
 
@@ -40,6 +40,19 @@ class RepExercisesManagement(object):
     @staticmethod
     def submit_taxonomy_entry(name, is_back, is_chest, is_shoulders, is_biceps, is_triceps, is_legs, is_core,
                               is_balance, is_cardio, is_weight_per_hand):
-        entry_to_add = None
+        entry_to_add = RepExercisesTaxonomy(
+            name=name,
+            is_back=is_back,
+            is_chest=is_chest,
+            is_shoulders=is_shoulders,
+            is_biceps=is_biceps,
+            is_triceps=is_triceps,
+            is_legs=is_legs,
+            is_core=is_core,
+            is_balance=is_balance,
+            is_cardio=is_cardio,
+            is_weight_per_hand=is_weight_per_hand
+        )
+        RepExercisesTaxonomyService.add_entry_to_db(entry_to_add)
 
         return entry_to_add
