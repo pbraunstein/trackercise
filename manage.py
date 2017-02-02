@@ -20,6 +20,7 @@ manager.add_command('db', MigrateCommand)
 def run_app():
     app.run()
 
+
 @manager.command
 def run_importers():
     """
