@@ -89,6 +89,7 @@ class RepExercisesHistoryService(object):
     get_user_history_by_exercise(user_id, exercise_id):
         -- Exports all RepExerciseHistory entries of a particular user and particular exercise
             [RepExercisesHistory(), ...]
+        -- Entries are returned in ascending order by date (i.e. earlier to later)
 
     add_entry_to_db(entry):
         -- Takes a RepExercisesHistory and adds it to the database

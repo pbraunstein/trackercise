@@ -9,6 +9,33 @@ from app.models import RepExercisesTaxonomy, RepExercisesHistory
 
 class RepExercisesManagementTests(unittest.TestCase):
     def setUp(self):
+        self.history = [
+            RepExercisesHistory(
+                user_id=1,
+                exercise_id=27,
+                sets=2,
+                reps=12,
+                weight=45,
+                date=date(year=2016, month=04, day=12)
+            ),
+            RepExercisesHistory(
+                user_id=1,
+                exercise_id=27,
+                sets=2,
+                reps=12,
+                weight=45,
+                date=date(year=2016, month=04, day=14)
+            ),
+            RepExercisesHistory(
+                user_id=1,
+                exercise_id=27,
+                sets=2,
+                reps=12,
+                weight=50,
+                date=date(year=2016, month=04, day=16)
+            )
+        ]
+
         self.exercises = [
             RepExercisesTaxonomy(
                 name='c_exercise',
@@ -96,7 +123,10 @@ class RepExercisesManagementTests(unittest.TestCase):
         '.get_user_history_by_exercise'
     )
     def test_get_user_history_by_exercise_id(self, db_mock):
-        pass
+        db_mock.return_value = self.history
+        expected_results = self.history
+        actual_results = RepExercisesManagement.get_user_history_by_exercise_id(1, 27)
+        self.assertListEqual(actual_results, expected_results)
 
     @patch('app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService.add_entry_to_db')
     def test_submit_history_entry(self, db_mock):
