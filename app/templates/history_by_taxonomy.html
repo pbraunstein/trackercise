@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% block body %}
+<h2>Welcome {{ context.nickname }}</h2>
+<form method=post>
+    <h3>{{ context.form.exercise.label }}</h3>
+    <p>{{ context.form.exercise }}</p>
+    {{ context.form.submit }}
+</form>
+<table>
+    <tr>
+        <th>
+            Entry No.
+        </th>
+        <th>
+            User ID
+        </th>
+        <th>
+            Exercise Id
+        </th>
+        <th>
+            Sets
+        </th>
+        <th>
+            Reps
+        </th>
+        <th>
+            Weight
+        </th>
+        <th>
+            Date
+        </th>
+
+    </tr>
+    {% for item in context.history %}
+    <tr>
+        <td>
+            {{ item.id }}
+        </td>
+        <td>
+            {{ item.user_id }}
+        </td>
+        <td>
+            {{ item.exercise_id }}
+        </td>
+        <td>
+            {{ item.sets }}
+        </td>
+        <td>
+            {{ item.reps }}
+        </td>
+        <td>
+            {{ item.weight }}
+        </td>
+        <td>
+            {{ item.date }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

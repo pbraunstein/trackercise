@@ -10,7 +10,7 @@ from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
 from app.main import main_blueprint as main
-from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTaxonomyForm
+from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTaxonomyForm, UserSpecificExerciseForm
 
 
 @main.route('/')
@@ -22,6 +22,22 @@ def all_data():
 @login_required
 def user_data():
     return render_template('user_data.html', context=UserData.get_user_data())
+
+
+@main.route('/history-by-taxonomy', methods=['GET', 'POST'])
+@login_required
+def history_by_taxonomy():
+    form = UserSpecificExerciseForm()
+    form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
+    context = {
+        'form': form,
+        'nickname': current_user.nickname,
+        'history': RepExercisesManagement.get_user_history_by_exercise_id(
+            user_id=current_user.id,
+            exercise_id=form.exercise.data
+        )
+    }
+    return render_template('history_by_taxonomy.html', context=context)
 
 
 @main.route('/add-rep-history', methods=['GET', 'POST'])
