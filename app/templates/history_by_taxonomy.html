@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+{% block body %}
+<form method=post>
+    <h3>{{ context.form.exercise.label }}</h3>
+    <p>{{ context.form.exercise }}</p>
+    {{ context.form.submit }}
+</form>
+{% endblock %}

@@ -17,6 +17,11 @@ class RegisterForm(UserForm):
     password = PasswordField(label="Create a Password", validators=[validators.DataRequired()])
 
 
+class UserSpecificExerciseForm(Form):
+    exercise = SelectField(label='Which exercise history do you want to see?')
+    submit = SubmitField()
+
+
 class AddRepHistoryForm(Form):
     exercise = SelectField(label="Which exercise did you do?")
     sets = IntegerField(label='How many sets did you do?', validators=[validators.DataRequired()])
