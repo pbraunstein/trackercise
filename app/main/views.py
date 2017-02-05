@@ -29,12 +29,14 @@ def user_data():
 def history_by_taxonomy():
     form = UserSpecificExerciseForm()
     form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
-    context = {'form': form}
-    if form.validate_on_submit():
-        history = RepExercisesManagement.get_user_history_by_exercise_id(
+    context = {
+        'form': form,
+        'nickname': current_user.nickname,
+        'history': RepExercisesManagement.get_user_history_by_exercise_id(
             user_id=current_user.id,
-            exercise_id=3  # TODO: this is clearly debug
+            exercise_id=form.exercise.data
         )
+    }
     return render_template('history_by_taxonomy.html', context=context)
 
 
