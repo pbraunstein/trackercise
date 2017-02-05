@@ -30,8 +30,8 @@ class RepExercisesManagementTests(unittest.TestCase):
                 user_id=1,
                 exercise_id=27,
                 sets=2,
-                reps=12,
-                weight=50,
+                reps=16,
+                weight=40,
                 date=date(year=2016, month=04, day=16)
             )
         ]
@@ -124,9 +124,19 @@ class RepExercisesManagementTests(unittest.TestCase):
     )
     def test_get_user_history_by_exercise_id(self, db_mock):
         db_mock.return_value = self.history
+        user_id = 1
+        exercise_id = 27
         expected_results = self.history
-        actual_results = RepExercisesManagement.get_user_history_by_exercise_id(1, 27)
+        actual_results = RepExercisesManagement.get_user_history_by_exercise_id(user_id, exercise_id)
+
+        # make sure contents and order the same
         self.assertListEqual(actual_results, expected_results)
+
+        # make sure contents are in ascending date order
+        self.assertListEqual(actual_results, sorted(actual_results, key=lambda x: x.date))
+
+        # make sure the service method was called
+        db_mock.assert_called_once_with(user_id, exercise_id)
 
     @patch('app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService.add_entry_to_db')
     def test_submit_history_entry(self, db_mock):
