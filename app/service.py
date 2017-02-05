@@ -86,7 +86,7 @@ class RepExercisesHistoryService(object):
     get_list_of_users_exercises(user_id):
         -- Exports all RepExercisesHistory entries of a particular user [RepExercisesHistory(), ...]
 
-    get_history_by_exercise(user_id, exercise_id):
+    get_user_history_by_exercise(user_id, exercise_id):
         -- Exports all RepExerciseHistory entries of a particular user and particular exercise
             [RepExercisesHistory(), ...]
 
@@ -102,7 +102,7 @@ class RepExercisesHistoryService(object):
         return list(db.session.query(RepExercisesHistory).filter_by(user_id=user_id).all())
 
     @staticmethod
-    def get_history_by_exercise(user_id, exercise_id):
+    def get_user_history_by_exercise(user_id, exercise_id):
         return list(db.session.query(RepExercisesHistory).filter_by(user_id=user_id, exercise_id=exercise_id).all())
 
     @staticmethod

@@ -12,7 +12,7 @@ class RepExercisesManagement(object):
         -- Returns list of tuples of all available rep exercise taxonomies sorted by the name of the exercise
             [(exercise.id, exercise.name), ...]
 
-    get_history_by_exercise_id(exercise_id):
+    get_user_history_by_exercise_id(exercise_id):
         --
 
     submit_history_entry(user_id, exercise_id, sets, reps, weight, exercise_date):
@@ -31,8 +31,8 @@ class RepExercisesManagement(object):
         return id_exercise_pairs_sorted
 
     @staticmethod
-    def get_history_by_exercise_id(exercise_id, user_id):
-        history = RepExercisesHistoryService.get_history_by_exercise(user_id, exercise_id)
+    def get_user_history_by_exercise_id(exercise_id, user_id):
+        history = RepExercisesHistoryService.get_user_history_by_exercise(user_id, exercise_id)
         return history
 
     @staticmethod

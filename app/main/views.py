@@ -27,7 +27,7 @@ def user_data():
 @main.route('/history-by-taxonomy', methods=['GET', 'POST'])
 @login_required
 def history_by_taxonomy():
-    history = RepExercisesManagement.get_history_by_exercise_id(
+    history = RepExercisesManagement.get_user_history_by_exercise_id(
         user_id=current_user.id,
         exercise_id=3  # TODO: this is clearly debug
     )

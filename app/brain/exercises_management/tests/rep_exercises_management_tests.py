@@ -91,6 +91,13 @@ class RepExercisesManagementTests(unittest.TestCase):
         actual_results = RepExercisesManagement.get_valid_id_exercise_pairs()
         self.assertListEqual(actual_results, expected_results)
 
+    @patch(
+        'app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService'
+        '.get_user_history_by_exercise'
+    )
+    def test_get_user_history_by_exercise_id(self, db_mock):
+        pass
+
     @patch('app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService.add_entry_to_db')
     def test_submit_history_entry(self, db_mock):
         expected_date = date(year=2000, month=12, day=23)
