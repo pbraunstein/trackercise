@@ -39,6 +39,7 @@ def history_by_taxonomy():
             user_id=current_user.id,
             exercise_id=form.exercise.data
         )
+        return render_template('history_by_taxonomy.html', context=context)
     return render_template('history_by_taxonomy.html', context=context)
 
 
