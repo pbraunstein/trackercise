@@ -31,8 +31,8 @@ class RepExercisesManagement(object):
         return id_exercise_pairs_sorted
 
     @staticmethod
-    def get_history_by_exercise_id(exercise_id):
-        history = RepExercisesHistoryService.get_history_by_exercise(exercise_id)
+    def get_history_by_exercise_id(exercise_id, user_id):
+        history = RepExercisesHistoryService.get_history_by_exercise(user_id, exercise_id)
         return history
 
     @staticmethod
