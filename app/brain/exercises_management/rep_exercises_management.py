@@ -13,10 +13,11 @@ class RepExercisesManagement(object):
             [(exercise.id, exercise.name), ...]
 
     get_user_history_by_exercise_id(user_id, exercise_id):
-        --
+        -- Returns a chronological list of the RepExercisesHistory of type exercise_id that user_id has entered
+            [RepExercisesHistory(), ...]
 
     submit_history_entry(user_id, exercise_id, sets, reps, weight, exercise_date):
-        -- Creates and adds a RepExerciseHistory to the database for the user whose user_id is passed in
+        -- Creates and adds a RepExercisesHistory to the database for the user whose user_id is passed in
 
     submit_taxonomy_entry(name, is_back, is_chest, is_shoulders, is_biceps, is_triceps, is_legs, is_core, is_balance,
         is_cardio, is_weight_per_hand):
