@@ -24,6 +24,12 @@ def user_data():
     return render_template('user_data.html', context=UserData.get_user_data())
 
 
+@main.route('/history-by-taxonomy', methods=['GET', 'POST'])
+@login_required
+def history_by_taxonomy():
+    return None
+
+
 @main.route('/add-rep-history', methods=['GET', 'POST'])
 @login_required
 def add_rep_history():

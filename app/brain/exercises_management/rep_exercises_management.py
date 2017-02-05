@@ -12,6 +12,9 @@ class RepExercisesManagement(object):
         -- Returns list of tuples of all available rep exercise taxonomies sorted by the name of the exercise
             [(exercise.id, exercise.name), ...]
 
+    get_history_by_exercise_id(exercise_id):
+        --
+
     submit_history_entry(user_id, exercise_id, sets, reps, weight, exercise_date):
         -- Creates and adds a RepExerciseHistory to the database for the user whose user_id is passed in
 
@@ -26,6 +29,11 @@ class RepExercisesManagement(object):
         id_exercise_pairs_sorted = sorted(id_exercise_pairs, key=lambda y: y[1])
 
         return id_exercise_pairs_sorted
+
+    @staticmethod
+    def get_history_by_exercise_id(exercise_id):
+        history = RepExercisesHistoryService.get_history_by_exercise(exercise_id)
+        return history
 
     @staticmethod
     def submit_history_entry(user_id, exercise_id, sets, reps, weight, exercise_date):
