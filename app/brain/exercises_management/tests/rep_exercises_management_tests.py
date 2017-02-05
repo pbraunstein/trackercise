@@ -16,7 +16,7 @@ class RepExercisesManagementTests(unittest.TestCase):
                 sets=2,
                 reps=12,
                 weight=45,
-                date=date(year=2016, month=04, day=12)
+                date=date(year=2016, month=4, day=12)
             ),
             RepExercisesHistory(
                 user_id=1,
@@ -24,7 +24,7 @@ class RepExercisesManagementTests(unittest.TestCase):
                 sets=2,
                 reps=12,
                 weight=45,
-                date=date(year=2016, month=04, day=14)
+                date=date(year=2016, month=4, day=14)
             ),
             RepExercisesHistory(
                 user_id=1,
@@ -32,7 +32,7 @@ class RepExercisesManagementTests(unittest.TestCase):
                 sets=2,
                 reps=16,
                 weight=40,
-                date=date(year=2016, month=04, day=16)
+                date=date(year=2016, month=4, day=16)
             )
         ]
 
