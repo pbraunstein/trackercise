@@ -32,14 +32,11 @@ def history_by_taxonomy():
     context = {
         'form': form,
         'nickname': current_user.nickname,
-        'history': []
-    }
-    if form.validate_on_submit():
-        context['history'] = RepExercisesManagement.get_user_history_by_exercise_id(
+        'history': RepExercisesManagement.get_user_history_by_exercise_id(
             user_id=current_user.id,
-            exercise_id=form.exercise.data
+            exercise_id=int(form.exercise.data)
         )
-        return render_template('history_by_taxonomy.html', context=context)
+    }
     return render_template('history_by_taxonomy.html', context=context)
 
 
