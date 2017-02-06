@@ -29,6 +29,7 @@ def user_data():
 def history_by_taxonomy():
     form = UserSpecificExerciseForm()
     form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
+    form.exercise.default = 1
     context = {
         'form': form,
         'nickname': current_user.nickname,
