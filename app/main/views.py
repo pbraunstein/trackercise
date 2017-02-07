@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template
+from flask import flash, redirect, render_template, url_for
 from flask_login import login_required, logout_user, current_user
 
 from app.brain.admin.all_data import AllData
@@ -121,7 +121,7 @@ def login():
             flash('Successful Login')
             return redirect('/')
         else:
-            raise ThisShouldNeverHappenException("Invalid LoginResult Returned {0}".format(login_result))
+            raise ThisShouldNeverHappenException('Invalid LoginResult Returned {0}'.format(login_result))
     return render_template('login.html', form=form)
 
 
@@ -129,7 +129,7 @@ def login():
 def logout():
     flash('You have been logged out')
     logout_user()
-    return redirect('/login')
+    return redirect(url_for('.login'))
 
 
 @main.route('/register', methods=['GET', 'POST'])
