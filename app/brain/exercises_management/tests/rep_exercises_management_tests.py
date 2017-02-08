@@ -24,7 +24,7 @@ class RepExercisesManagementTests(unittest.TestCase):
                 sets=2,
                 reps=12,
                 weight=45,
-                date=date(year=2016, month=4, day=14)
+                date=date(year=2016, month=4, day=16)
             ),
             RepExercisesHistory(
                 user_id=1,
@@ -32,6 +32,33 @@ class RepExercisesManagementTests(unittest.TestCase):
                 sets=2,
                 reps=16,
                 weight=40,
+                date=date(year=2016, month=4, day=14)
+            )
+        ]
+
+        self.history_sorted = [
+            RepExercisesHistory(
+                user_id=1,
+                exercise_id=27,
+                sets=2,
+                reps=12,
+                weight=45,
+                date=date(year=2016, month=4, day=12)
+            ),
+            RepExercisesHistory(
+                user_id=1,
+                exercise_id=27,
+                sets=2,
+                reps=16,
+                weight=40,
+                date=date(year=2016, month=4, day=14)
+            ),
+            RepExercisesHistory(
+                user_id=1,
+                exercise_id=27,
+                sets=2,
+                reps=12,
+                weight=45,
                 date=date(year=2016, month=4, day=16)
             )
         ]
@@ -126,7 +153,7 @@ class RepExercisesManagementTests(unittest.TestCase):
         db_mock.return_value = self.history
         user_id = 1
         exercise_id = 27
-        expected_results = self.history
+        expected_results = self.history_sorted
         actual_results = RepExercisesManagement.get_user_history_by_exercise_id(user_id, exercise_id)
 
         # make sure contents and order the same

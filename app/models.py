@@ -104,6 +104,17 @@ class RepExercisesHistory(db.Model):
         self.weight = weight
         self.date = date
 
+    def __eq__(self, other):
+        return self.user_id == other.user_id and \
+               self.exercise_id == other.exercise_id and \
+               self.sets == other.sets and \
+               self.reps == other.reps and \
+               self.weight == other.weight and \
+               self.date == other.date
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __repr__(self):
         return '<{0}: {1} sets of {2} reps at {3} lbs. on {4}>'.format(self.exercise_id, self.sets, self.reps,
                                                                        self.weight, self.date)
