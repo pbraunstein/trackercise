@@ -19,10 +19,6 @@ class DevelopmentConfig(Config):
     DEBUG = False
 
 
-class LocalConfig(Config):
-    DEBUG = True
-
-
 class TestingConfig(Config):
     TESTING = True
     SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/trackercise_test_db'
