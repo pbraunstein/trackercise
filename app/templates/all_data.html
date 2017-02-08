@@ -3,6 +3,10 @@
 {% block body %}
 <div class=page>
   <h1>Trackercize!</h1>
+    <form action='/history-by-taxonomy'>
+        <h3>See your history with each specific workout</h3>
+    <button>See your history</button>
+    </form>
     <h2>User Table</h2>
     <table>
         <tr>
@@ -37,6 +41,10 @@
         {% endfor %}
     </table>
     <h2>Taxonomy Table</h2>
+    <form action='/add-rep-taxonomy'>
+        <h3>Add a taxonomy</h3>
+        <button>Add</button>
+    </form>
     <table>
         <tr>
             <th>
@@ -118,6 +126,10 @@
         {% endfor %}
     </table>
     <h2>History Table</h2>
+    <form action='/add-rep-history'>
+        <h3>Add a workout</h3>
+        <button>Add</button>
+    </form>
     <table>
         <tr>
             <th>

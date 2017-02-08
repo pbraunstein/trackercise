@@ -1,6 +1,9 @@
 {% extends 'layout.html' %}
 {% block body %}
 <h2>Welcome {{ context.nickname }}</h2>
+<form action='/'>
+    <button>Back home</button>
+</form>
 <form method=post>
     {{ context.form.csrf_token }}
     <h3>{{ context.form.exercise.label }}</h3>
