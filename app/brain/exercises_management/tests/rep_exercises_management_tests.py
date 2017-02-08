@@ -226,17 +226,7 @@ class RepExercisesManagementTests(unittest.TestCase):
         )
 
         # make sure results are the same
-        self.assertEqual(actual_entry.name, expected_entry.name)
-        self.assertEqual(actual_entry.is_back, expected_entry.is_back)
-        self.assertEqual(actual_entry.is_chest, expected_entry.is_chest)
-        self.assertEqual(actual_entry.is_shoulders, expected_entry.is_shoulders)
-        self.assertEqual(actual_entry.is_biceps, expected_entry.is_biceps)
-        self.assertEqual(actual_entry.is_triceps, expected_entry.is_triceps)
-        self.assertEqual(actual_entry.is_legs, expected_entry.is_legs)
-        self.assertEqual(actual_entry.is_core, expected_entry.is_core)
-        self.assertEqual(actual_entry.is_balance, expected_entry.is_balance)
-        self.assertEqual(actual_entry.is_cardio, expected_entry.is_cardio)
-        self.assertEqual(actual_entry.is_weight_per_hand, expected_entry.is_weight_per_hand)
+        self.assertEqual(actual_entry, expected_entry)
 
         # make sure the service method was called
         db_mock.assert_called_once_with(actual_entry)
