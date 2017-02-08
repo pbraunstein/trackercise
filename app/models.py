@@ -34,6 +34,24 @@ class RepExercisesTaxonomy(db.Model):
         self.is_cardio = is_cardio
         self.is_weight_per_hand = is_weight_per_hand
 
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        return (self.name == other.name and
+                self.is_back == other.is_back and
+                self.is_chest == other.is_chest and
+                self.is_shoulders == other.is_shoulders and
+                self.is_biceps == other.is_biceps and
+                self.is_triceps == other.is_triceps and
+                self.is_legs == other.is_legs and
+                self.is_core == other.is_core and
+                self.is_balance == other.is_balance and
+                self.is_cardio == other.is_cardio and
+                self.is_weight_per_hand == other.is_weight_per_hand)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def __repr__(self):
         return '<{0}:  is_back: {1}  is_chest: {2}  is_shoulders: {3}  is_biceps: {4}  is_triceps: {5}  is_legs: {6}' \
                '  is_core: {7}  is_balance: {8}  is_cardio: {9}  is_weight_per_hand:  {10}>'\
@@ -105,12 +123,14 @@ class RepExercisesHistory(db.Model):
         self.date = date
 
     def __eq__(self, other):
-        return self.user_id == other.user_id and \
-               self.exercise_id == other.exercise_id and \
-               self.sets == other.sets and \
-               self.reps == other.reps and \
-               self.weight == other.weight and \
-               self.date == other.date
+        if not isinstance(other, self.__class__):
+            return False
+        return (self.user_id == other.user_id and
+                self.exercise_id == other.exercise_id and
+                self.sets == other.sets and
+                self.reps == other.reps and
+                self.weight == other.weight and
+                self.date == other.date)
 
     def __ne__(self, other):
         return not self.__eq__(other)
