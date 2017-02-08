@@ -25,6 +25,7 @@ class LocalConfig(Config):
 
 class TestingConfig(Config):
     TESTING = True
+    SQLALCHEMY_DATABASE_URI = 'postgresql://localhost/trackercise_test_db'
 
 
 config = {
