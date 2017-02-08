@@ -112,7 +112,7 @@ def _generate_rep_history_from_row(row, user_id):
     """
     # if weight is body weight, signal that with -1
     if row[3] == 'body':
-        row[3] = '-1'
+        row[3] = '0'
 
     return RepExercisesHistory(
         user_id=user_id,
