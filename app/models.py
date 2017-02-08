@@ -85,6 +85,16 @@ class Users(db.Model):
         self.password = password
         self.authenticated = False  # all users start out not authenticated
 
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        return (self.email == other.email and
+                self.nickname == other.nickname and
+                self.password == other.password)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
+
     def is_active(self):
         """All users are active"""
         return True

@@ -5,13 +5,17 @@ from app.service_tests.service_test_case import ServiceTestCase
 
 class UsersServiceTests(ServiceTestCase):
     def test_add_user_to_database(self):
-        test_email = 'jake@jake.jake'
-        test_nickname = 'Jake'
-        test_fake_hash_password = 'pass'
+        expected_user = Users(email='jake@jake.jake',
+                              nickname='Jake',
+                              password='pass')
 
-        UsersService.add_user_to_database(test_email, test_nickname, test_fake_hash_password)
+        UsersService.add_user_to_database(expected_user.email, expected_user.nickname, expected_user.password)
         actual_user = list(Users.query.all())[0]
 
-        self.assertEqual(actual_user.email, test_email)
-        self.assertEqual(actual_user.nickname, test_nickname)
-        self.assertEqual(actual_user.password, test_fake_hash_password)
+        self.assertEqual(actual_user, expected_user)
+
+    def test_user_with_email_already_exists_already_exists(self):
+        pass
+
+    def test_user_with_email_already_exists_does_not_exist(self):
+        pass
