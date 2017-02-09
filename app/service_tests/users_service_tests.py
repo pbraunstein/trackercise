@@ -15,7 +15,15 @@ class UsersServiceTests(ServiceTestCase):
         self.assertEqual(actual_user, expected_user)
 
     def test_user_with_email_already_exists_already_exists(self):
-        pass
+        email = 'jake@jake.jake'
+        user_1 = Users(email=email,
+                       nickname='Jake Wilson',
+                       password='pass')
+
+        UsersService.add_user_to_database(user_1.email, user_1.nickname, user_1.password)
+
+        self.assertTrue(UsersService.user_with_email_already_exists(email))
 
     def test_user_with_email_already_exists_does_not_exist(self):
-        pass
+        email = 'jake@jake.jake'
+        self.assertFalse(UsersService.user_with_email_already_exists(email))
