@@ -4,6 +4,7 @@ from app.service_tests.service_test_case import ServiceTestCase
 
 
 class UsersServiceTests(ServiceTestCase):
+    # add_user_to_database tests #
     def test_add_user_to_database(self):
         expected_user = Users(email='jake@jake.jake',
                               nickname='Jake',
@@ -14,6 +15,7 @@ class UsersServiceTests(ServiceTestCase):
 
         self.assertEqual(actual_user, expected_user)
 
+    # user_with_email_already_exists tests #
     def test_user_with_email_already_exists_already_exists(self):
         email = 'jake@jake.jake'
         user_1 = Users(email=email,
@@ -39,6 +41,7 @@ class UsersServiceTests(ServiceTestCase):
 
         self.assertTrue(UsersService.user_with_email_already_exists(email_2))
 
+    # get_list_of_all_users tests #
     def test_get_list_of_all_users_no_users(self):
         expected_list = []
         actual_list = UsersService.get_list_of_all_users()
