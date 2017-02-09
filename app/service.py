@@ -33,7 +33,8 @@ class UsersService(object):
     @staticmethod
     def user_with_email_already_exists(email):
         users = Users.query.all()
-        user_emails = [x.email for x in users]
+        user_emails = [x.email.lower() for x in users]
+        email = email.lower()
         if email in user_emails:
             return True
         else:
