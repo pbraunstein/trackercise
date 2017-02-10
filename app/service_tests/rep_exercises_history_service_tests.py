@@ -114,8 +114,9 @@ class RepExercisesHistoryTests(ServiceTestCase):
 
         actual_list = RepExercisesHistoryService.get_list_of_all_history()
 
-        def sort_key(x):
-            return x.date
-
         # no guarantee about ordering is made
-        self.assertListEqual(sorted(actual_list, key=sort_key), sorted(expected_list, key=sort_key))
+        self.assertListEqual(sorted(actual_list, key=self._sort_key), sorted(expected_list, key=self._sort_key))
+
+    @staticmethod
+    def _sort_key(x):
+        return x.date
