@@ -41,6 +41,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
             )
         )
 
+    # add_entry_to_db tests #
     def test_add_entry_to_db(self):
         entry_to_add = RepExercisesHistory(
             user_id=2,
@@ -54,3 +55,9 @@ class RepExercisesHistoryTests(ServiceTestCase):
         RepExercisesHistoryService.add_entry_to_db(entry_to_add)
         actual_entry = list(RepExercisesHistory.query.all())[0]
         self.assertEqual(actual_entry, entry_to_add)
+
+    # get_list_of_all_history tests #
+    def test_get_list_of_all_history_no_history(self):
+        expected_list = []
+        actual_list = RepExercisesHistoryService.get_list_of_all_history()
+        self.assertListEqual(actual_list, expected_list)
