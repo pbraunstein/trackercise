@@ -61,3 +61,61 @@ class RepExercisesHistoryTests(ServiceTestCase):
         expected_list = []
         actual_list = RepExercisesHistoryService.get_list_of_all_history()
         self.assertListEqual(actual_list, expected_list)
+
+    def test_get_list_of_all_history_one_entry(self):
+        entry_1 = RepExercisesHistory(
+            user_id=2,
+            exercise_id=1,
+            sets=11,
+            reps=23,
+            weight=12.5,
+            date=date(year=1990, month=12, day=23)
+        )
+
+        RepExercisesHistoryService.add_entry_to_db(entry_1)
+
+        expected_list = [entry_1]
+        actual_list = RepExercisesHistoryService.get_list_of_all_history()
+
+        self.assertListEqual(actual_list, expected_list)
+
+    def test_get_list_of_all_history_multiple_entries(self):
+        expected_list = [
+            RepExercisesHistory(
+                user_id=1,
+                exercise_id=1,
+                sets=11,
+                reps=23,
+                weight=12.5,
+                date=date(year=1990, month=12, day=23)
+            ),
+            RepExercisesHistory(
+                user_id=2,
+                exercise_id=2,
+                sets=11,
+                reps=23,
+                weight=12.5,
+                date=date(year=1890, month=12, day=23)
+            ),
+            RepExercisesHistory(
+                user_id=2,
+                exercise_id=1,
+                sets=11,
+                reps=23,
+                weight=12.5,
+                date=date(year=1997, month=12, day=23)
+            )
+        ]
+
+        # add in entries
+        RepExercisesHistoryService.add_entry_to_db(expected_list[0])
+        RepExercisesHistoryService.add_entry_to_db(expected_list[1])
+        RepExercisesHistoryService.add_entry_to_db(expected_list[2])
+
+        actual_list = RepExercisesHistoryService.get_list_of_all_history()
+
+        def sort_key(x):
+            return x.date
+
+        # no guarantee about ordering is made
+        self.assertListEqual(sorted(actual_list, key=sort_key), sorted(expected_list, key=sort_key))
