@@ -10,6 +10,7 @@ class ServiceTestCase(unittest.TestCase):
         self.app_context = self.app.app_context()
         self.app_context.push()
         db.session.commit()
+        db.drop_all()
         db.create_all()
 
     def tearDown(self):
