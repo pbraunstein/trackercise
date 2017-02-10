@@ -1,6 +1,6 @@
 from datetime import date
 
-from app.models import RepExercisesHistory, RepExercisesTaxonomy
+from app.models import RepExercisesHistory, RepExercisesTaxonomy, Users
 from app.service import RepExercisesHistoryService, RepExercisesTaxonomyService, UsersService
 from app.service_tests.service_test_case import ServiceTestCase
 
@@ -8,8 +8,10 @@ from app.service_tests.service_test_case import ServiceTestCase
 class RepExercisesHistoryTests(ServiceTestCase):
     def setUp(self):
         super(RepExercisesHistoryTests, self).setUp()
-        UsersService.add_user_to_database('p@p.p', 'Patrick', 'pass')
-        UsersService.add_user_to_database('j@j.j', 'Jaytrick', 'pass')
+        user_1 = Users('p@p.p', 'Patrick', 'pass')
+        user_2 = Users('j@j.j', 'Jaytrick', 'pass')
+        UsersService.add_user_to_database(user_1)
+        UsersService.add_user_to_database(user_2)
         RepExercisesTaxonomyService.add_entry_to_db(
             RepExercisesTaxonomy(
                 name='test_rows',

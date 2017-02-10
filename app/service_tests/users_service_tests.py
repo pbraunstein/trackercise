@@ -10,7 +10,7 @@ class UsersServiceTests(ServiceTestCase):
                               nickname='Jake',
                               password='pass')
 
-        UsersService.add_user_to_database(expected_user.email, expected_user.nickname, expected_user.password)
+        UsersService.add_user_to_database(expected_user)
         actual_user = list(Users.query.all())[0]
 
         self.assertEqual(actual_user, expected_user)
@@ -22,7 +22,7 @@ class UsersServiceTests(ServiceTestCase):
                        nickname='Jake Wilson',
                        password='pass')
 
-        UsersService.add_user_to_database(user_1.email, user_1.nickname, user_1.password)
+        UsersService.add_user_to_database(user_1)
 
         self.assertTrue(UsersService.user_with_email_already_exists(email))
 
@@ -37,7 +37,7 @@ class UsersServiceTests(ServiceTestCase):
                        nickname='Jake Wilson',
                        password='pass')
 
-        UsersService.add_user_to_database(user_1.email, user_1.nickname, user_1.password)
+        UsersService.add_user_to_database(user_1)
 
         self.assertTrue(UsersService.user_with_email_already_exists(email_2))
 
@@ -51,7 +51,7 @@ class UsersServiceTests(ServiceTestCase):
         user_1 = Users(email='jake@jake.jake',
                        nickname='Jake Wilson',
                        password='pass')
-        UsersService.add_user_to_database(user_1.email, user_1.nickname, user_1.password)
+        UsersService.add_user_to_database(user_1)
         expected_list = [user_1]
         actual_list = UsersService.get_list_of_all_users()
 
@@ -68,9 +68,9 @@ class UsersServiceTests(ServiceTestCase):
                        nickname='Jacob',
                        password='pass')
 
-        UsersService.add_user_to_database(user_1.email, user_1.nickname, user_1.password)
-        UsersService.add_user_to_database(user_2.email, user_2.nickname, user_2.password)
-        UsersService.add_user_to_database(user_3.email, user_3.nickname, user_3.password)
+        UsersService.add_user_to_database(user_1)
+        UsersService.add_user_to_database(user_2)
+        UsersService.add_user_to_database(user_3)
 
         expected_results = [user_1, user_2, user_3]
         actual_results = UsersService.get_list_of_all_users()
