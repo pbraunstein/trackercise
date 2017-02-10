@@ -208,10 +208,75 @@ class RepExercisesHistoryTests(ServiceTestCase):
         self.assertListEqual(actual_results, expected_results)
 
     def test_get_user_history_by_exercise_user_did_that_exercise(self):
-        pass
+        entry_1 = RepExercisesHistory(
+            user_id=2,
+            exercise_id=2,
+            sets=11,
+            reps=23,
+            weight=12.5,
+            date=date(year=1890, month=11, day=23)
+        )
+        entry_2 = RepExercisesHistory(
+            user_id=1,
+            exercise_id=1,
+            sets=11,
+            reps=23,
+            weight=12.5,
+            date=date(year=1890, month=11, day=29)
+        )
+        entry_3 = RepExercisesHistory(
+            user_id=2,
+            exercise_id=2,
+            sets=11,
+            reps=23,
+            weight=12.5,
+            date=date(year=1892, month=11, day=29)
+        )
+
+        RepExercisesHistoryService.add_entry_to_db(entry_1)
+        RepExercisesHistoryService.add_entry_to_db(entry_2)
+        RepExercisesHistoryService.add_entry_to_db(entry_3)
+
+        expected_results = [entry_1, entry_3]
+        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(2, 2)
+
+        # no guarantee about ordering is made
+        self.assertListEqual(sorted(actual_results, key=self._sort_key), sorted(expected_results, key=self._sort_key))
 
     def test_get_user_history_by_exercise_different_user_did_that_exercise(self):
-        pass
+        entry_1 = RepExercisesHistory(
+            user_id=2,
+            exercise_id=2,
+            sets=11,
+            reps=23,
+            weight=12.5,
+            date=date(year=1890, month=11, day=23)
+        )
+        entry_2 = RepExercisesHistory(
+            user_id=1,
+            exercise_id=1,
+            sets=11,
+            reps=23,
+            weight=12.5,
+            date=date(year=1890, month=11, day=29)
+        )
+        entry_3 = RepExercisesHistory(
+            user_id=2,
+            exercise_id=2,
+            sets=11,
+            reps=23,
+            weight=12.5,
+            date=date(year=1892, month=11, day=29)
+        )
+
+        RepExercisesHistoryService.add_entry_to_db(entry_1)
+        RepExercisesHistoryService.add_entry_to_db(entry_2)
+        RepExercisesHistoryService.add_entry_to_db(entry_3)
+
+        expected_results = []
+        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(1, 2)
+
+        self.assertListEqual(actual_results, expected_results)
 
     @staticmethod
     def _sort_key(x):
