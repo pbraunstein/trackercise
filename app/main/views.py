@@ -1,4 +1,6 @@
-from flask import flash, redirect, render_template, url_for
+from os.path import basename, dirname, join
+
+from flask import flash, redirect, render_template, url_for, send_file
 from flask_login import login_required, logout_user, current_user
 
 from app.brain.admin.all_data import AllData
@@ -14,9 +16,13 @@ from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTax
 
 
 @main.route('/')
-@login_required
+# @login_required
 def all_data():
-    return render_template('all_data.html', entries=AllData.get_all_data())
+    serve_path = dirname(main.root_path)
+    serve_path = join(serve_path, 'static')
+    serve_path = join(serve_path, 'test_index.html')
+    print serve_path
+    return send_file(serve_path)
 
 
 @login_required
