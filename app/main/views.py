@@ -20,7 +20,8 @@ from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTax
 def all_data():
     serve_path = dirname(main.root_path)
     serve_path = join(serve_path, 'static')
-    serve_path = join(serve_path, 'test_index.html')
+    serve_path = join(serve_path, 'dist')
+    serve_path = join(serve_path, 'test_inder.html')
     print serve_path
     return send_file(serve_path)
 

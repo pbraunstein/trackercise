@@ -11,6 +11,7 @@
   "private": true,
   "license": "ISC",
   "devDependencies": {
+    "copy-webpack-plugin": "^4.0.1",
     "ts-loader": "^2.0.0",
     "typescript": "^2.1.6",
     "webpack": "^2.2.1",

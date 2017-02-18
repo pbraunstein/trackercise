@@ -1,10 +1,10 @@
 const path = require('path');
 var webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
-        'test': './test.ts',
-
+        'test': './test.ts'
     },
     module: {
         loaders: [
@@ -23,6 +23,14 @@ module.exports = {
         new webpack.optimize.UglifyJsPlugin({
             compress: {screw_ie8: true},
             mangle: {screw_ie8: true}
-        })
+        }),
+        new CopyWebpackPlugin(
+            [
+                {
+                    from: './test_index.html',
+                    to: 'test_inder.html'
+                }
+            ]
+        )
     ]
 };
