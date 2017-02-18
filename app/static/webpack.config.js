@@ -4,7 +4,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
     entry: {
-        'test': './test.ts'
+        'test': './ts/test.ts'
     },
     module: {
         loaders: [
@@ -27,8 +27,8 @@ module.exports = {
         new CopyWebpackPlugin(
             [
                 {
-                    from: './test_index.html',
-                    to: 'test_inder.html'
+                    from: './index.html',
+                    to: 'index.html'
                 }
             ]
         )
