@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
-    "clean": "find . -path \"./dist/*.js\" -delete  -o -path \"./dist/*.html\" -delete"
+    "clean": "find . -path \"./dist/*.js\" -delete  -o -path \"./dist/*.html\" -delete -o -path \"./dist/*.map\" -delete"
   },
   "author": "",
   "private": true,
