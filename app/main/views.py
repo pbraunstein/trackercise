@@ -15,8 +15,7 @@ from app.main import main_blueprint as main
 from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTaxonomyForm, UserSpecificExerciseForm
 
 
-@main.route('/')
-# @login_required
+@main.route('/ts')
 def all_data():
     serve_path = dirname(main.root_path)
     serve_path = join(serve_path, 'static')
@@ -24,6 +23,12 @@ def all_data():
     serve_path = join(serve_path, 'index.html')
     print serve_path
     return send_file(serve_path)
+
+
+@main.route('/')
+@login_required
+def all_data():
+    return render_template('all_data.html', entries=AllData.get_all_data())
 
 
 @login_required
