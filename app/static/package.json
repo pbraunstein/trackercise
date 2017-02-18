@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "clean": "find . -path \"./dist/*.js\" -delete  -o -path \"./dist/*.html\" -delete"
   },
   "author": "",
   "private": true,
