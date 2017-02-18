@@ -16,7 +16,7 @@ from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTax
 
 
 @main.route('/ts')
-def all_data():
+def ts():
     serve_path = dirname(main.root_path)
     serve_path = join(serve_path, 'static')
     serve_path = join(serve_path, 'dist')
