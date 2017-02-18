@@ -3,6 +3,7 @@ var webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
+    devtool: 'source-map',
     entry: {
         'test': './ts/test.ts'
     },
@@ -22,7 +23,8 @@ module.exports = {
     plugins: [
         new webpack.optimize.UglifyJsPlugin({
             compress: {screw_ie8: true},
-            mangle: {screw_ie8: true}
+            mangle: {screw_ie8: true},
+            sourceMap: true
         }),
         new CopyWebpackPlugin(
             [
