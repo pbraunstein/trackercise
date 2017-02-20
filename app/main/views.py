@@ -1,4 +1,4 @@
-from os.path import basename, dirname, join
+from os.path import dirname, join
 
 from flask import flash, redirect, render_template, url_for, send_file
 from flask_login import login_required, logout_user, current_user
