@@ -8,13 +8,15 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 @Component({
     selector: 'i-am',
-    template: '<h2> I am {{ status }} </h2>'
+    template: '<h2> I am {{ status }} </h2><br/><h3>Your lucky number is {{ randNum }}</h3>'
 })
 export class IAmAliveComponent {
     status: string;
+    randNum: number;
 
     constructor() {
         this.status = 'Alive';
+        this.randNum = 42;
     }
 }
 
