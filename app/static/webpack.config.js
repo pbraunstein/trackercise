@@ -5,7 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     devtool: 'source-map',
     entry: {
-        'test': './ts/test.ts'
+        'hello': './helloWorld.ts'
     },
     module: {
         loaders: [
