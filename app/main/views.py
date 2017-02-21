@@ -28,7 +28,7 @@ def ts():
 
 
 @main.route('/get-rand-num')
-def get_ran_num():
+def get_rand_num():
     results = {'num': randint(1, 101)}
     return dumps(results)
 
