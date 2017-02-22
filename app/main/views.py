@@ -1,3 +1,5 @@
+from json import dumps
+from random import randint
 from os.path import dirname, join
 
 from flask import flash, redirect, render_template, url_for, send_file
@@ -23,6 +25,12 @@ def ts():
     serve_path = join(serve_path, 'index.html')
     print serve_path
     return send_file(serve_path)
+
+
+@main.route('/get-rand-num')
+def get_rand_num():
+    results = {'num': randint(1, 101)}
+    return dumps(results)
 
 
 @main.route('/')
