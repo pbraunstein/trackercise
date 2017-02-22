@@ -1,6 +1,7 @@
 import 'zone.js';
 import 'reflect-metadata';
 import { Component } from '@angular/core';
+import { Http, HttpModule } from '@angular/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -14,14 +15,14 @@ export class IAmAliveComponent {
     status: string;
     randNum: number;
 
-    constructor() {
+    constructor(private http: Http) {
         this.status = 'Alive';
-        this.randNum = 42;
+        this.randNum = -1;
     }
 }
 
 @NgModule({
-    imports: [BrowserModule],
+    imports: [BrowserModule, HttpModule],
     declarations: [IAmAliveComponent],
     bootstrap: [IAmAliveComponent]
 })
