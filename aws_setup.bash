@@ -14,7 +14,7 @@ main () {
     echo "I N S T A L L I N G  R E Q U I R E D  N O D E  M O D U L E S . . ."
     install_node_requirements
     echo "B U I L D I N G  A N D  B U N D L I N G . . ."
-    build_and_bundle()
+    build_and_bundle
 }
 
 install_necessary_packages() {
