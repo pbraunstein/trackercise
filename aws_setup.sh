@@ -22,6 +22,7 @@ install_nvm() {
 }
 
 install_node() {
+    source ~/.bashrc
     nvm install 6.9.5
 }
 
