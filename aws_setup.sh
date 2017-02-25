@@ -7,6 +7,8 @@ main () {
     install_nvm
     echo "I N S T A L L I N G  N O D E . . ."
     install_node
+    echo "C R E A T I N G  V I R T U A L E N V . . . "
+    create_virtualenv()
 }
 
 install_necessary_packages() {
