@@ -11,6 +11,10 @@ main () {
     create_virtualenv
     echo "I N S T A L L I N G  P Y T H O N  R E Q U I R E M E N T S . . ."
     install_python_requirements
+    echo "I N S T A L L I N G  R E Q U I R E D  N O D E  M O D U L E S . . ."
+    install_node_requirements
+    echo "B U I L D I N G  A N D  B U N D L I N G . . ."
+    build_and_bundle()
 }
 
 install_necessary_packages() {
@@ -38,6 +42,14 @@ install_python_requirements() {
     source ./venv/bin/activate
     pip install six
     pip install -r requirements.txt
+}
+
+install_node_requirements() {
+    cd ./app/static && npm install
+}
+
+build_and_bundle() {
+    cd ./app/static && npm run clean && npm run build
 }
 
 main
