@@ -4,6 +4,9 @@ main () {
     echo "I N S T A L L I N G  N E C E S S A R Y  P A C K A G E S . . ."
     install_necessary_packages
     echo "I N S T A L L I N G  N V M . . ."
+    install_nvm
+    echo "I N S T A L L I N G  N O D E . . ."
+    install_node
 }
 
 install_necessary_packages() {
@@ -20,6 +23,10 @@ install_nvm() {
 
 install_node() {
     nvm install 6.9.5
+}
+
+create_virtualenv() {
+    virtualenv venv
 }
 
 main
