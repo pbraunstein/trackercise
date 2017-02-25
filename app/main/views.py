@@ -39,6 +39,11 @@ def all_data():
     return render_template('all_data.html', entries=AllData.get_all_data())
 
 
+@main.route('/status')
+def status():
+    return dumps({'status': 'good'})
+
+
 @login_required
 def user_data():
     return render_template('user_data.html', context=UserData.get_user_data())
