@@ -15,6 +15,8 @@ main () {
     install_node_requirements
     echo "B U I L D I N G  A N D  B U N D L I N G . . ."
     build_and_bundle
+    echo "S T A R T I N G  N G I N X . . ."
+    start_nginx
 }
 
 install_necessary_packages() {
@@ -50,6 +52,12 @@ install_node_requirements() {
 
 build_and_bundle() {
     npm run clean && npm run build
+}
+
+start_nginx() {
+    cd ../../
+    sudo mv nginx.conf /etc/nginx/nginx.conf
+    sudo /etc/init.d/nginx start
 }
 
 main
