@@ -58,7 +58,7 @@ build_and_bundle() {
 
 start_nginx() {
     cd ../../
-    sudo mv nginx.conf /etc/nginx/nginx.conf
+    sudo cp nginx.conf /etc/nginx/nginx.conf
     sudo /etc/init.d/nginx start
 }
 
