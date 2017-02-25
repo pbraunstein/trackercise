@@ -22,11 +22,11 @@ main () {
 }
 
 install_necessary_packages() {
-    sudo yum install libffi-devel
-    sudo yum install nginx
-    sudo yum install gcc
-    sudo yum install postgresql95-server.x86_64
-    sudo yum install postgresql95-devel.x86_64
+    sudo yum -y install libffi-devel
+    sudo yum -y install nginx
+    sudo yum -y install gcc
+    sudo yum -y install postgresql95-server.x86_64
+    sudo yum -y install postgresql95-devel.x86_64
 }
 
 install_nvm() {
