@@ -9,6 +9,8 @@ main () {
     install_node
     echo "C R E A T I N G  V I R T U A L E N V . . . "
     create_virtualenv
+    echo "I N S T A L L I N G  P Y T H O N  R E Q U I R E M E N T S . . ."
+    install_python_requirements
 }
 
 install_necessary_packages() {
@@ -30,6 +32,10 @@ install_node() {
 
 create_virtualenv() {
     virtualenv venv
+}
+
+install_python_requirements() {
+    source ./venv/bin/activate
 }
 
 main
