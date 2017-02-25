@@ -1,7 +1,7 @@
 #!/bin/bash
 
 main () {
-    echo "I N S T A L L I N G  N E C E S S A R Y  P A C K A G E S . . ."
+    echo "I N S T A L L I N G  N E C E S S A R Y  L I N U X  P A C K A G E S . . ."
     install_necessary_packages
     echo "I N S T A L L I N G  N V M . . ."
     install_nvm
@@ -49,7 +49,7 @@ install_node_requirements() {
 }
 
 build_and_bundle() {
-    cd ./app/static && npm run clean && npm run build
+    npm run clean && npm run build
 }
 
 main
