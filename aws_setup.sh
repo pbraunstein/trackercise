@@ -1,9 +1,9 @@
 #!/bin/sh
 
 main () {
-    echo "Updating OS...";
+    echo "U P D A T I N G  O S . . .";
     update_os
-    echo "Installing necessary packages"
+    echo "I N S T A L L I N G  N E C E S S A R Y  P A C K A G E S . . ."
     install_necessary_packages;
 }
 
