@@ -36,6 +36,7 @@ create_virtualenv() {
 
 install_python_requirements() {
     source ./venv/bin/activate
+    pip install -r requirements.txt
 }
 
 main
