@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 main () {
     echo "I N S T A L L I N G  N E C E S S A R Y  P A C K A G E S . . ."
