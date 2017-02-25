@@ -17,6 +17,8 @@ main () {
     build_and_bundle
     echo "S T A R T I N G  N G I N X . . ."
     start_nginx
+    echo "S T A R T I N G  F L A S K  S E R V E R . . ."
+    start_flask
 }
 
 install_necessary_packages() {
@@ -58,6 +60,10 @@ start_nginx() {
     cd ../../
     sudo mv nginx.conf /etc/nginx/nginx.conf
     sudo /etc/init.d/nginx start
+}
+
+start_flask() {
+    nohup gunicorn manage:app &
 }
 
 main
