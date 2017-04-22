@@ -17,6 +17,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 loader: "style-loader!css-loader"
+            },
+            {
+                test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/,
+                loader: 'url-loader'
             }
         ]
     },
@@ -37,6 +41,13 @@ module.exports = {
                     to: 'index.html'
                 }
             ]
+        ),
+        new webpack.ProvidePlugin(
+            {
+                jQuery: 'jquery',
+                $: 'jquery',
+                jquery: 'jquery'
+            }
         )
     ]
 };
