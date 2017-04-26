@@ -11,7 +11,7 @@ import {Observable} from "rxjs/Observable";
     selector: 'eins',
     template: '<h1 class="eins">EINS</h1>'
 })
-export class EinsComponents {
+export class EinsComponent {
 
 }
 
@@ -39,3 +39,15 @@ export class DreiComponent {
 export class VierComponent {
 
 }
+
+@NgModule({
+    imports: [BrowserModule],
+    declarations: [EinsComponent, ZweiComponent, DreiComponent, VierComponent],
+    bootstrap:[EinsComponent, ZweiComponent, DreiComponent, VierComponent]
+})
+export class PhilBox {
+
+}
+
+platformBrowserDynamic().bootstrapModule(PhilBox);
+
