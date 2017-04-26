@@ -1,11 +1,12 @@
 import 'zone.js';
 import 'reflect-metadata';
 import {Component} from '@angular/core';
-import {Http, HttpModule} from '@angular/http';
+import 'jquery';
+import 'bootstrap/dist/js/bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import {Observable} from "rxjs/Observable";
 
 @Component({
     selector: 'eins',
