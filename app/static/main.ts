@@ -9,49 +9,49 @@ import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 @Component({
-    selector: 'eins',
+    selector: 'upper',
     template: `
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">EINS</div>
-                        <div class="col-md-6">ZWEI</div>
-                    </div>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6">EINS</div>
+                    <div class="col-sm-6 col-md-6 col-lg-6">ZWEI</div>
                 </div>
             `
 })
-export class EinsComponent {
+export class UpperComponent {
 
 }
 
 @Component({
-    selector: 'zwei',
-    template: '<h1 class="zwei">zwei</h1>'
+    selector: 'lower',
+    template: `
+                <div class="row">
+                    <div class="col-sm-6 col-md-6 col-lg-6">DREI</div>
+                    <div class="col-sm-6 col-md-6 col-lg-6">VIER</div>
+                </div>
+            `
 
 })
-export class ZweiComponent {
+export class LowerComponent {
 
 }
 
 @Component({
-    selector: 'drei',
-    template: '<h1 class="drei">drei</h1>'
+    selector: 'application-component',
+    template: `
+                <div class="container">
+                    <upper></upper>
+                    <lower></lower>
+                </div>
+              `
 })
-export class DreiComponent {
-
-}
-
-@Component({
-    selector: 'vier',
-    template: '<h1 class="vier">vier</h1>'
-})
-export class VierComponent {
+export class ApplicationComponent {
 
 }
 
 @NgModule({
     imports: [BrowserModule],
-    declarations: [EinsComponent, ZweiComponent, DreiComponent, VierComponent],
-    bootstrap:[EinsComponent, ZweiComponent, DreiComponent, VierComponent]
+    declarations: [UpperComponent, LowerComponent, ApplicationComponent],
+    bootstrap:[ApplicationComponent]
 })
 export class PhilBox {
 
