@@ -10,7 +10,14 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 
 @Component({
     selector: 'eins',
-    template: '<div class="container"><div class="row"><div class="col-md-6">EINS</div><div class="col-md-6">ZWEI</div></div></div>'
+    template: `
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">EINS</div>
+                        <div class="col-md-6">ZWEI</div>
+                    </div>
+                </div>
+            `
 })
 export class EinsComponent {
 
