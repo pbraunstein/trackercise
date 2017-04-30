@@ -11,11 +11,12 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 @Component({
     selector: 'upper',
     template: `
-                <div class="row">
+                <div class="row" id="upper_row">
                     <div class="col-sm-6 col-md-6 col-lg-6">EINS</div>
                     <div class="col-sm-6 col-md-6 col-lg-6">ZWEI</div>
                 </div>
-            `
+            `,
+    styles: ['#upper_row { background-color: red }']
 })
 export class UpperComponent {
 
@@ -24,11 +25,12 @@ export class UpperComponent {
 @Component({
     selector: 'lower',
     template: `
-                <div class="row">
+                <div class="row" id="lower_row">
                     <div class="col-sm-6 col-md-6 col-lg-6">DREI</div>
                     <div class="col-sm-6 col-md-6 col-lg-6">VIER</div>
                 </div>
-            `
+            `,
+    styles: ['#lower_row { background-color: blue }']
 
 })
 export class LowerComponent {
