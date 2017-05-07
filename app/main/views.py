@@ -17,13 +17,12 @@ from app.main import main_blueprint as main
 from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTaxonomyForm, UserSpecificExerciseForm
 
 
-@main.route('/ts')
+@main.route('/')
 def ts():
     serve_path = dirname(main.root_path)
     serve_path = join(serve_path, 'static')
     serve_path = join(serve_path, 'dist')
     serve_path = join(serve_path, 'index.html')
-    print serve_path
     return send_file(serve_path)
 
 
@@ -33,7 +32,6 @@ def get_rand_num():
     return dumps(results)
 
 
-@main.route('/')
 @login_required
 def all_data():
     return render_template('all_data.html', entries=AllData.get_all_data())
