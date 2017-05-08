@@ -1,5 +1,7 @@
 import hashlib
 
+from app.constants import USERS, TAXONOMY, HISTORY
+
 
 def hash_password(password):
     return hashlib.sha256(password).hexdigest()
@@ -13,21 +15,32 @@ def prepare_history_entry(entry):
     return entry
 
 
-def serialize_all_data(all_data):
-    pass
+def all_data_to_dict(all_data):
+    all_data[USERS] = list_user_objs_to_list_dicts(all_data[USERS])
+    all_data[TAXONOMY] = list_taxonomy_objs_to_dicts(all_data[TAXONOMY])
+    all_data[HISTORY] = list_history_objs_to_dicts(all_data[HISTORY])
+    return all_data
 
 
-def serialize_taxonomy_list(taxonomy_list):
-    pass
+def list_user_objs_to_list_dicts(user_list):
+    return [_user_obj_to_dict(x) for x in user_list]
 
 
-def serialize_history_list(history_list):
-    pass
+def list_taxonomy_objs_to_dicts(taxonomy_list):
+    return [taxonomy_obj_to_dict(x) for x in taxonomy_list]
 
 
-def _serialize_taxonomy(taxonomy):
-    pass
+def list_history_objs_to_dicts(history_list):
+    return [history_obj_to_dict(x) for x in history_list]
 
 
-def _serialize_hisory(history):
-    pass
+def _user_obj_to_dict(user):
+    return "plop"
+
+
+def taxonomy_obj_to_dict(taxonomy):
+    return "plop"
+
+
+def history_obj_to_dict(history):
+    return "plop"
