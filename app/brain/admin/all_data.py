@@ -1,4 +1,5 @@
 from app.brain.utilities import prepare_history_entry
+from app.constants import USERS, TAXONOMY, HISTORY
 from app.service import UsersService, RepExercisesTaxonomyService, RepExercisesHistoryService
 
 
@@ -9,17 +10,22 @@ class AllData(object):
     I N T E R F A C E   G U A R A N T E E D
     ---------------------------------------
     get_all_data(cls):
-        -- Returns a list of lists [users, taxonomy, history]
+        -- Returns a dictionary of all of data of users, taxonomy, and history
+        -- {users: [User, ...], taxonomy: [taxonomy, ...], history: [history, ...]}
     """
 
     @classmethod
     def get_all_data(cls):
+        all_results = {}
         user_results = UsersService.get_list_of_all_users()
         taxonomy_results = RepExercisesTaxonomyService.get_list_of_all_exercises()
         taxonomy_results = [cls._prepare_taxonomy_entry(x) for x in taxonomy_results]
         history_results = RepExercisesHistoryService.get_list_of_all_history()
         history_results = [prepare_history_entry(x) for x in history_results]
-        return [user_results, taxonomy_results, history_results]
+        all_results[USERS] = user_results
+        all_results[TAXONOMY] = taxonomy_results
+        all_results[HISTORY] = history_results
+        return all_results
 
 
     @staticmethod
