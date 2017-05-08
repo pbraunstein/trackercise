@@ -32,7 +32,7 @@ def get_rand_num():
     return dumps(results)
 
 
-@login_required
+@main.route('/all-data')
 def all_data():
     return render_template('all_data.html', entries=AllData.get_all_data())
 
