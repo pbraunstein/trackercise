@@ -1,6 +1,10 @@
 import hashlib
 
-from app.constants import USERS, TAXONOMY, HISTORY
+from app.constants import USERS, TAXONOMY, HISTORY, USERS_ID, USERS_EMAIL, USERS_NICKNAME, USERS_PASSWORD,\
+    USERS_AUTHENTICATED, HISTORY_ID, HISTORY_USER_ID, HISTORY_EXERCISE_ID, HISTORY_SETS, HISTORY_REPS, HISTORY_WEIGHT,\
+    HISTORY_DATE, TAXONOMY_NAME, TAXONOMY_IS_BACK, TAXONOMY_IS_CHEST, TAXONOMY_IS_SHOULDERS, TAXONOMY_IS_BICEPS,\
+    TAXONOMY_IS_TRICEPS, TAXONOMY_IS_LEGS, TAXONOMY_IS_CORE, TAXONOMY_IS_BALANCE, TAXONOMY_IS_CARDIO,\
+    TAXONOMY_IS_WEIGHT_PER_HAND
 
 
 def hash_password(password):
@@ -35,7 +39,13 @@ def list_history_objs_to_dicts(history_list):
 
 
 def _user_obj_to_dict(user):
-    return "plop"
+    return {
+        USERS_ID: user.id,
+        USERS_EMAIL: user.email,
+        USERS_NICKNAME: user.nickname,
+        USERS_PASSWORD: user.password,
+        USERS_AUTHENTICATED: user.authenticated
+    }
 
 
 def taxonomy_obj_to_dict(taxonomy):
@@ -43,4 +53,12 @@ def taxonomy_obj_to_dict(taxonomy):
 
 
 def history_obj_to_dict(history):
-    return "plop"
+    return {
+        HISTORY_ID: history.id,
+        HISTORY_USER_ID: history.user_id,
+        HISTORY_EXERCISE_ID: history.exercise_id,
+        HISTORY_SETS: history.sets,
+        HISTORY_REPS: history.reps,
+        HISTORY_WEIGHT: history.weight,
+        HISTORY_DATE: history.date
+    }
