@@ -13,6 +13,7 @@ from app.brain.user_management.loginerator import Loginerator
 from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
+from app.brain.utilities import all_data_to_dict
 from app.main import main_blueprint as main
 from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTaxonomyForm, UserSpecificExerciseForm
 
@@ -32,9 +33,9 @@ def get_rand_num():
     return dumps(results)
 
 
-@login_required
+@main.route('/all-data')
 def all_data():
-    return render_template('all_data.html', entries=AllData.get_all_data())
+    return dumps(all_data_to_dict(AllData.get_all_data()))
 
 
 @main.route('/status')
