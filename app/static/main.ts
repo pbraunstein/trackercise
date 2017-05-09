@@ -46,13 +46,14 @@ export class LowerComponent {
                     <li *ngFor="let tax of taxonomy">
                         {{ tax.taxonomy_name }}
                     </li>
-                </ol>`
+                </ol>
+            `
 })
 export class AllDataComponent {
     private endpoint: Observable<any>;
-    private usersA: any;
-    private taxonomy: any;
-    private history: any;
+    private users: Array<any>;
+    private taxonomy: Array<any>;
+    private history: Array<any>;
 
     constructor(private http: Http) {
         this.endpoint = http.get('/all-data');
@@ -60,7 +61,11 @@ export class AllDataComponent {
 
     ngOnInit() {
         this.endpoint.subscribe(
-            data => {this.taxonomy = data.json().taxonomy; console.log(this.taxonomy)},
+            data => {
+                this.users = data.json().users;
+                this.taxonomy = data.json().taxonomy;
+                this.history = data.json().history;
+            },
             err => console.log(err),
             () => console.log("lets see how this goes")
         );
