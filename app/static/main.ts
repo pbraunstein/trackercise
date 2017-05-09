@@ -42,11 +42,34 @@ export class LowerComponent {
 @Component({
     selector: 'all-data',
     template: `
-                <ol>
-                    <li *ngFor="let tax of taxonomy">
-                        {{ tax.taxonomy_name }}
-                    </li>
-                </ol>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>
+                                ID
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Is Back
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let tax of taxonomy">
+                            <td>
+                                {{ tax.taxonomy_id }}
+                            </td>
+                            <td>
+                                {{ tax.taxonomy_name }}
+                            </td>
+                            <td>
+                                {{ tax.taxonomy_is_back }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             `
 })
 export class AllDataComponent {
