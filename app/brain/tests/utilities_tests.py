@@ -1,8 +1,8 @@
 import unittest
 from datetime import date
 
-from app.brain.utilities import prepare_history_entry, _user_obj_to_dict, _taxonomy_obj_to_dict
-from app.constants import USERS, TAXONOMY, HISTORY, USERS_ID, USERS_EMAIL, USERS_NICKNAME, USERS_PASSWORD,\
+from app.brain.utilities import prepare_history_entry, _user_obj_to_dict, _taxonomy_obj_to_dict, _history_obj_to_dict
+from app.constants import USERS_ID, USERS_EMAIL, USERS_NICKNAME, USERS_PASSWORD,\
     USERS_AUTHENTICATED, HISTORY_ID, HISTORY_USER_ID, HISTORY_EXERCISE_ID, HISTORY_SETS, HISTORY_REPS, HISTORY_WEIGHT,\
     HISTORY_DATE, TAXONOMY_NAME, TAXONOMY_IS_BACK, TAXONOMY_IS_CHEST, TAXONOMY_IS_SHOULDERS, TAXONOMY_IS_BICEPS,\
     TAXONOMY_IS_TRICEPS, TAXONOMY_IS_LEGS, TAXONOMY_IS_CORE, TAXONOMY_IS_BALANCE, TAXONOMY_IS_CARDIO,\
@@ -76,7 +76,7 @@ class UtilitiesTests(unittest.TestCase):
             is_weight_per_hand=test_is_weight_per_hand
         )
 
-        taxonomy_obj.id = test_id
+        taxonomy_obj.id = test_id  # have to set this manually because there is no db
 
         result = _taxonomy_obj_to_dict(taxonomy_obj)
 
@@ -98,4 +98,37 @@ class UtilitiesTests(unittest.TestCase):
         self.assertDictEqual(result, expected_result)
 
     def test_history_obj_to_dict(self):
-        pass
+        test_id = 18
+        test_user_id = 23
+        test_exercise_id = 4
+        test_sets = 5
+        test_reps = 5
+        test_weight = 20
+        test_date = date.today()
+
+        history_obj = RepExercisesHistory(
+            user_id=test_user_id,
+            exercise_id=test_exercise_id,
+            sets=test_sets,
+            reps=test_reps,
+            weight=test_weight,
+            date=test_date
+        )
+
+        history_obj.id = test_id  # have to set this manually because there is no db
+
+        results = _history_obj_to_dict(history_obj)
+
+        expected_results = {
+            HISTORY_ID: test_id,
+            HISTORY_USER_ID: test_user_id,
+            HISTORY_EXERCISE_ID: test_exercise_id,
+            HISTORY_SETS: test_sets,
+            HISTORY_REPS: test_reps,
+            HISTORY_WEIGHT: test_weight,
+            HISTORY_DATE: test_date
+        }
+
+        self.assertDictEqual(results, expected_results)
+
+
