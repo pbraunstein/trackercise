@@ -59,7 +59,8 @@ def taxonomy_obj_to_dict(taxonomy):
         TAXONOMY_IS_LEGS: taxonomy.is_legs,
         TAXONOMY_IS_CORE: taxonomy.is_core,
         TAXONOMY_IS_BALANCE: taxonomy.is_balance,
-        TAXONOMY_IS_CARDIO: taxonomy.is_cardio
+        TAXONOMY_IS_CARDIO: taxonomy.is_cardio,
+        TAXONOMY_IS_WEIGHT_PER_HAND: taxonomy.is_weight_per_hand
     }
 
 
