@@ -39,6 +39,9 @@ def list_history_objs_to_dicts(history_list):
 
 
 def _user_obj_to_dict(user):
+    """
+    Converts a Users object (db model) into a dictionary
+    """
     return {
         USERS_ID: user.id,
         USERS_EMAIL: user.email,
@@ -49,6 +52,9 @@ def _user_obj_to_dict(user):
 
 
 def taxonomy_obj_to_dict(taxonomy):
+    """
+    Converts a Taxonomy object (db model) into a dictionary
+    """
     return {
         TAXONOMY_NAME: taxonomy.name,
         TAXONOMY_IS_BACK: taxonomy.is_back,
@@ -65,6 +71,9 @@ def taxonomy_obj_to_dict(taxonomy):
 
 
 def history_obj_to_dict(history):
+    """
+    Converts a RepExercisesHistory object (db model) into a dictionary
+    """
     return {
         HISTORY_ID: history.id,
         HISTORY_USER_ID: history.user_id,
