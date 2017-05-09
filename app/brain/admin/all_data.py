@@ -11,7 +11,7 @@ class AllData(object):
     ---------------------------------------
     get_all_data(cls):
         -- Returns a dictionary of all of data of users, taxonomy, and history
-        -- {users: [User, ...], taxonomy: [taxonomy, ...], history: [history, ...]}
+        -- {users: [Users, ...], taxonomy: [Taxonomy, ...], history: [History, ...]}
     """
 
     @classmethod
