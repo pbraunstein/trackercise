@@ -49,7 +49,18 @@ def _user_obj_to_dict(user):
 
 
 def taxonomy_obj_to_dict(taxonomy):
-    return "plop"
+    return {
+        TAXONOMY_NAME: taxonomy.name,
+        TAXONOMY_IS_BACK: taxonomy.is_back,
+        TAXONOMY_IS_CHEST: taxonomy.is_chest,
+        TAXONOMY_IS_SHOULDERS: taxonomy.is_shoulders,
+        TAXONOMY_IS_BICEPS: taxonomy.is_biceps,
+        TAXONOMY_IS_TRICEPS: taxonomy.is_triceps,
+        TAXONOMY_IS_LEGS: taxonomy.is_legs,
+        TAXONOMY_IS_CORE: taxonomy.is_core,
+        TAXONOMY_IS_BALANCE: taxonomy.is_balance,
+        TAXONOMY_IS_CARDIO: taxonomy.is_cardio
+    }
 
 
 def history_obj_to_dict(history):
