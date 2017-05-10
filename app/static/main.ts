@@ -226,7 +226,7 @@ export class AllDataComponent {
             data => {
                 this.users = data.json().users;
                 this.taxonomy = data.json().taxonomy;
-                this.repHistory = data.json().repHistory;
+                this.repHistory = data.json().history;
             },
             err => console.log(err),
             () => console.log("lets see how this goes")
