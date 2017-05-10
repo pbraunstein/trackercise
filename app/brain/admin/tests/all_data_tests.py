@@ -3,7 +3,7 @@ import unittest
 from mock import patch
 
 from app.brain.admin.all_data import AllData
-from app.constants import USERS, TAXONOMY, HISTORY
+from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
 
 
 class AllDataTests(unittest.TestCase):
@@ -18,9 +18,9 @@ class AllDataTests(unittest.TestCase):
 
         result = AllData.get_all_data()
         expected_result = {
-            USERS: [],
-            TAXONOMY: [],
-            HISTORY: []
+            USERS_CONSTANTS.GROUP_NAME: [],
+            TAXONOMY_CONSTANTS.GROUP_NAME: [],
+            HISTORY_CONSTNATS.GROUP_NAME: []
         }
 
         self.assertEqual(result, expected_result)

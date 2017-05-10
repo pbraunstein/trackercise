@@ -1,10 +1,6 @@
 import hashlib
 
-from app.constants import USERS, TAXONOMY, HISTORY, USERS_ID, USERS_EMAIL, USERS_NICKNAME, USERS_PASSWORD,\
-    USERS_AUTHENTICATED, HISTORY_ID, HISTORY_USER_ID, HISTORY_EXERCISE_ID, HISTORY_SETS, HISTORY_REPS, HISTORY_WEIGHT,\
-    HISTORY_DATE, TAXONOMY_NAME, TAXONOMY_IS_BACK, TAXONOMY_IS_CHEST, TAXONOMY_IS_SHOULDERS, TAXONOMY_IS_BICEPS,\
-    TAXONOMY_IS_TRICEPS, TAXONOMY_IS_LEGS, TAXONOMY_IS_CORE, TAXONOMY_IS_BALANCE, TAXONOMY_IS_CARDIO,\
-    TAXONOMY_IS_WEIGHT_PER_HAND, TAXONOMY_ID
+from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
 
 
 def hash_password(password):
@@ -20,9 +16,9 @@ def prepare_history_entry(entry):
 
 
 def all_data_to_dict(all_data):
-    all_data[USERS] = list_user_objs_to_list_dicts(all_data[USERS])
-    all_data[TAXONOMY] = list_taxonomy_objs_to_dicts(all_data[TAXONOMY])
-    all_data[HISTORY] = list_history_objs_to_dicts(all_data[HISTORY])
+    all_data[USERS_CONSTANTS.GROUP_NAME] = list_user_objs_to_list_dicts(all_data[USERS_CONSTANTS.GROUP_NAME])
+    all_data[TAXONOMY_CONSTANTS.GROUP_NAME] = list_taxonomy_objs_to_dicts(all_data[TAXONOMY_CONSTANTS.GROUP_NAME])
+    all_data[HISTORY_CONSTNATS.GROUP_NAME] = list_history_objs_to_dicts(all_data[HISTORY_CONSTNATS.GROUP_NAME])
     return all_data
 
 
@@ -43,11 +39,11 @@ def _user_obj_to_dict(user):
     Converts a Users object (db model) into a dictionary
     """
     return {
-        USERS_ID: user.id,
-        USERS_EMAIL: user.email,
-        USERS_NICKNAME: user.nickname,
-        USERS_PASSWORD: user.password,
-        USERS_AUTHENTICATED: user.authenticated
+        USERS_CONSTANTS.ID: user.id,
+        USERS_CONSTANTS.EMAIL: user.email,
+        USERS_CONSTANTS.NICKNAME: user.nickname,
+        USERS_CONSTANTS.PASSWORD: user.password,
+        USERS_CONSTANTS.AUTHENTICATED: user.authenticated
     }
 
 
@@ -56,18 +52,18 @@ def _taxonomy_obj_to_dict(taxonomy):
     Converts a Taxonomy object (db model) into a dictionary
     """
     return {
-        TAXONOMY_ID: taxonomy.id,
-        TAXONOMY_NAME: taxonomy.name,
-        TAXONOMY_IS_BACK: taxonomy.is_back,
-        TAXONOMY_IS_CHEST: taxonomy.is_chest,
-        TAXONOMY_IS_SHOULDERS: taxonomy.is_shoulders,
-        TAXONOMY_IS_BICEPS: taxonomy.is_biceps,
-        TAXONOMY_IS_TRICEPS: taxonomy.is_triceps,
-        TAXONOMY_IS_LEGS: taxonomy.is_legs,
-        TAXONOMY_IS_CORE: taxonomy.is_core,
-        TAXONOMY_IS_BALANCE: taxonomy.is_balance,
-        TAXONOMY_IS_CARDIO: taxonomy.is_cardio,
-        TAXONOMY_IS_WEIGHT_PER_HAND: taxonomy.is_weight_per_hand
+        TAXONOMY_CONSTANTS.ID: taxonomy.id,
+        TAXONOMY_CONSTANTS.NAME: taxonomy.name,
+        TAXONOMY_CONSTANTS.IS_BACK: taxonomy.is_back,
+        TAXONOMY_CONSTANTS.IS_CHEST: taxonomy.is_chest,
+        TAXONOMY_CONSTANTS.IS_SHOULDERS: taxonomy.is_shoulders,
+        TAXONOMY_CONSTANTS.IS_BICEPS: taxonomy.is_biceps,
+        TAXONOMY_CONSTANTS.IS_TRICEPS: taxonomy.is_triceps,
+        TAXONOMY_CONSTANTS.IS_LEGS: taxonomy.is_legs,
+        TAXONOMY_CONSTANTS.IS_CORE: taxonomy.is_core,
+        TAXONOMY_CONSTANTS.IS_BALANCE: taxonomy.is_balance,
+        TAXONOMY_CONSTANTS.IS_CARDIO: taxonomy.is_cardio,
+        TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND: taxonomy.is_weight_per_hand
     }
 
 
@@ -76,11 +72,11 @@ def _history_obj_to_dict(history):
     Converts a RepExercisesHistory object (db model) into a dictionary
     """
     return {
-        HISTORY_ID: history.id,
-        HISTORY_USER_ID: history.user_id,
-        HISTORY_EXERCISE_ID: history.exercise_id,
-        HISTORY_SETS: history.sets,
-        HISTORY_REPS: history.reps,
-        HISTORY_WEIGHT: history.weight,
-        HISTORY_DATE: history.date
+        HISTORY_CONSTNATS.ID: history.id,
+        HISTORY_CONSTNATS.USER_ID: history.user_id,
+        HISTORY_CONSTNATS.EXERCISE_ID: history.exercise_id,
+        HISTORY_CONSTNATS.SETS: history.sets,
+        HISTORY_CONSTNATS.REPS: history.reps,
+        HISTORY_CONSTNATS.WEIGHT: history.weight,
+        HISTORY_CONSTNATS.DATE: history.date
     }

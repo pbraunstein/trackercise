@@ -49,5 +49,8 @@ module.exports = {
                 jquery: 'jquery'
             }
         )
-    ]
+    ],
+  resolve: {
+    extensions: ['.ts', '.js']
+  }
 };

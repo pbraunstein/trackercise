@@ -2,11 +2,7 @@ import unittest
 from datetime import date
 
 from app.brain.utilities import prepare_history_entry, _user_obj_to_dict, _taxonomy_obj_to_dict, _history_obj_to_dict
-from app.constants import USERS_ID, USERS_EMAIL, USERS_NICKNAME, USERS_PASSWORD,\
-    USERS_AUTHENTICATED, HISTORY_ID, HISTORY_USER_ID, HISTORY_EXERCISE_ID, HISTORY_SETS, HISTORY_REPS, HISTORY_WEIGHT,\
-    HISTORY_DATE, TAXONOMY_NAME, TAXONOMY_IS_BACK, TAXONOMY_IS_CHEST, TAXONOMY_IS_SHOULDERS, TAXONOMY_IS_BICEPS,\
-    TAXONOMY_IS_TRICEPS, TAXONOMY_IS_LEGS, TAXONOMY_IS_CORE, TAXONOMY_IS_BALANCE, TAXONOMY_IS_CARDIO,\
-    TAXONOMY_IS_WEIGHT_PER_HAND, TAXONOMY_ID
+from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
 from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
 
@@ -39,11 +35,11 @@ class UtilitiesTests(unittest.TestCase):
 
         result = _user_obj_to_dict(user_obj)
         expected_result = {
-            USERS_ID: test_id,
-            USERS_EMAIL: test_email,
-            USERS_NICKNAME: test_nickname,
-            USERS_PASSWORD: test_password,
-            USERS_AUTHENTICATED: False
+            USERS_CONSTANTS.ID: test_id,
+            USERS_CONSTANTS.EMAIL: test_email,
+            USERS_CONSTANTS.NICKNAME: test_nickname,
+            USERS_CONSTANTS.PASSWORD: test_password,
+            USERS_CONSTANTS.AUTHENTICATED: False
         }
 
         self.assertDictEqual(result, expected_result)
@@ -81,18 +77,18 @@ class UtilitiesTests(unittest.TestCase):
         result = _taxonomy_obj_to_dict(taxonomy_obj)
 
         expected_result = {
-            TAXONOMY_ID: test_id,
-            TAXONOMY_NAME: test_name,
-            TAXONOMY_IS_BACK: test_is_back,
-            TAXONOMY_IS_CHEST: test_is_chest,
-            TAXONOMY_IS_SHOULDERS: test_is_shoulders,
-            TAXONOMY_IS_BICEPS: test_is_biceps,
-            TAXONOMY_IS_TRICEPS: test_is_triceps,
-            TAXONOMY_IS_LEGS: test_is_legs,
-            TAXONOMY_IS_CORE: test_is_core,
-            TAXONOMY_IS_BALANCE: test_is_balance,
-            TAXONOMY_IS_CARDIO: test_is_cardio,
-            TAXONOMY_IS_WEIGHT_PER_HAND: test_is_weight_per_hand
+            TAXONOMY_CONSTANTS.ID: test_id,
+            TAXONOMY_CONSTANTS.NAME: test_name,
+            TAXONOMY_CONSTANTS.IS_BACK: test_is_back,
+            TAXONOMY_CONSTANTS.IS_CHEST: test_is_chest,
+            TAXONOMY_CONSTANTS.IS_SHOULDERS: test_is_shoulders,
+            TAXONOMY_CONSTANTS.IS_BICEPS: test_is_biceps,
+            TAXONOMY_CONSTANTS.IS_TRICEPS: test_is_triceps,
+            TAXONOMY_CONSTANTS.IS_LEGS: test_is_legs,
+            TAXONOMY_CONSTANTS.IS_CORE: test_is_core,
+            TAXONOMY_CONSTANTS.IS_BALANCE: test_is_balance,
+            TAXONOMY_CONSTANTS.IS_CARDIO: test_is_cardio,
+            TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND: test_is_weight_per_hand
         }
 
         self.assertDictEqual(result, expected_result)
@@ -120,13 +116,13 @@ class UtilitiesTests(unittest.TestCase):
         results = _history_obj_to_dict(history_obj)
 
         expected_results = {
-            HISTORY_ID: test_id,
-            HISTORY_USER_ID: test_user_id,
-            HISTORY_EXERCISE_ID: test_exercise_id,
-            HISTORY_SETS: test_sets,
-            HISTORY_REPS: test_reps,
-            HISTORY_WEIGHT: test_weight,
-            HISTORY_DATE: test_date
+            HISTORY_CONSTNATS.ID: test_id,
+            HISTORY_CONSTNATS.USER_ID: test_user_id,
+            HISTORY_CONSTNATS.EXERCISE_ID: test_exercise_id,
+            HISTORY_CONSTNATS.SETS: test_sets,
+            HISTORY_CONSTNATS.REPS: test_reps,
+            HISTORY_CONSTNATS.WEIGHT: test_weight,
+            HISTORY_CONSTNATS.DATE: test_date
         }
 
         self.assertDictEqual(results, expected_results)
