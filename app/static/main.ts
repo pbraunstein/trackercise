@@ -10,6 +10,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {HttpModule} from "@angular/http";
 import {AllDataComponent} from "./components/alldata/alldata";
 import {LoginComponent} from "./components/login/login";
+import {FormsModule} from "@angular/forms";
 
 @Component({
     selector: 'application-component',
@@ -25,7 +26,7 @@ export class ApplicationComponent {
 }
 
 @NgModule({
-    imports: [BrowserModule, HttpModule],
+    imports: [BrowserModule, HttpModule, FormsModule],
     declarations: [ApplicationComponent, AllDataComponent, LoginComponent],
     bootstrap:[ApplicationComponent]
 })

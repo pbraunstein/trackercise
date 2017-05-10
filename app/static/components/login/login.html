@@ -1,12 +1,12 @@
 <h2>Login</h2>
-<form class="form-inline">
+<form class="form-inline" #login="ngForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
         <label for="emailEntry">Email address</label>
-        <input type="email" class="form-control" id="emailEntry" placeholder="Enter your email">
+        <input type="email" class="form-control" id="emailEntry" placeholder="Enter your email" ngModel [ngModelOptions]="{standalone: true}">
     </div>
     <div class="form-group">
         <label for="passwordEntry">Password</label>
-        <input type="password" class="form-control" id="passwordEntry" placeholder="Enter your password">
+        <input type="password" class="form-control" id="passwordEntry" placeholder="Enter your password" ngModel [ngModelOptions]="{standalone: true}">
     </div>
     <button type="submit" class="btn btn-primary">Login</button>
 </form>

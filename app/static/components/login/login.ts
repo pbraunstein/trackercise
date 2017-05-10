@@ -5,5 +5,7 @@ import {Component} from "@angular/core";
     templateUrl: '/static/components/login/login.html'
 })
 export class LoginComponent{
-
+    onSubmit() {
+        console.log("form submitted!");
+    }
 }
