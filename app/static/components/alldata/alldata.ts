@@ -24,7 +24,6 @@ export class AllDataComponent {
                 this.repHistory = data.json().history;
             },
             err => console.log(err),
-            () => console.log("lets see how this goes")
         );
     }
 }
