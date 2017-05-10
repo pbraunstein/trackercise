@@ -18,9 +18,9 @@ class AllDataTests(unittest.TestCase):
 
         result = AllData.get_all_data()
         expected_result = {
-            USERS_CONSTANTS.NAME: [],
+            USERS_CONSTANTS.GROUP_NAME: [],
             TAXONOMY_CONSTANTS.GROUP_NAME: [],
-            HISTORY_CONSTNATS.NAME: []
+            HISTORY_CONSTNATS.GROUP_NAME: []
         }
 
         self.assertEqual(result, expected_result)

@@ -1,6 +1,6 @@
 # Classes used to group constants
 class USERS_CONSTANTS:
-    NAME = 'users'
+    GROUP_NAME = 'users'
     ID = 'users_id'
     EMAIL = 'users_email'
     NICKNAME = 'users_nickname'
@@ -25,7 +25,7 @@ class TAXONOMY_CONSTANTS:
 
 
 class HISTORY_CONSTNATS:
-    NAME = 'history'
+    GROUP_NAME = 'history'
     ID = 'history_id'
     USER_ID = 'history_user_id'
     EXERCISE_ID = 'history_exercise_id'

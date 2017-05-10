@@ -16,9 +16,9 @@ def prepare_history_entry(entry):
 
 
 def all_data_to_dict(all_data):
-    all_data[USERS_CONSTANTS.NAME] = list_user_objs_to_list_dicts(all_data[USERS_CONSTANTS.NAME])
+    all_data[USERS_CONSTANTS.GROUP_NAME] = list_user_objs_to_list_dicts(all_data[USERS_CONSTANTS.GROUP_NAME])
     all_data[TAXONOMY_CONSTANTS.GROUP_NAME] = list_taxonomy_objs_to_dicts(all_data[TAXONOMY_CONSTANTS.GROUP_NAME])
-    all_data[HISTORY_CONSTNATS.NAME] = list_history_objs_to_dicts(all_data[HISTORY_CONSTNATS.NAME])
+    all_data[HISTORY_CONSTNATS.GROUP_NAME] = list_history_objs_to_dicts(all_data[HISTORY_CONSTNATS.GROUP_NAME])
     return all_data
 
 
