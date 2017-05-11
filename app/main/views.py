@@ -2,7 +2,7 @@ from json import dumps
 from random import randint
 from os.path import dirname, join
 
-from flask import flash, redirect, render_template, url_for, send_file
+from flask import flash, redirect, render_template, url_for, send_file, request
 from flask_login import login_required, logout_user, current_user
 
 from app.brain.admin.all_data import AllData
@@ -134,6 +134,9 @@ def add_rep_taxonomy():
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
+    # TODO: Remove - debug
+    import ipdb;ipdb.set_trace()
+    # TODO: Remove - debug
     form = LoginForm()
     if form.validate_on_submit():
         login_result = Loginerator.login(form.email.data, form.password.data)
