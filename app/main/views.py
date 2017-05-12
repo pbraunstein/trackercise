@@ -146,15 +146,15 @@ def login():
         return dumps({'status': 'bad'})
 
 
-@main.route('who-am-i', methods=['GET', 'POST'])
+@main.route('/who-am-i', methods=['GET', 'POST'])
 def who_am_i():
-    if current_user is None:
+    if current_user.is_authenticated:
         return dumps({
-            'user': ''
+            'user': current_user.nickname
         })
     else:
         return dumps({
-            'user': current_user.nickname
+            'user': ''
         })
 
 
