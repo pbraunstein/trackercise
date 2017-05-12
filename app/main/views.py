@@ -146,6 +146,18 @@ def login():
         return dumps({'status': 'bad'})
 
 
+@main.route('who-am-i', methods=['GET', 'POST'])
+def who_am_i():
+    if current_user is None:
+        return dumps({
+            'user': ''
+        })
+    else:
+        return dumps({
+            'user': current_user.nickname
+        })
+
+
 @main.route('/logout', methods=['GET', 'POST'])
 def logout():
     flash('You have been logged out')
