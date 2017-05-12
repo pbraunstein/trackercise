@@ -25,6 +25,14 @@ class UsersService(object):
         return db.session.query(Users).filter(Users.email == email).first()
 
     @staticmethod
+    def mark_user_as_authenticated(user):
+        db.session.query(Users).filter(Users.id == user.id).update({Users.authenticated: True})
+
+    @staticmethod
+    def mark_user_as_not_authenticated(user):
+        db.session.query(Users).filter(Users.id == user.id).update({Users.authenticated: False})
+
+    @staticmethod
     def add_user_to_database(new_user):
         db.session.add(new_user)
         db.session.commit()
