@@ -7,6 +7,7 @@ import {Http} from "@angular/http";
 })
 export class CurrentUserComponent {
     private endpoint: Observable<any>;
+    private currentUser: string;
 
     constructor(private http: Http) {
         this.endpoint = http.get('/who-am-i')
@@ -14,7 +15,10 @@ export class CurrentUserComponent {
 
     ngOnInit() {
         this.endpoint.subscribe(
-            data => console.log(data),
+            data => {
+                console.log(data);
+                this.currentUser = data.json().user;
+            },
             err => console.log(err)
         )
     }
