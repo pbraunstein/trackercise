@@ -11,8 +11,14 @@ class UsersService(object):
     get_user_with_email(email):
         -- Returns the Users with the email passed in. Returns None if no user exists with the given email
 
+    mark_user_as_authenticated(user):
+        -- Updates the authenticated column to True for the user passed in
+
+    mark_user_as_not_authenticated(user):
+        -- Updates the authenticated column to False for the user passed in
+
     add_user_to_database(new_user):
-        -- Adds a user to the database
+        -- Adds a user to the database. The argument passed in is of type Users.
 
     user_with_email_already_exists(email):
         -- Returns True if a user with that email already exists. Otherwise returns False.
