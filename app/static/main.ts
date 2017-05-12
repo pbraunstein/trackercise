@@ -12,6 +12,7 @@ import {AllDataComponent} from "./components/alldata/alldata";
 import {LoginComponent} from "./components/login/login";
 import {FormsModule} from "@angular/forms";
 import {CurrentUserComponent} from "./components/currentuser/currentuser";
+import {LogoutComponent} from "./components/logout/logout";
 
 @Component({
     selector: 'application-component',
@@ -19,6 +20,7 @@ import {CurrentUserComponent} from "./components/currentuser/currentuser";
                 <div class="container">
                     <current-user></current-user>
                     <login></login>
+                    <logout></logout>
                     <all-data></all-data>
                 </div>
               `
@@ -29,7 +31,7 @@ export class ApplicationComponent {
 
 @NgModule({
     imports: [BrowserModule, HttpModule, FormsModule],
-    declarations: [ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent],
+    declarations: [ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, LogoutComponent],
     bootstrap:[ApplicationComponent]
 })
 export class TrackercizeModule {
