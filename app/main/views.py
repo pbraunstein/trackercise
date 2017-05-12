@@ -160,9 +160,8 @@ def who_am_i():
 
 @main.route('/logout', methods=['GET', 'POST'])
 def logout():
-    flash('You have been logged out')
     logout_user()
-    return redirect(url_for('.login'))
+    return dumps({})
 
 
 @main.route('/register', methods=['GET', 'POST'])
