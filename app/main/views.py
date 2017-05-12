@@ -138,7 +138,10 @@ def login():
     password = request.args.get('password')
     login_result = Loginerator.login(email, password)
     if login_result == LoginResult.LOGGED_IN:
-        return dumps({'status': 'good'})
+        return dumps({
+            'status': 'good',
+            'user_logged_in': current_user.nickname
+        })
     else:
         return dumps({'status': 'bad'})
 
