@@ -134,9 +134,6 @@ def add_rep_taxonomy():
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-    # TODO: Remove - debug
-    import ipdb;ipdb.set_trace()
-    # TODO: Remove - debug
     form = LoginForm()
     if form.validate_on_submit():
         login_result = Loginerator.login(form.email.data, form.password.data)

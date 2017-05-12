@@ -12,11 +12,10 @@ export class LoginComponent{
     constructor(private http: Http) {
     }
 
-    onSubmit() {
-        console.log("form submitted!");
+    onSubmit(value: any) {
         let params: URLSearchParams = new URLSearchParams();
-        params.set('hi', "Hallo");
-        params.set('bye', "Tschuess");
+        params.set('email', value.login_email);
+        params.set('password', value.login_password);
         this.endpoint = this.http.get('/login', {
             search: params
         });
