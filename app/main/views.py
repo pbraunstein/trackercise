@@ -134,19 +134,13 @@ def add_rep_taxonomy():
 
 @main.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        login_result = Loginerator.login(form.email.data, form.password.data)
-        if login_result == LoginResult.NO_SUCH_USER:
-            flash('We do not have a user of that username')
-        elif login_result == LoginResult.INCORRECT_PASSWORD:
-            flash('Incorrect password')
-        elif login_result == LoginResult.LOGGED_IN:
-            flash('Successful Login')
-            return redirect('/')
-        else:
-            raise ThisShouldNeverHappenException('Invalid LoginResult Returned {0}'.format(login_result))
-    return render_template('login.html', form=form)
+    email = request.args.get('email')
+    password = request.args.get('password')
+    login_result = Loginerator.login(email, password)
+    if login_result == LoginResult.LOGGED_IN:
+        return dumps({'status': 'good'})
+    else:
+        return dumps({'status': 'bad'})
 
 
 @main.route('/logout', methods=['GET', 'POST'])
