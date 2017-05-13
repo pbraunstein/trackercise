@@ -42,8 +42,9 @@ def status():
     return dumps({'status': 'good'})
 
 
-@login_required
 def user_data():
+    if not current_user.is_authenticated:
+        return dumps({'status': 'bad'})
     return render_template('user_data.html', context=UserData.get_user_data())
 
 
