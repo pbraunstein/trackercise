@@ -7,7 +7,6 @@ from flask_login import login_required, current_user
 
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
-from app.brain.custom_exceptions import ThisShouldNeverHappenException
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
 from app.brain.user_management.loginerator import Loginerator
 from app.brain.user_management.login_result import LoginResult
@@ -15,7 +14,7 @@ from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict
 from app.main import main_blueprint as main
-from app.main.forms import AddRepHistoryForm, RegisterForm, AddRepTaxonomyForm, UserSpecificExerciseForm
+from app.main.forms import AddRepHistoryForm, AddRepTaxonomyForm, UserSpecificExerciseForm
 
 
 @main.route('/')
