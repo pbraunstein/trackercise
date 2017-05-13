@@ -9,7 +9,7 @@ export class UserDataComponent {
     private endpoint: Observable<any>
 
     constructor(private http: Http) {
-        this.endpoint.get('/user-data')
+        this.endpoint = http.get('/user-data')
     }
 
     ngOnInit() {
