@@ -22,7 +22,7 @@ class UsersServiceTests(ServiceTestCase):
 
     # mark_user_as_not_authenticated tests #
     def test_mark_user_as_not_authenticated(self):
-        email='phil@phil.phil'
+        email = 'phil@phil.phil'
         user = Users(
             email=email,
             nickname='phil',
