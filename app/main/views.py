@@ -15,7 +15,7 @@ from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict
 from app.main import main_blueprint as main
-from app.main.forms import AddRepHistoryForm, LoginForm, RegisterForm, AddRepTaxonomyForm, UserSpecificExerciseForm
+from app.main.forms import AddRepHistoryForm, RegisterForm, AddRepTaxonomyForm, UserSpecificExerciseForm
 
 
 @main.route('/')
