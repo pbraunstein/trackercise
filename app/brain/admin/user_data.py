@@ -1,6 +1,7 @@
 from flask_login import current_user
 
 from app.brain.utilities import prepare_history_entry
+from app.constants import HISTORY_CONSTNATS
 from app.service import RepExercisesHistoryService, RepExercisesTaxonomyService
 
 
@@ -17,9 +18,9 @@ class UserData(object):
     @classmethod
     def get_user_data(cls):
         user_data = {'nickname': cls._get_current_user_nickname(), 'user_id': cls._get_current_user_id(),
-                     'rep_history': cls._get_user_rep_history()}
+                     HISTORY_CONSTNATS.GROUP_NAME: cls._get_user_rep_history()}
         user_data['rep_taxonomies'] = cls._get_taxonomies_for_exercises(
-            cls._convert_rep_exercises_to_exercise_ids(user_data['rep_history'])
+            cls._convert_rep_exercises_to_exercise_ids(user_data[HISTORY_CONSTNATS.GROUP_NAME])
         )
         return user_data
 
