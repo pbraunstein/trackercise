@@ -21,6 +21,7 @@ import {RegisterComponent} from "./components/register/register";
                 <div class="container">
                     <current-user></current-user>
                     <login></login>
+                    <register></register>
                     <logout></logout>
                     <all-data></all-data>
                 </div>
