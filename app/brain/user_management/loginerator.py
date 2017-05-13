@@ -36,6 +36,8 @@ class Loginerator(object):
 
     @staticmethod
     def logout():
+        if not current_user.is_authenticated:
+            return
         UsersService.mark_user_as_not_authenticated(
             UsersService.get_user_with_email(
                 current_user.email

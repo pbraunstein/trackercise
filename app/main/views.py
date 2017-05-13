@@ -7,7 +7,6 @@ from flask_login import login_required, current_user
 
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
-from app.brain.custom_exceptions import ThisShouldNeverHappenException
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
 from app.brain.user_management.loginerator import Loginerator
 from app.brain.user_management.login_result import LoginResult
@@ -15,7 +14,7 @@ from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict
 from app.main import main_blueprint as main
-from app.main.forms import AddRepHistoryForm, RegisterForm, AddRepTaxonomyForm, UserSpecificExerciseForm
+from app.main.forms import AddRepHistoryForm, AddRepTaxonomyForm, UserSpecificExerciseForm
 
 
 @main.route('/')
@@ -166,16 +165,11 @@ def logout():
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        reg_result = RegisterCity.register(form.email.data, form.nickname.data, form.password.data)
-        if reg_result == RegisterResult.INVALID_EMAIL:
-            flash('Email not valid')
-        elif reg_result == RegisterResult.EMAIL_ALREADY_EXISTS:
-            flash('Email already exists')
-        elif reg_result == RegisterResult.REGISTERED:
-            flash('New user registered successfully')
-            return redirect('/login')
-        else:
-            raise ThisShouldNeverHappenException("Invalid RegisterResult Returned {0}".format(reg_result))
-    return render_template('register.html', form=form)
+    email = request.args.get('email')
+    nickname = request.args.get('nickname')
+    password = request.args.get('password')
+    reg_result = RegisterCity.register(email, nickname, password)
+    if reg_result == RegisterResult.REGISTERED:
+        return dumps({'status': 'good'})
+    else:
+        return dumps({'status': 'bad'})
