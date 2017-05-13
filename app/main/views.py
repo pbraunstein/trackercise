@@ -42,6 +42,7 @@ def status():
     return dumps({'status': 'good'})
 
 
+@main.route('/user-data')
 def user_data():
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'})
