@@ -14,6 +14,7 @@ import {FormsModule} from "@angular/forms";
 import {CurrentUserComponent} from "./components/currentuser/currentuser";
 import {LogoutComponent} from "./components/logout/logout";
 import {RegisterComponent} from "./components/register/register";
+import {UserDataComponent} from "./components/userdata/userdata";
 
 @Component({
     selector: 'application-component',
@@ -23,6 +24,7 @@ import {RegisterComponent} from "./components/register/register";
                     <login></login>
                     <register></register>
                     <logout></logout>
+                    <user-data></user-data>
                     <all-data></all-data>
                 </div>
               `
@@ -34,7 +36,8 @@ export class ApplicationComponent {
 @NgModule({
     imports: [BrowserModule, HttpModule, FormsModule],
     declarations: [
-        ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, LogoutComponent, RegisterComponent
+        ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, LogoutComponent,
+        RegisterComponent, UserDataComponent
     ],
     bootstrap:[ApplicationComponent]
 })

@@ -9,7 +9,6 @@ export class RegisterComponent {
     private endpoint: Observable<any>;
 
     constructor(private http: Http){
-
     }
 
     onSubmit(value: any) {

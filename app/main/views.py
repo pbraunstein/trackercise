@@ -12,7 +12,7 @@ from app.brain.user_management.loginerator import Loginerator
 from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
-from app.brain.utilities import all_data_to_dict
+from app.brain.utilities import all_data_to_dict, user_data_to_dict
 from app.main import main_blueprint as main
 from app.main.forms import AddRepHistoryForm, AddRepTaxonomyForm, UserSpecificExerciseForm
 
@@ -42,9 +42,11 @@ def status():
     return dumps({'status': 'good'})
 
 
-@login_required
+@main.route('/user-data')
 def user_data():
-    return render_template('user_data.html', context=UserData.get_user_data())
+    if not current_user.is_authenticated:
+        return dumps({'status': 'bad'})
+    return dumps(user_data_to_dict(UserData.get_user_data()))
 
 
 @main.route('/history-by-taxonomy', methods=['GET', 'POST'])
