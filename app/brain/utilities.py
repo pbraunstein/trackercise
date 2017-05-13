@@ -21,6 +21,9 @@ def all_data_to_dict(all_data):
     all_data[HISTORY_CONSTNATS.GROUP_NAME] = list_history_objs_to_dicts(all_data[HISTORY_CONSTNATS.GROUP_NAME])
     return all_data
 
+def user_data_to_dict(user_data):
+    pass
+
 
 def list_user_objs_to_list_dicts(user_list):
     return [_user_obj_to_dict(x) for x in user_list]
