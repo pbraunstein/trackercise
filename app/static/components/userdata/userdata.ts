@@ -6,7 +6,9 @@ import {Http} from "@angular/http";
     templateUrl: '/static/components/userdata/userdata.html'
 })
 export class UserDataComponent {
-    private endpoint: Observable<any>
+    private endpoint: Observable<any>;
+    private taxonomy: Array<any>;
+    private history: Array<any>;
 
     constructor(private http: Http) {
         this.endpoint = http.get('/user-data')
@@ -14,7 +16,12 @@ export class UserDataComponent {
 
     ngOnInit() {
         this.endpoint.subscribe(
-            data => console.log(data),
+            data => {
+                this.taxonomy = data.json().taxonomy;
+                this.history = data.json().history;
+                console.log(this.taxonomy)
+                console.log(this.history);
+            },
             err => console.log(err)
         )
     }
