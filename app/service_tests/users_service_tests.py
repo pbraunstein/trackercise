@@ -6,16 +6,14 @@ from app.service_tests.service_test_case import ServiceTestCase
 class UsersServiceTests(ServiceTestCase):
     # mark_user_as_authenticated tests #
     def test_mark_user_as_authenticated(self):
-        email='phil@phil.phil'
+        email = 'phil@phil.phil'
         user = Users(
             email=email,
             nickname='phil',
             password='pass'
         )
         UsersService.add_user_to_database(user)
-
         UsersService.mark_user_as_authenticated(user)
-
         user_again = UsersService.get_user_with_email(email)
 
         self.assertTrue(user_again.authenticated)
@@ -29,15 +27,12 @@ class UsersServiceTests(ServiceTestCase):
             password='pass'
         )
         UsersService.add_user_to_database(user)
-
         UsersService.mark_user_as_authenticated(user)
-
         user_again = UsersService.get_user_with_email(email)
 
         self.assertTrue(user_again.authenticated)  # need to make sure user gets authenticated in the first place
 
         UsersService.mark_user_as_not_authenticated(user_again)
-
         users_again_again = UsersService.get_user_with_email(email)
 
         self.assertFalse(users_again_again.authenticated)
