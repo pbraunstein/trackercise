@@ -24,7 +24,8 @@ class LogineratorTests(unittest.TestCase):
     @patch('app.brain.user_management.loginerator.login_user')
     @patch('app.brain.user_management.loginerator.hash_password')
     @patch('app.brain.user_management.loginerator.UsersService.get_user_with_email')
-    def test_login_success(self, get_user_mock, hash_mock, login_mock):
+    @patch('app.brain.user_management.loginerator.UsersService.mark_user_as_authenticated')
+    def test_login_success(self, authentication_mock, get_user_mock, hash_mock, login_mock):
         hash_mock.return_value = 'abcdef1234'
         type(get_user_mock.return_value).password = PropertyMock(return_value='abcdef1234')
         result = Loginerator.login('test@test.test', 'super_secret_password')

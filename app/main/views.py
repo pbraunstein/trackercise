@@ -2,8 +2,8 @@ from json import dumps
 from random import randint
 from os.path import dirname, join
 
-from flask import flash, redirect, render_template, url_for, send_file, request
-from flask_login import login_required, logout_user, current_user
+from flask import flash, redirect, render_template, send_file, request
+from flask_login import login_required, current_user
 
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
@@ -160,7 +160,7 @@ def who_am_i():
 
 @main.route('/logout', methods=['GET', 'POST'])
 def logout():
-    logout_user()
+    Loginerator.logout()
     return dumps({})
 
 
