@@ -8,7 +8,7 @@ import {Http, URLSearchParams} from "@angular/http";
 export class RegisterComponent {
     private endpoint: Observable<any>;
 
-    constructor(private http: Http){
+    constructor(private http: Http) {
     }
 
     onSubmit(value: any) {

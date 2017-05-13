@@ -1,0 +1,38 @@
+<h2>Add Taxonomy</h2>
+<form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
+    <div class="form-group">
+        <label for="exerciseName">Exercise Name</label>
+        <input type="text" id="exerciseName" class="form-control" name="taxonomy_name" placeholder="Exercise Name" ngModel>
+    </div>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="is_back" ngModel> is_back
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="is_chest" ngModel> is_chest
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="is_shoulders" ngModel> is_shoulders
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="is_biceps" ngModel> is_biceps
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="is_triceps" ngModel> is_triceps
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="is_legs" ngModel> is_legs
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="is_core" ngModel> is_core
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="is_balance" ngModel> is_balance
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="is_cardio" ngModel> is_cardio
+    </label>
+    <label class="checkbox-inline">
+        <input type="checkbox" name="is_weight_per_hand" ngModel> is_weight_per_hand
+    </label>
+    <button type="submit" class="btn btn-warning">Register</button>
+</form>
