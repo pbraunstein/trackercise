@@ -166,16 +166,11 @@ def logout():
 
 @main.route('/register', methods=['GET', 'POST'])
 def register():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        reg_result = RegisterCity.register(form.email.data, form.nickname.data, form.password.data)
-        if reg_result == RegisterResult.INVALID_EMAIL:
-            flash('Email not valid')
-        elif reg_result == RegisterResult.EMAIL_ALREADY_EXISTS:
-            flash('Email already exists')
-        elif reg_result == RegisterResult.REGISTERED:
-            flash('New user registered successfully')
-            return redirect('/login')
-        else:
-            raise ThisShouldNeverHappenException("Invalid RegisterResult Returned {0}".format(reg_result))
-    return render_template('register.html', form=form)
+    email = request.args.get('email')
+    nickname = request.args.get('nickname')
+    password = request.args.get('password')
+    reg_result = RegisterCity.register(email, nickname, password)
+    if reg_result == RegisterResult.REGISTERED:
+        return dumps({'status': 'good'})
+    else:
+        return dumps({'status': 'bad'})
