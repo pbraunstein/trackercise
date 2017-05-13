@@ -8,10 +8,6 @@ class UserForm(Form):
     submit = SubmitField()
 
 
-class LoginForm(UserForm):
-    password = PasswordField(label="Enter Your Password", validators=[validators.DataRequired()])
-
-
 class RegisterForm(UserForm):
     nickname = StringField(label="What do you like to be called?", validators=[validators.DataRequired()])
     password = PasswordField(label="Create a Password", validators=[validators.DataRequired()])
