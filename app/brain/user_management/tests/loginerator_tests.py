@@ -39,3 +39,12 @@ class LogineratorTests(unittest.TestCase):
         type(current_user_mock).is_authenticated = PropertyMock(return_value=False)
         Loginerator.logout()
         self.assertFalse(deauthentication_mock.called)
+
+    @patch('app.brain.user_management.loginerator.logout_user')
+    @patch('app.brain.user_management.loginerator.current_user')
+    @patch('app.brain.user_management.loginerator.UsersService.mark_user_as_not_authenticated')
+    @patch('app.brain.user_management.loginerator.UsersService.get_user_with_email')
+    def test_logout_with_user_logged_in(self, get_user_mock, deauthentication_mock, current_user_mock, logout_mock):
+        type(current_user_mock).is_authenticated = PropertyMock(return_value=True)
+        Loginerator.logout()
+        self.assertTrue(deauthentication_mock.called)
