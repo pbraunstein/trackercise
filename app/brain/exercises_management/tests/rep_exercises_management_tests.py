@@ -3,6 +3,7 @@ from datetime import date
 
 from mock import patch
 
+from app.brain.custom_exceptions import ThisShouldNeverHappenException
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
 from app.models import RepExercisesTaxonomy, RepExercisesHistory
 
@@ -230,3 +231,14 @@ class RepExercisesManagementTests(unittest.TestCase):
 
         # make sure the service method was called
         db_mock.assert_called_once_with(actual_entry)
+
+    # convert_ts_strings_to_booleans test #
+    def test_convert_ts_strings_to_booleans_false(self):
+        self.assertFalse(RepExercisesManagement.convert_ts_strings_to_booleans('false'))
+
+    def test_convert_ts_strings_to_booleans_true(self):
+        self.assertTrue(RepExercisesManagement.convert_ts_strings_to_booleans('true'))
+
+    def test_convert_ts_strings_to_booleans_invalid_input(self):
+        with self.assertRaises(ThisShouldNeverHappenException):
+            RepExercisesManagement.convert_ts_strings_to_booleans('True')
