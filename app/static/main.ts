@@ -16,6 +16,7 @@ import {LogoutComponent} from "./components/logout/logout";
 import {RegisterComponent} from "./components/register/register";
 import {UserDataComponent} from "./components/userdata/userdata";
 import {AddTaxonomyComponent} from "./components/addtaxonomy/addtaxonomy";
+import {AddHistoryComponent} from "./components/addhistory/addhistory";
 
 @Component({
     selector: 'application-component',
@@ -26,6 +27,7 @@ import {AddTaxonomyComponent} from "./components/addtaxonomy/addtaxonomy";
                     <register></register>
                     <logout></logout>
                     <add-taxonomy></add-taxonomy>
+                    <add-history></add-history>
                     <user-data></user-data>
                     <all-data></all-data>
                 </div>
@@ -39,7 +41,7 @@ export class ApplicationComponent {
     imports: [BrowserModule, HttpModule, FormsModule],
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, LogoutComponent,
-        RegisterComponent, UserDataComponent, AddTaxonomyComponent
+        RegisterComponent, UserDataComponent, AddTaxonomyComponent, AddHistoryComponent
     ],
     bootstrap:[ApplicationComponent]
 })
