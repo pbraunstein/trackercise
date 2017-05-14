@@ -13,7 +13,7 @@ export class AddTaxonomyComponent {
 
     onSubmit(value: any) {
         let params: URLSearchParams = new URLSearchParams();
-        params.set('taxonomy_name', AddTaxonomyComponent.booleanize(value.taxonomy_name));
+        params.set('taxonomy_name', value.taxonomy_name);
         params.set('taxonomy_is_back', AddTaxonomyComponent.booleanize(value.is_back));
         params.set('taxonomy_is_chest', AddTaxonomyComponent.booleanize(value.is_chest));
         params.set('taxonomy_is_shoulders', AddTaxonomyComponent.booleanize(value.is_shoulders));
