@@ -102,29 +102,29 @@ def add_rep_history():
 
 @main.route('/add-rep-taxonomy', methods=['GET', 'POST'])
 def add_rep_taxonomy():
-    def convert_ts_boolean_strings(input):
-        if input == 'false':
-            return False
-        elif input == 'true':
-            return True
-        else:
-            raise ThisShouldNeverHappenException('Unexpected boolean value received')
-
     if not request.args.get(TAXONOMY_CONSTANTS.NAME):  # This is the only required field
         return dumps({'status': 'bad'})
 
     RepExercisesManagement.submit_taxonomy_entry(
         name=request.args.get(TAXONOMY_CONSTANTS.NAME).upper(),
-        is_back=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_BACK)),
-        is_chest=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_CHEST)),
-        is_shoulders=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_SHOULDERS)),
-        is_biceps=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_BICEPS)),
-        is_triceps=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_TRICEPS)),
-        is_legs=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_LEGS)),
-        is_core=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_CORE)),
-        is_balance=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_BALANCE)),
-        is_cardio=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_CARDIO)),
-        is_weight_per_hand=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND))
+        is_back=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_BACK)),
+        is_chest=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_CHEST)),
+        is_shoulders=RepExercisesManagement.convert_ts_strings_to_booleans(
+            request.args.get(TAXONOMY_CONSTANTS.IS_SHOULDERS)
+        ),
+        is_biceps=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_BICEPS)),
+        is_triceps=RepExercisesManagement.convert_ts_strings_to_booleans(
+            request.args.get(TAXONOMY_CONSTANTS.IS_TRICEPS)
+        ),
+        is_legs=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_LEGS)),
+        is_core=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_CORE)),
+        is_balance=RepExercisesManagement.convert_ts_strings_to_booleans(
+            request.args.get(TAXONOMY_CONSTANTS.IS_BALANCE)
+        ),
+        is_cardio=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_CARDIO)),
+        is_weight_per_hand=RepExercisesManagement.convert_ts_strings_to_booleans(
+            request.args.get(TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND)
+        )
     )
     return dumps({'status': 'good'})
 
