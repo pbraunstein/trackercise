@@ -13,8 +13,9 @@ from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict, user_data_to_dict
+from app.constants import TAXONOMY_CONSTANTS
 from app.main import main_blueprint as main
-from app.main.forms import AddRepHistoryForm, AddRepTaxonomyForm, UserSpecificExerciseForm
+from app.main.forms import AddRepHistoryForm, UserSpecificExerciseForm
 
 
 @main.route('/')
@@ -99,38 +100,32 @@ def add_rep_history():
 
 
 @main.route('/add-rep-taxonomy', methods=['GET', 'POST'])
-@login_required
 def add_rep_taxonomy():
-    form = AddRepTaxonomyForm()
-    if form.validate_on_submit():
-        RepExercisesManagement.submit_taxonomy_entry(
-            name=form.name.data.upper(),
-            is_back=form.is_back.data,
-            is_chest=form.is_chest.data,
-            is_shoulders=form.is_shoulders.data,
-            is_biceps=form.is_biceps.data,
-            is_triceps=form.is_triceps.data,
-            is_legs=form.is_legs.data,
-            is_core=form.is_core.data,
-            is_balance=form.is_balance.data,
-            is_cardio=form.is_cardio.data,
-            is_weight_per_hand=form.is_weight_per_hand.data
+    if not request.args.get(TAXONOMY_CONSTANTS.NAME):  # This is the only required field
+        return dumps({'status': 'bad'})
+
+    RepExercisesManagement.submit_taxonomy_entry(
+        name=request.args.get(TAXONOMY_CONSTANTS.NAME).upper(),
+        is_back=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_BACK)),
+        is_chest=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_CHEST)),
+        is_shoulders=RepExercisesManagement.convert_ts_strings_to_booleans(
+            request.args.get(TAXONOMY_CONSTANTS.IS_SHOULDERS)
+        ),
+        is_biceps=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_BICEPS)),
+        is_triceps=RepExercisesManagement.convert_ts_strings_to_booleans(
+            request.args.get(TAXONOMY_CONSTANTS.IS_TRICEPS)
+        ),
+        is_legs=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_LEGS)),
+        is_core=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_CORE)),
+        is_balance=RepExercisesManagement.convert_ts_strings_to_booleans(
+            request.args.get(TAXONOMY_CONSTANTS.IS_BALANCE)
+        ),
+        is_cardio=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_CARDIO)),
+        is_weight_per_hand=RepExercisesManagement.convert_ts_strings_to_booleans(
+            request.args.get(TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND)
         )
-        flash('{0}:, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}'.format(
-            form.name.data,
-            form.is_back.data,
-            form.is_chest.data,
-            form.is_shoulders.data,
-            form.is_biceps.data,
-            form.is_triceps.data,
-            form.is_legs.data,
-            form.is_core.data,
-            form.is_balance.data,
-            form.is_cardio.data,
-            form.is_weight_per_hand.data
-        ))
-        return redirect('/')
-    return render_template('add_rep_taxonomy.html', form=form)
+    )
+    return dumps({'status': 'good'})
 
 
 @main.route('/login', methods=['GET', 'POST'])

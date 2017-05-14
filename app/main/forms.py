@@ -15,18 +15,3 @@ class AddRepHistoryForm(Form):
     weight = FloatField(label='What weight did you use?', validators=[validators.DataRequired()])
     exercise_date = DateField(label='When was this?', validators=[validators.DataRequired()])
     submit = SubmitField()
-
-
-class AddRepTaxonomyForm(Form):
-    name = StringField(label='What is the name of the exercise?', validators=[validators.DataRequired()])
-    is_back = BooleanField(label='For back:')
-    is_chest = BooleanField(label='For chest:')
-    is_shoulders = BooleanField(label='For shoulders:')
-    is_biceps = BooleanField(label='For biceps:')
-    is_triceps = BooleanField(label='For triceps:')
-    is_legs = BooleanField(label='For legs:')
-    is_core = BooleanField(label='For core:')
-    is_balance = BooleanField(label='For balance:')
-    is_cardio = BooleanField(label='For cardio:')
-    is_weight_per_hand = BooleanField(label='Is weight per hand:')
-    submit = SubmitField()

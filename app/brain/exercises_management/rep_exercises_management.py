@@ -1,3 +1,4 @@
+from app.brain.custom_exceptions import ThisShouldNeverHappenException
 from app.models import RepExercisesHistory, RepExercisesTaxonomy
 from app.service import RepExercisesHistoryService, RepExercisesTaxonomyService
 
@@ -72,3 +73,12 @@ class RepExercisesManagement(object):
         RepExercisesTaxonomyService.add_entry_to_db(entry_to_add)
 
         return entry_to_add
+
+    @staticmethod
+    def convert_ts_strings_to_booleans(input_string):
+        if input_string == 'false':
+            return False
+        elif input_string == 'true':
+            return True
+        else:
+            raise ThisShouldNeverHappenException('Unexpected boolean value received')

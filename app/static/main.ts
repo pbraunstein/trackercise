@@ -15,6 +15,7 @@ import {CurrentUserComponent} from "./components/currentuser/currentuser";
 import {LogoutComponent} from "./components/logout/logout";
 import {RegisterComponent} from "./components/register/register";
 import {UserDataComponent} from "./components/userdata/userdata";
+import {AddTaxonomyComponent} from "./components/addtaxonomy/addtaxonomy";
 
 @Component({
     selector: 'application-component',
@@ -24,6 +25,7 @@ import {UserDataComponent} from "./components/userdata/userdata";
                     <login></login>
                     <register></register>
                     <logout></logout>
+                    <add-taxonomy></add-taxonomy>
                     <user-data></user-data>
                     <all-data></all-data>
                 </div>
@@ -37,7 +39,7 @@ export class ApplicationComponent {
     imports: [BrowserModule, HttpModule, FormsModule],
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, LogoutComponent,
-        RegisterComponent, UserDataComponent
+        RegisterComponent, UserDataComponent, AddTaxonomyComponent
     ],
     bootstrap:[ApplicationComponent]
 })
