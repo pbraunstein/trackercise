@@ -27,12 +27,6 @@ def ts():
     return send_file(serve_path)
 
 
-@main.route('/get-rand-num')
-def get_rand_num():
-    results = {'num': randint(1, 101)}
-    return dumps(results)
-
-
 @main.route('/all-data')
 def all_data():
     return dumps(all_data_to_dict(AllData.get_all_data()))
