@@ -75,8 +75,9 @@ def history_by_taxonomy():
 
 
 @main.route('/add-rep-history', methods=['GET', 'POST'])
-@login_required
 def add_rep_history():
+    if not current_user.is_authenticated:
+        return dumps({'status': 'bad'})
     form = AddRepHistoryForm()
     form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
     if form.validate_on_submit():
