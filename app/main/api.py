@@ -99,7 +99,6 @@ def add_rep_history():
 
 
 @main.route('/add-rep-taxonomy', methods=['GET', 'POST'])
-@login_required
 def add_rep_taxonomy():
     form = AddRepTaxonomyForm()
     if form.validate_on_submit():
