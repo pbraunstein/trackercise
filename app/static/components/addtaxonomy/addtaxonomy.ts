@@ -33,6 +33,10 @@ export class AddTaxonomyComponent {
         )
     }
 
+    /**
+     * Takes in either a boolean or an empty string. If an empty string, returns a string representation of the false
+     * boolean. Otherwise, returns a string representation of the boolean passed in.
+     */
     private static booleanize(input: any): string {
         if (input) {
             return String(input);
