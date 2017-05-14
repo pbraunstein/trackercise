@@ -7,14 +7,16 @@ from flask_login import login_required, current_user
 
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
+from app.brain.custom_exceptions import ThisShouldNeverHappenException
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
 from app.brain.user_management.loginerator import Loginerator
 from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict, user_data_to_dict
+from app.constants import TAXONOMY_CONSTANTS
 from app.main import main_blueprint as main
-from app.main.forms import AddRepHistoryForm, AddRepTaxonomyForm, UserSpecificExerciseForm
+from app.main.forms import AddRepHistoryForm, UserSpecificExerciseForm
 
 
 @main.route('/')
@@ -100,36 +102,31 @@ def add_rep_history():
 
 @main.route('/add-rep-taxonomy', methods=['GET', 'POST'])
 def add_rep_taxonomy():
-    form = AddRepTaxonomyForm()
-    if form.validate_on_submit():
-        RepExercisesManagement.submit_taxonomy_entry(
-            name=form.name.data.upper(),
-            is_back=form.is_back.data,
-            is_chest=form.is_chest.data,
-            is_shoulders=form.is_shoulders.data,
-            is_biceps=form.is_biceps.data,
-            is_triceps=form.is_triceps.data,
-            is_legs=form.is_legs.data,
-            is_core=form.is_core.data,
-            is_balance=form.is_balance.data,
-            is_cardio=form.is_cardio.data,
-            is_weight_per_hand=form.is_weight_per_hand.data
-        )
-        flash('{0}:, {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}, {9}, {10}'.format(
-            form.name.data,
-            form.is_back.data,
-            form.is_chest.data,
-            form.is_shoulders.data,
-            form.is_biceps.data,
-            form.is_triceps.data,
-            form.is_legs.data,
-            form.is_core.data,
-            form.is_balance.data,
-            form.is_cardio.data,
-            form.is_weight_per_hand.data
-        ))
-        return redirect('/')
-    return render_template('add_rep_taxonomy.html', form=form)
+    def convert_ts_boolean_strings(input):
+        if input == 'false':
+            return False
+        elif input == 'true':
+            return True
+        else:
+            raise ThisShouldNeverHappenException('Unexpected boolean value received')
+
+    if not request.args.get(TAXONOMY_CONSTANTS.NAME):  # This is the only required field
+        return dumps({'status': 'bad'})
+
+    RepExercisesManagement.submit_taxonomy_entry(
+        name=request.args.get(TAXONOMY_CONSTANTS.NAME).upper(),
+        is_back=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_BACK)),
+        is_chest=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_CHEST)),
+        is_shoulders=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_SHOULDERS)),
+        is_biceps=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_BICEPS)),
+        is_triceps=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_TRICEPS)),
+        is_legs=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_LEGS)),
+        is_core=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_CORE)),
+        is_balance=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_BALANCE)),
+        is_cardio=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_CARDIO)),
+        is_weight_per_hand=convert_ts_boolean_strings(request.args.get(TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND))
+    )
+    return dumps({'status': 'good'})
 
 
 @main.route('/login', methods=['GET', 'POST'])
