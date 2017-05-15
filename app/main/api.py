@@ -94,6 +94,13 @@ def add_rep_history():
     return render_template('add_rep_history.html', form=form)
 
 
+@main.route('/get-valid-id-exercise-pairs', methods=['GET', 'POST'])
+def get_valid_id_exercise_pairs():
+    return dumps({
+        'pairs': RepExercisesManagement.get_valid_id_exercise_pairs()
+    })
+
+
 @main.route('/add-rep-taxonomy', methods=['GET', 'POST'])
 def add_rep_taxonomy():
     if not request.args.get(TAXONOMY_CONSTANTS.NAME):  # This is the only required field
