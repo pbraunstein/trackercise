@@ -1,5 +1,4 @@
 from json import dumps
-from random import randint
 from os.path import dirname, join
 
 from flask import flash, redirect, render_template, send_file, request

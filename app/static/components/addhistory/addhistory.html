@@ -1,23 +1,23 @@
 <h2>Add History</h2>
 <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
-    <select class="form-control" name="exercises_select" required ngModel>
+    <select class="form-control" name="history_exercise_id" required ngModel>
         <option *ngFor="let p of pairs" [ngValue]="p[0]">{{p[1]}}</option>
     </select>
     <div class="form-group">
         <label for="setsEntry">Sets</label>
-        <input type="number" id="setsEntry" class="form-control" name="add_sets" placeholder="Number of sets" required ngModel>
+        <input type="number" id="setsEntry" class="form-control" name="history_sets" placeholder="Number of sets" required ngModel>
     </div>
     <div class="form-group">
         <label for="repsEntry">Reps</label>
-        <input type="number" id="repsEntry" class="form-control" name="add_reps" placeholder="Number of reps per set" required ngModel>
+        <input type="number" id="repsEntry" class="form-control" name="history_reps" placeholder="Number of reps per set" required ngModel>
     </div>
     <div class="form-group">
         <label for="weightEntry">Weight</label>
-        <input type="number" step="0.01" id="weightEntry" class="form-control" name="add_weight" placeholder="Weight used (lbs)" required ngModel>
+        <input type="number" step="0.01" id="weightEntry" class="form-control" name="history_weight" placeholder="Weight used (lbs)" required ngModel>
     </div>
     <div class="form-group">
         <label for="dateEntry">Date</label>
-        <input type="date" id="dateEntry" class="form-control" name="add_date" required ngModel>
+        <input type="date" id="dateEntry" class="form-control" name="history_date" required ngModel>
     </div>
-    <button id="button-button" type="submit" class="btn btn-warning">Add History</button>
+    <button type="submit" class="btn btn-warning">Add History</button>
 </form>
