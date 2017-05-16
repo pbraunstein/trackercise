@@ -10,6 +10,7 @@ declare const $:JQueryStatic;
 export class AddHistoryComponent {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_add_history: Observable<any>;
+    private pairs: Array<any>;
 
     constructor(private http: Http){
         this.endpoint_exercise_pairs = http.get('/get-valid-id-exercise-pairs');
@@ -18,18 +19,11 @@ export class AddHistoryComponent {
     ngOnInit() {
         this.endpoint_exercise_pairs.subscribe(
             data => {
-                console.log(data);
-                this.prepareDropdown(data.json().pairs)
+                this.pairs = data.json().pairs;
+                console.log(this.pairs);
             },
             err => console.log(err)
         );
-    }
-
-    prepareDropdown(pairs: Array<any>): void {
-        for (let x of pairs) {
-            $("#excercises_dropdown").append("<li><a>" + x[1] + "</a></li>");
-        }
-        console.log(pairs)
     }
 
     onSubmit(value: any){

@@ -1,10 +1,7 @@
 <h2>Add History</h2>
 <form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
-    <div class="dropdown">
-        <button class="btn btn-warning dropdown-toggle" type="button" data-toggle="dropdown">Exercises
-            <span class="caret"></span></button>
-        <ul id="excercises_dropdown" class="dropdown-menu">
-        </ul>
-    </div>
+    <select class="form-control" name="exercises_select" ngModel>
+        <option *ngFor="let p of pairs" [ngValue]="p[0]">{{p[1]}}</option>
+    </select>
     <button id="button-button" type="submit" class="btn btn-warning">Add History</button>
 </form>
