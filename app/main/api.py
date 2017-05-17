@@ -1,8 +1,8 @@
 from json import dumps
 from os.path import dirname, join
 
-from flask import flash, redirect, render_template, send_file, request
-from flask_login import login_required, current_user
+from flask import send_file, request
+from flask_login import current_user
 
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
@@ -11,10 +11,9 @@ from app.brain.user_management.loginerator import Loginerator
 from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
-from app.brain.utilities import all_data_to_dict, user_data_to_dict
+from app.brain.utilities import all_data_to_dict, user_data_to_dict, list_history_objs_to_dicts
 from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
 from app.main import main_blueprint as main
-from app.main.forms import UserSpecificExerciseForm
 
 
 @main.route('/')
@@ -44,27 +43,20 @@ def user_data():
 
 
 @main.route('/history-by-taxonomy', methods=['GET', 'POST'])
-@login_required
 def history_by_taxonomy():
-    form = UserSpecificExerciseForm()
-    form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
-    context = {
-        'form': form,
+    if not current_user.is_authenticated:
+        return dumps({'status': 'bad'}), 400
+
+    history = RepExercisesManagement.get_user_history_by_exercise_id(
+        user_id=current_user.id,
+        exercise_id=request.args.get('exercise_id')
+    )
+
+    return dumps({
+        'status': 'good',
         'nickname': current_user.nickname,
-        'history': []
-    }
-
-    if form.validate_on_submit():
-        context = {
-            'form': form,
-            'nickname': current_user.nickname,
-            'history': RepExercisesManagement.get_user_history_by_exercise_id(
-                user_id=current_user.id,
-                exercise_id=int(form.exercise.data)
-            )
-        }
-
-    return render_template('history_by_taxonomy.html', context=context)
+        'history': list_history_objs_to_dicts(history)
+    })
 
 
 @main.route('/add-rep-history', methods=['GET', 'POST'])

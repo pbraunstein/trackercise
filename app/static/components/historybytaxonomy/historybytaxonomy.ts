@@ -2,13 +2,15 @@ import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http, URLSearchParams} from "@angular/http";
 @Component({
-    selector: 'add-history',
-    templateUrl: '/static/components/addhistory/addhistory.html'
+    selector:'history-by-taxonomy',
+    templateUrl: '/static/components/historybytaxonomy/historybytaxonomy.html'
 })
-export class AddHistoryComponent {
+export class HistoryByTaxonomyComponent {
     private endpoint_exercise_pairs: Observable<any>;
-    private endpoint_add_history: Observable<any>;
+    private endpoint_history_by_taxonomy: Observable<any>;
     private pairs: Array<any>;
+    private history: Array<any>;
+    private username: string;
 
     constructor(private http: Http){
         this.endpoint_exercise_pairs = http.get('/get-valid-id-exercise-pairs');
@@ -23,19 +25,18 @@ export class AddHistoryComponent {
         );
     }
 
-    onSubmit(value: any){
+    onChange(value: any) {
         let params: URLSearchParams = new URLSearchParams();
-        params.set('history_exercise_id', value.history_exercise_id);
-        params.set('history_sets', value.history_sets);
-        params.set('history_reps', value.history_reps);
-        params.set('history_weight', value.history_weight);
-        params.set('history_date', value.history_date);
-        this.endpoint_add_history = this.http.get('/add-rep-history', {
+        params.set('exercise_id', value.exercise_id);
+        this.endpoint_history_by_taxonomy = this.http.get('/history-by-taxonomy', {
             search: params
         });
-        this.endpoint_add_history.subscribe(
-            data => console.log(data),
+        this.endpoint_history_by_taxonomy.subscribe(
+            data => {
+                this.username = data.json().nickname;
+                this.history = data.json().history;
+            },
             err => console.log(err)
-        )
+        );
     }
 }

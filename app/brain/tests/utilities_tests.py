@@ -122,7 +122,7 @@ class UtilitiesTests(unittest.TestCase):
             HISTORY_CONSTNATS.SETS: test_sets,
             HISTORY_CONSTNATS.REPS: test_reps,
             HISTORY_CONSTNATS.WEIGHT: test_weight,
-            HISTORY_CONSTNATS.DATE: test_date
+            HISTORY_CONSTNATS.DATE: str(test_date)
         }
 
         self.assertDictEqual(results, expected_results)

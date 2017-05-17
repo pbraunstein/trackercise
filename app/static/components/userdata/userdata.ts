@@ -21,9 +21,6 @@ export class UserDataComponent {
                 this.username = data.json().nickname;
                 this.taxonomy = data.json().taxonomy;
                 this.history = data.json().history;
-                console.log(this.username);
-                console.log(this.taxonomy);
-                console.log(this.history);
             },
             err => console.log(err)
         )

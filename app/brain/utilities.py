@@ -84,5 +84,5 @@ def _history_obj_to_dict(history):
         HISTORY_CONSTNATS.SETS: history.sets,
         HISTORY_CONSTNATS.REPS: history.reps,
         HISTORY_CONSTNATS.WEIGHT: history.weight,
-        HISTORY_CONSTNATS.DATE: history.date
+        HISTORY_CONSTNATS.DATE: str(history.date)
     }
