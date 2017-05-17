@@ -3,6 +3,6 @@ import {Component} from "@angular/core";
     selector:'history-by-taxonomy',
     templateUrl: '/static/components/historybytaxonomy/historybytaxonomy.html'
 })
-export class HistorByTaxonomyComponent {
+export class HistoryByTaxonomyComponent {
 
 }

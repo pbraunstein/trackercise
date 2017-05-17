@@ -17,7 +17,7 @@ import {RegisterComponent} from "./components/register/register";
 import {UserDataComponent} from "./components/userdata/userdata";
 import {AddTaxonomyComponent} from "./components/addtaxonomy/addtaxonomy";
 import {AddHistoryComponent} from "./components/addhistory/addhistory";
-import {HistorByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
+import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
 
 @Component({
     selector: 'application-component',
@@ -43,7 +43,7 @@ export class ApplicationComponent {
     imports: [BrowserModule, HttpModule, FormsModule],
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, LogoutComponent,
-        RegisterComponent, UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistorByTaxonomyComponent
+        RegisterComponent, UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent
     ],
     bootstrap:[ApplicationComponent]
 })
