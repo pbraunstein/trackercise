@@ -12,9 +12,9 @@ from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict, user_data_to_dict
-from app.constants import TAXONOMY_CONSTANTS
+from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
 from app.main import main_blueprint as main
-from app.main.forms import AddRepHistoryForm, UserSpecificExerciseForm
+from app.main.forms import UserSpecificExerciseForm
 
 
 @main.route('/')
@@ -69,28 +69,19 @@ def history_by_taxonomy():
 
 @main.route('/add-rep-history', methods=['GET', 'POST'])
 def add_rep_history():
+    print request.args
     if not current_user.is_authenticated:
-        return dumps({'status': 'bad'})
-    form = AddRepHistoryForm()
-    form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
-    if form.validate_on_submit():
-        entry_added = RepExercisesManagement.submit_history_entry(
-            user_id=current_user.id,
-            exercise_id=form.exercise.data,
-            sets=form.sets.data,
-            reps=form.reps.data,
-            weight=form.weight.data,
-            exercise_date=form.exercise_date.data
-        )
-        flash('you just logged exercise_id={0}, sets={1}, reps={2}, weight={3}, date={4}'.format(
-            entry_added.exercise_id,
-            entry_added.sets,
-            entry_added.reps,
-            entry_added.weight,
-            entry_added.date
-        ))
-        return redirect('/')
-    return render_template('add_rep_history.html', form=form)
+        return dumps({'status': 'bad'}), 400
+
+    RepExercisesManagement.submit_history_entry(
+        user_id=current_user.id,
+        exercise_id=HISTORY_CONSTNATS.EXERCISE_ID,
+        sets=HISTORY_CONSTNATS.SETS,
+        reps=HISTORY_CONSTNATS.REPS,
+        weight=HISTORY_CONSTNATS.WEIGHT,
+        exercise_date=HISTORY_CONSTNATS.DATE
+    )
+    return dumps({'status': 'good'})
 
 
 @main.route('/get-valid-id-exercise-pairs', methods=['GET', 'POST'])
