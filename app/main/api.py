@@ -54,7 +54,7 @@ def history_by_taxonomy():
 
     return dumps({
         'status': 'good',
-        'username': current_user.nickname,
+        'nickname': current_user.nickname,
         'history': list_history_objs_to_dicts(history)
     })
 

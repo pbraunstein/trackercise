@@ -9,6 +9,8 @@ export class HistoryByTaxonomyComponent {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_taxonomy: Observable<any>;
     private pairs: Array<any>;
+    private history: Array<any>;
+    private username: string;
 
     constructor(private http: Http){
         this.endpoint_exercise_pairs = http.get('/get-valid-id-exercise-pairs');
@@ -30,7 +32,10 @@ export class HistoryByTaxonomyComponent {
             search: params
         });
         this.endpoint_history_by_taxonomy.subscribe(
-            data => console.log(data),
+            data => {
+                this.username = data.json().nickname;
+                this.history = data.json().history;
+            },
             err => console.log(err)
         );
     }
