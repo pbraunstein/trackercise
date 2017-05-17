@@ -18,7 +18,6 @@ export class HistoryByTaxonomyComponent {
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;
-                console.log(this.pairs);
             },
             err => console.log(err)
         );

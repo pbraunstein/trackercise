@@ -16,7 +16,6 @@ export class CurrentUserComponent {
     ngOnInit() {
         this.endpoint.subscribe(
             data => {
-                console.log(data);
                 this.currentUser = data.json().user;
             },
             err => console.log(err)
