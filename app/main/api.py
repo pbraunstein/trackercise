@@ -1,8 +1,8 @@
 from json import dumps
 from os.path import dirname, join
 
-from flask import flash, redirect, render_template, send_file, request
-from flask_login import login_required, current_user
+from flask import render_template, send_file, request
+from flask_login import current_user
 
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
@@ -44,8 +44,10 @@ def user_data():
 
 
 @main.route('/history-by-taxonomy', methods=['GET', 'POST'])
-@login_required
 def history_by_taxonomy():
+    if not current_user.is_authenticated:
+        return dumps({'status': 'bad'}), 400
+
     form = UserSpecificExerciseForm()
     form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
     context = {
