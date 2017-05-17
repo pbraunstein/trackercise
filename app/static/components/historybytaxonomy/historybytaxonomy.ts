@@ -25,8 +25,7 @@ export class HistoryByTaxonomyComponent {
 
     onChange(value: any) {
         let params: URLSearchParams = new URLSearchParams();
-        console.log(value);
-        params.set('plop', value.exercise_id);
+        params.set('exercise_id', value.exercise_id);
         this.endpoint_history_by_taxonomy = this.http.get('/history-by-taxonomy', {
             search: params
         });

@@ -1,7 +1,7 @@
 from json import dumps
 from os.path import dirname, join
 
-from flask import render_template, send_file, request
+from flask import send_file, request
 from flask_login import current_user
 
 from app.brain.admin.all_data import AllData
@@ -11,7 +11,7 @@ from app.brain.user_management.loginerator import Loginerator
 from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
-from app.brain.utilities import all_data_to_dict, user_data_to_dict
+from app.brain.utilities import all_data_to_dict, user_data_to_dict, list_history_objs_to_dicts
 from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
 from app.main import main_blueprint as main
 
@@ -47,14 +47,16 @@ def history_by_taxonomy():
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
 
-    RepExercisesManagement.get_user_history_by_exercise_id(
+    history = RepExercisesManagement.get_user_history_by_exercise_id(
         user_id=current_user.id,
         exercise_id=request.args.get('exercise_id')
     )
 
-    # TODO get the results from above, and package it off in json to the frontend
-
-    return dumps({'status': 'okay'})
+    return dumps({
+        'status': 'good',
+        'username': current_user.nickname,
+        'history': list_history_objs_to_dicts(history)
+    })
 
 
 @main.route('/add-rep-history', methods=['GET', 'POST'])
