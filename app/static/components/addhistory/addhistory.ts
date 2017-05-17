@@ -25,7 +25,6 @@ export class AddHistoryComponent {
     }
 
     onSubmit(value: any){
-        console.log(value);
         let params: URLSearchParams = new URLSearchParams();
         params.set('history_exercise_id', value.history_exercise_id);
         params.set('history_sets', value.history_sets);

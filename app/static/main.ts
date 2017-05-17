@@ -52,4 +52,3 @@ export class TrackercizeModule {
 }
 
 platformBrowserDynamic().bootstrapModule(TrackercizeModule);
-

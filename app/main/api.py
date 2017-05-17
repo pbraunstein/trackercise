@@ -14,7 +14,6 @@ from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict, user_data_to_dict
 from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
 from app.main import main_blueprint as main
-from app.main.forms import UserSpecificExerciseForm
 
 
 @main.route('/')
@@ -48,25 +47,14 @@ def history_by_taxonomy():
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
 
-    form = UserSpecificExerciseForm()
-    form.exercise.choices = RepExercisesManagement.get_valid_id_exercise_pairs()
-    context = {
-        'form': form,
-        'nickname': current_user.nickname,
-        'history': []
-    }
+    RepExercisesManagement.get_user_history_by_exercise_id(
+        user_id=current_user.id,
+        exercise_id=request.args.get('exercise_id')
+    )
 
-    if form.validate_on_submit():
-        context = {
-            'form': form,
-            'nickname': current_user.nickname,
-            'history': RepExercisesManagement.get_user_history_by_exercise_id(
-                user_id=current_user.id,
-                exercise_id=int(form.exercise.data)
-            )
-        }
+    # TODO get the results from above, and package it off in json to the frontend
 
-    return render_template('history_by_taxonomy.html', context=context)
+    return dumps({'status': 'okay'})
 
 
 @main.route('/add-rep-history', methods=['GET', 'POST'])
