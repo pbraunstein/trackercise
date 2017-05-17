@@ -69,19 +69,18 @@ def history_by_taxonomy():
 
 @main.route('/add-rep-history', methods=['GET', 'POST'])
 def add_rep_history():
-    print request.args
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
 
     RepExercisesManagement.submit_history_entry(
         user_id=current_user.id,
-        exercise_id=HISTORY_CONSTNATS.EXERCISE_ID,
-        sets=HISTORY_CONSTNATS.SETS,
-        reps=HISTORY_CONSTNATS.REPS,
-        weight=HISTORY_CONSTNATS.WEIGHT,
-        exercise_date=HISTORY_CONSTNATS.DATE
+        exercise_id=request.args.get(HISTORY_CONSTNATS.EXERCISE_ID),
+        sets=request.args.get(HISTORY_CONSTNATS.SETS),
+        reps=request.args.get(HISTORY_CONSTNATS.REPS),
+        weight=request.args.get(HISTORY_CONSTNATS.WEIGHT),
+        exercise_date=request.args.get(HISTORY_CONSTNATS.DATE)
     )
-    return dumps({'status': 'good'})
+    return dumps({'status': 'good'}), 200
 
 
 @main.route('/get-valid-id-exercise-pairs', methods=['GET', 'POST'])
