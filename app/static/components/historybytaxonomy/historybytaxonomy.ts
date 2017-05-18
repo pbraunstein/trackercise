@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Observable} from "rxjs";
-import {Http, URLSearchParams} from "@angular/http";
+import {Http, Headers} from "@angular/http";
 @Component({
     selector:'history-by-taxonomy',
     templateUrl: '/static/components/historybytaxonomy/historybytaxonomy.html'
@@ -13,7 +13,7 @@ export class HistoryByTaxonomyComponent {
     private username: string;
 
     constructor(private http: Http){
-        this.endpoint_exercise_pairs = http.get('/get-valid-id-exercise-pairs');
+        this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
     }
 
     ngOnInit() {
@@ -26,11 +26,15 @@ export class HistoryByTaxonomyComponent {
     }
 
     onChange(value: any) {
-        let params: URLSearchParams = new URLSearchParams();
-        params.set('exercise_id', value.exercise_id);
-        this.endpoint_history_by_taxonomy = this.http.get('/history-by-taxonomy', {
-            search: params
-        });
+        let headers: Headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let data: any = {};
+        data.exercise_id = value.exercise_id;
+        this.endpoint_history_by_taxonomy = this.http.post(
+            '/history-by-taxonomy',
+            JSON.stringify(data),
+            {headers: headers}
+        );
         this.endpoint_history_by_taxonomy.subscribe(
             data => {
                 this.username = data.json().nickname;

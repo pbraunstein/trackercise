@@ -12,7 +12,7 @@ export class UserDataComponent {
     private history: Array<any>;
 
     constructor(private http: Http) {
-        this.endpoint = http.get('/user-data')
+        this.endpoint = http.post('/user-data', '');
     }
 
     ngOnInit() {

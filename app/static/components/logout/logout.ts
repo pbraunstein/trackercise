@@ -10,7 +10,7 @@ export class LogoutComponent {
     private endpoint: Observable<any>;
 
     constructor(private http: Http) {
-        this.endpoint = http.get('/logout')
+        this.endpoint = http.post('/logout', '');
     }
 
     onSubmit() {

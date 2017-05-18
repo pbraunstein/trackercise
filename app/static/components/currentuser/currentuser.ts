@@ -10,7 +10,7 @@ export class CurrentUserComponent {
     private currentUser: string;
 
     constructor(private http: Http) {
-        this.endpoint = http.get('/who-am-i')
+        this.endpoint = http.post('/who-am-i', '');
     }
 
     ngOnInit() {
