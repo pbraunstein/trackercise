@@ -42,7 +42,7 @@ def user_data():
     return dumps(user_data_to_dict(UserData.get_user_data()))
 
 
-@main.route('/history-by-taxonomy', methods=['GET', 'POST'])
+@main.route('/history-by-taxonomy', methods=['POST'])
 def history_by_taxonomy():
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
@@ -59,7 +59,7 @@ def history_by_taxonomy():
     })
 
 
-@main.route('/add-rep-history', methods=['GET', 'POST'])
+@main.route('/add-rep-history', methods=['POST'])
 def add_rep_history():
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
@@ -75,14 +75,14 @@ def add_rep_history():
     return dumps({'status': 'good'}), 200
 
 
-@main.route('/get-valid-id-exercise-pairs', methods=['GET', 'POST'])
+@main.route('/get-valid-id-exercise-pairs', methods=['POST'])
 def get_valid_id_exercise_pairs():
     return dumps({
         'pairs': RepExercisesManagement.get_valid_id_exercise_pairs()
     })
 
 
-@main.route('/add-rep-taxonomy', methods=['GET', 'POST'])
+@main.route('/add-rep-taxonomy', methods=['POST'])
 def add_rep_taxonomy():
     if not request.args.get(TAXONOMY_CONSTANTS.NAME):  # This is the only required field
         return dumps({'status': 'bad'})
@@ -126,7 +126,7 @@ def login():
         return dumps({'status': 'bad'}), 400
 
 
-@main.route('/who-am-i', methods=['GET', 'POST'])
+@main.route('/who-am-i', methods=['POST'])
 def who_am_i():
     if current_user.is_authenticated:
         return dumps({
@@ -138,13 +138,13 @@ def who_am_i():
         })
 
 
-@main.route('/logout', methods=['GET', 'POST'])
+@main.route('/logout', methods=['POST'])
 def logout():
     Loginerator.logout()
     return dumps({})
 
 
-@main.route('/register', methods=['GET', 'POST'])
+@main.route('/register', methods=['POST'])
 def register():
     email = request.args.get('email')
     nickname = request.args.get('nickname')
