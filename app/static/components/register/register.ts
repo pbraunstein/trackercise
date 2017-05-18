@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {Observable} from "rxjs";
-import {Http, URLSearchParams, Headers} from "@angular/http";
+import {Http, Headers} from "@angular/http";
 @Component({
     selector:'register',
     templateUrl: '/static/components/register/register.html'
