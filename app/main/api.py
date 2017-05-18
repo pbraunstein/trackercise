@@ -22,24 +22,24 @@ def ts():
     serve_path = join(serve_path, 'static')
     serve_path = join(serve_path, 'dist')
     serve_path = join(serve_path, 'index.html')
-    return send_file(serve_path)
+    return send_file(serve_path), 200
 
 
 @main.route('/all-data')
 def all_data():
-    return dumps(all_data_to_dict(AllData.get_all_data()))
+    return dumps(all_data_to_dict(AllData.get_all_data())), 200
 
 
 @main.route('/status')
 def status():
-    return dumps({'status': 'good'})
+    return dumps({'status': 'good'}), 200
 
 
 @main.route('/user-data')
 def user_data():
     if not current_user.is_authenticated:
-        return dumps({'status': 'bad'})
-    return dumps(user_data_to_dict(UserData.get_user_data()))
+        return dumps({'status': 'bad'}), 400
+    return dumps(user_data_to_dict(UserData.get_user_data())), 200
 
 
 @main.route('/history-by-taxonomy', methods=['POST'])
@@ -56,7 +56,7 @@ def history_by_taxonomy():
         'status': 'good',
         'nickname': current_user.nickname,
         'history': list_history_objs_to_dicts(history)
-    })
+    }), 200
 
 
 @main.route('/add-rep-history', methods=['POST'])
@@ -79,13 +79,13 @@ def add_rep_history():
 def get_valid_id_exercise_pairs():
     return dumps({
         'pairs': RepExercisesManagement.get_valid_id_exercise_pairs()
-    })
+    }), 200
 
 
 @main.route('/add-rep-taxonomy', methods=['POST'])
 def add_rep_taxonomy():
     if not request.args.get(TAXONOMY_CONSTANTS.NAME):  # This is the only required field
-        return dumps({'status': 'bad'})
+        return dumps({'status': 'bad'}), 400
 
     RepExercisesManagement.submit_taxonomy_entry(
         name=request.args.get(TAXONOMY_CONSTANTS.NAME).upper(),
@@ -108,7 +108,7 @@ def add_rep_taxonomy():
             request.args.get(TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND)
         )
     )
-    return dumps({'status': 'good'})
+    return dumps({'status': 'good'}), 200
 
 
 @main.route('/login', methods=['POST'])
@@ -131,17 +131,17 @@ def who_am_i():
     if current_user.is_authenticated:
         return dumps({
             'user': current_user.nickname
-        })
+        }), 200
     else:
         return dumps({
             'user': ''
-        })
+        }), 200
 
 
 @main.route('/logout', methods=['POST'])
 def logout():
     Loginerator.logout()
-    return dumps({})
+    return dumps({}), 200
 
 
 @main.route('/register', methods=['POST'])
@@ -151,6 +151,6 @@ def register():
     password = request.args.get('password')
     reg_result = RegisterCity.register(email, nickname, password)
     if reg_result == RegisterResult.REGISTERED:
-        return dumps({'status': 'good'})
+        return dumps({'status': 'good'}), 200
     else:
-        return dumps({'status': 'bad'})
+        return dumps({'status': 'bad'}), 400
