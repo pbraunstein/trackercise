@@ -111,18 +111,19 @@ def add_rep_taxonomy():
     return dumps({'status': 'good'})
 
 
-@main.route('/login', methods=['GET', 'POST'])
+@main.route('/login', methods=['POST'])
 def login():
-    email = request.args.get('email')
-    password = request.args.get('password')
+    parameters = request.get_json()
+    email = parameters.get('email')
+    password = parameters.get('password')
     login_result = Loginerator.login(email, password)
     if login_result == LoginResult.LOGGED_IN:
         return dumps({
             'status': 'good',
             'user_logged_in': current_user.nickname
-        })
+        }), 200
     else:
-        return dumps({'status': 'bad'})
+        return dumps({'status': 'bad'}), 400
 
 
 @main.route('/who-am-i', methods=['GET', 'POST'])

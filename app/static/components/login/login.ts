@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {Http, URLSearchParams} from "@angular/http";
+import {Http, Headers} from "@angular/http";
 import {Observable} from "rxjs";
 
 @Component({
@@ -13,12 +13,12 @@ export class LoginComponent{
     }
 
     onSubmit(value: any) {
-        let params: URLSearchParams = new URLSearchParams();
-        params.set('email', value.login_email);
-        params.set('password', value.login_password);
-        this.endpoint = this.http.get('/login', {
-            search: params
-        });
+        let headers: Headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        let data: any = {};
+        data.email = value.login_email;
+        data.password = value.login_password;
+        this.endpoint = this.http.post('/login', JSON.stringify(data), {headers: headers});
         this.endpoint.subscribe(
             data => {
                 console.log(data);
