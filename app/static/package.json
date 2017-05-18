@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "tsc": "tsc",
     "clean": "find . -path \"./dist/*.js\" -delete  -o -path \"./dist/*.html\" -delete -o -path \"./dist/*.map\" -delete",
-    "prebuild": "npm run clean",
-    "build": "webpack"
+    "prebuildProduction": "npm run clean",
+    "buildProduction": "webpack --config webpack.config.js"
   },
   "author": "",
   "private": true,
