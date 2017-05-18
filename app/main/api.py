@@ -25,17 +25,17 @@ def ts():
     return send_file(serve_path), 200
 
 
-@main.route('/all-data')
+@main.route('/all-data', methods=['POST'])
 def all_data():
     return dumps(all_data_to_dict(AllData.get_all_data())), 200
 
 
-@main.route('/status')
+@main.route('/status', methods=['GET', 'POST'])
 def status():
     return dumps({'status': 'good'}), 200
 
 
-@main.route('/user-data')
+@main.route('/user-data', methods=['POST'])
 def user_data():
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
