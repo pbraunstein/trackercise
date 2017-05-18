@@ -8,7 +8,9 @@
     "tsc": "tsc",
     "clean": "find . -path \"./dist/*.js\" -delete  -o -path \"./dist/*.html\" -delete -o -path \"./dist/*.map\" -delete",
     "prebuildProduction": "npm run clean",
-    "buildProduction": "webpack --config webpack.config.js"
+    "buildProduction": "webpack --config webpack.production.config.js",
+    "prebuildDevelopment": "npm run clean",
+    "buildDevelopment": "webpack --config webpack.development.config.js"
   },
   "author": "",
   "private": true,
