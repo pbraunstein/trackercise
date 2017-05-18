@@ -47,9 +47,11 @@ def history_by_taxonomy():
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
 
+    parameters = request.get_json()
+
     history = RepExercisesManagement.get_user_history_by_exercise_id(
         user_id=current_user.id,
-        exercise_id=request.args.get('exercise_id')
+        exercise_id=parameters.get('exercise_id')
     )
 
     return dumps({
@@ -64,13 +66,15 @@ def add_rep_history():
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
 
+    parameters = request.get_json()
+
     RepExercisesManagement.submit_history_entry(
         user_id=current_user.id,
-        exercise_id=request.args.get(HISTORY_CONSTNATS.EXERCISE_ID),
-        sets=request.args.get(HISTORY_CONSTNATS.SETS),
-        reps=request.args.get(HISTORY_CONSTNATS.REPS),
-        weight=request.args.get(HISTORY_CONSTNATS.WEIGHT),
-        exercise_date=request.args.get(HISTORY_CONSTNATS.DATE)
+        exercise_id=parameters.get(HISTORY_CONSTNATS.EXERCISE_ID),
+        sets=parameters.get(HISTORY_CONSTNATS.SETS),
+        reps=parameters.get(HISTORY_CONSTNATS.REPS),
+        weight=parameters.get(HISTORY_CONSTNATS.WEIGHT),
+        exercise_date=parameters.get(HISTORY_CONSTNATS.DATE)
     )
     return dumps({'status': 'good'}), 200
 
@@ -84,28 +88,30 @@ def get_valid_id_exercise_pairs():
 
 @main.route('/add-rep-taxonomy', methods=['POST'])
 def add_rep_taxonomy():
-    if not request.args.get(TAXONOMY_CONSTANTS.NAME):  # This is the only required field
+    parameters = request.get_json()
+
+    if not parameters.get(TAXONOMY_CONSTANTS.NAME):  # This is the only required field
         return dumps({'status': 'bad'}), 400
 
     RepExercisesManagement.submit_taxonomy_entry(
-        name=request.args.get(TAXONOMY_CONSTANTS.NAME).upper(),
-        is_back=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_BACK)),
-        is_chest=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_CHEST)),
+        name=parameters.get(TAXONOMY_CONSTANTS.NAME).upper(),
+        is_back=RepExercisesManagement.convert_ts_strings_to_booleans(parameters.get(TAXONOMY_CONSTANTS.IS_BACK)),
+        is_chest=RepExercisesManagement.convert_ts_strings_to_booleans(parameters.get(TAXONOMY_CONSTANTS.IS_CHEST)),
         is_shoulders=RepExercisesManagement.convert_ts_strings_to_booleans(
-            request.args.get(TAXONOMY_CONSTANTS.IS_SHOULDERS)
+            parameters.get(TAXONOMY_CONSTANTS.IS_SHOULDERS)
         ),
-        is_biceps=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_BICEPS)),
+        is_biceps=RepExercisesManagement.convert_ts_strings_to_booleans(parameters.get(TAXONOMY_CONSTANTS.IS_BICEPS)),
         is_triceps=RepExercisesManagement.convert_ts_strings_to_booleans(
-            request.args.get(TAXONOMY_CONSTANTS.IS_TRICEPS)
+            parameters.get(TAXONOMY_CONSTANTS.IS_TRICEPS)
         ),
-        is_legs=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_LEGS)),
-        is_core=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_CORE)),
+        is_legs=RepExercisesManagement.convert_ts_strings_to_booleans(parameters.get(TAXONOMY_CONSTANTS.IS_LEGS)),
+        is_core=RepExercisesManagement.convert_ts_strings_to_booleans(parameters.get(TAXONOMY_CONSTANTS.IS_CORE)),
         is_balance=RepExercisesManagement.convert_ts_strings_to_booleans(
-            request.args.get(TAXONOMY_CONSTANTS.IS_BALANCE)
+            parameters.get(TAXONOMY_CONSTANTS.IS_BALANCE)
         ),
-        is_cardio=RepExercisesManagement.convert_ts_strings_to_booleans(request.args.get(TAXONOMY_CONSTANTS.IS_CARDIO)),
+        is_cardio=RepExercisesManagement.convert_ts_strings_to_booleans(parameters.get(TAXONOMY_CONSTANTS.IS_CARDIO)),
         is_weight_per_hand=RepExercisesManagement.convert_ts_strings_to_booleans(
-            request.args.get(TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND)
+            parameters.get(TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND)
         )
     )
     return dumps({'status': 'good'}), 200
@@ -146,9 +152,10 @@ def logout():
 
 @main.route('/register', methods=['POST'])
 def register():
-    email = request.args.get('email')
-    nickname = request.args.get('nickname')
-    password = request.args.get('password')
+    parameters = request.get_json()
+    email = parameters.get('email')
+    nickname = parameters.get('nickname')
+    password = parameters.get('password')
     reg_result = RegisterCity.register(email, nickname, password)
     if reg_result == RegisterResult.REGISTERED:
         return dumps({'status': 'good'}), 200
