@@ -1,6 +1,5 @@
 import 'zone.js';
 import 'reflect-metadata';
-import {Component} from '@angular/core';
 import 'jquery';
 import 'bootstrap/dist/js/bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -18,28 +17,8 @@ import {UserDataComponent} from "./components/userdata/userdata";
 import {AddTaxonomyComponent} from "./components/addtaxonomy/addtaxonomy";
 import {AddHistoryComponent} from "./components/addhistory/addhistory";
 import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
+import {ApplicationComponent} from "./components/application/application";
 
-@Component({
-    selector: 'application-component',
-    template: `
-                <nav class="navbar navbar-default">
-                </nav>
-                    <div class="container">
-                        <current-user></current-user>
-                        <login></login>
-                        <register></register>
-                        <logout></logout>
-                        <add-taxonomy></add-taxonomy>
-                        <add-history></add-history>
-                        <history-by-taxonomy></history-by-taxonomy>
-                        <user-data></user-data>
-                        <all-data></all-data>
-                    </div>
-              `
-})
-export class ApplicationComponent {
-
-}
 
 @NgModule({
     imports: [BrowserModule, HttpModule, FormsModule],
