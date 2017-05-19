@@ -1,4 +1,5 @@
 const path = require('path');
+var webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -8,9 +9,9 @@ module.exports = {
     },
     module: {
         loaders: [
-            {test: /\.css$/, loader: 'raw-loader'},
-            {test: /\.html$/, loader: 'raw-loader'},
-            {test: /\.ts$/, loader: 'ts-loader'}
+            {test: /\.ts$/, exclude: /node_modules/, loader: 'ts-loader'},
+            {test: /\.css$/, loader: 'style-loader!css-loader'},
+            {test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/, loader: 'url-loader'}
         ]
     },
         output: {
@@ -26,6 +27,13 @@ module.exports = {
                 }
             ]
         ),
+        new webpack.ProvidePlugin(
+            {
+                jQuery: 'jquery',
+                $: 'jquery',
+                jquery: 'jquery'
+            }
+        )
     ],
   resolve: {
     extensions: ['.ts', '.js']
