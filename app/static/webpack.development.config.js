@@ -9,9 +9,8 @@ module.exports = {
     },
     module: {
         loaders: [
-            {test: /\.css$/, loader: 'raw-loader'},
-            {test: /\.html$/, loader: 'raw-loader'},
-            {test: /\.ts$/, loader: 'ts-loader'},
+            {test: /\.ts$/, exclude: /node_modules/, loader: 'ts-loader'},
+            {test: /\.css$/, loader: 'style-loader!css-loader'},
             {test: /\.woff($|\?)|\.woff2($|\?)|\.ttf($|\?)|\.eot($|\?)|\.svg($|\?)/, loader: 'url-loader'}
         ]
     },
