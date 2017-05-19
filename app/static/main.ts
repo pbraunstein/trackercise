@@ -22,17 +22,19 @@ import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/history
 @Component({
     selector: 'application-component',
     template: `
-                <div class="container">
-                    <current-user></current-user>
-                    <login></login>
-                    <register></register>
-                    <logout></logout>
-                    <add-taxonomy></add-taxonomy>
-                    <add-history></add-history>
-                    <history-by-taxonomy></history-by-taxonomy>
-                    <user-data></user-data>
-                    <all-data></all-data>
-                </div>
+                <nav class="navbar navbar-default">
+                </nav>
+                    <div class="container">
+                        <current-user></current-user>
+                        <login></login>
+                        <register></register>
+                        <logout></logout>
+                        <add-taxonomy></add-taxonomy>
+                        <add-history></add-history>
+                        <history-by-taxonomy></history-by-taxonomy>
+                        <user-data></user-data>
+                        <all-data></all-data>
+                    </div>
               `
 })
 export class ApplicationComponent {
