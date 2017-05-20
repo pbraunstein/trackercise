@@ -3,7 +3,7 @@ import {Component} from "@angular/core";
     selector: 'application-component',
     templateUrl: '/static/components/application/application.html',
     styles: [
-        `#navbar_botom {margin-bottom: 0;}`
+        `#navbar_botom {margin-bottom: 0; border-radius: 0;}`
     ]
 })
 export class ApplicationComponent {
