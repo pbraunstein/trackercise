@@ -19,10 +19,11 @@ import {AddHistoryComponent} from "./components/addhistory/addhistory";
 import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
 import {ApplicationComponent} from "./components/application/application";
 import {LocationStrategy, HashLocationStrategy} from "@angular/common";
+import {routing} from './routing';
 
 
 @NgModule({
-    imports: [BrowserModule, HttpModule, FormsModule],
+    imports: [BrowserModule, HttpModule, FormsModule, routing],
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, LogoutComponent,
         RegisterComponent, UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent
