@@ -18,6 +18,7 @@ import {AddTaxonomyComponent} from "./components/addtaxonomy/addtaxonomy";
 import {AddHistoryComponent} from "./components/addhistory/addhistory";
 import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
 import {ApplicationComponent} from "./components/application/application";
+import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import {ApplicationComponent} from "./components/application/application";
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, LogoutComponent,
         RegisterComponent, UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent
     ],
-    bootstrap:[ApplicationComponent]
+    providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+    bootstrap: [ApplicationComponent]
 })
 export class TrackercizeModule {
 
