@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {CanActivate} from "@angular/router";
+import {CanActivate, Router} from "@angular/router";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs";
 import 'rxjs/Rx';
@@ -7,10 +7,12 @@ import 'rxjs/Rx';
 @Injectable()
 export class LoginGuard implements CanActivate {
     private endpoint: Observable<any>;
+    private router: Router;
     private userReturned: boolean;
 
-    constructor(private http: Http) {
+    constructor(private http: Http, router: Router) {
         this.endpoint = http.post('/who-am-i', '');
+        this.router = router;
         this.userReturned = false;
     }
 
@@ -20,6 +22,7 @@ export class LoginGuard implements CanActivate {
                 if (user) {
                     return true;
                 } else {
+                    this.router.navigate(['login']);
                     return false;
                 }
             }
