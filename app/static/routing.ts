@@ -4,8 +4,8 @@ import {AllDataComponent} from "./components/alldata/alldata";
 import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
 const routes: Routes = [
     {path: '', component: CurrentUserComponent},
-    {path: 'all-data', component: AllDataComponent},
-    {path: 'history-by-taxonomy', component: HistoryByTaxonomyComponent}
+    {path: 'history-by-taxonomy', component: HistoryByTaxonomyComponent},
+    {path: 'all-data', component: AllDataComponent}
 ];
 
 export const routing = RouterModule.forRoot(routes);
