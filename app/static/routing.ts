@@ -1,11 +1,11 @@
 import {Routes, RouterModule} from "@angular/router";
 import {CurrentUserComponent} from "./components/currentuser/currentuser";
-import {AllDataComponent} from "./components/alldata/alldata";
 import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
+import {IntroductionComponent} from "./components/introduction/introduction";
 const routes: Routes = [
-    {path: '', component: CurrentUserComponent},
+    {path: '', component: IntroductionComponent},
     {path: 'history-by-taxonomy', component: HistoryByTaxonomyComponent},
-    {path: 'all-data', component: AllDataComponent}
+    {path: 'settings', component: CurrentUserComponent}
 ];
 
 export const routing = RouterModule.forRoot(routes);
