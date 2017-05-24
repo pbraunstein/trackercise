@@ -16,8 +16,8 @@ export class LoginGuard implements CanActivate {
 
     canActivate() {
         return this.currentUser().map(
-            x => {
-                if (x) {
+            user => {
+                if (user) {
                     return true;
                 } else {
                     return false;
