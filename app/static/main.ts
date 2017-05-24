@@ -21,6 +21,7 @@ import {ApplicationComponent} from "./components/application/application";
 import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 import {routing} from './routing';
 import {IntroductionComponent} from "./components/introduction/introduction";
+import {LoginGuard} from "./loginguard";
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import {IntroductionComponent} from "./components/introduction/introduction";
         RegisterComponent, UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent,
         IntroductionComponent
     ],
-    providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
+    providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, LoginGuard],
     bootstrap: [ApplicationComponent]
 })
 export class TrackercizeModule {
