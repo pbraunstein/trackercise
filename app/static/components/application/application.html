@@ -9,22 +9,17 @@
     </div>
     <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-            <li><a href="#">Summary</a></li>
-            <li><a href="#">You</a></li>
-            <li><a href="#">Settings</a></li>
+            <li><a [routerLink]="['/']">Summary</a></li>
+            <li><a [routerLink]="['/history-by-taxonomy']">Your Workouts</a></li>
+            <li><a [routerLink]="['/settings']">Settings</a></li>
+            <li><a [routerLink]="['/login']">Login</a></li>
+            <li><a [routerLink]="['/logout']">Logout</a></li>
         </ul>
     </div>
 </nav>
+<div id="buffer"></div>
 <div class="container">
-    <current-user></current-user>
-    <login></login>
-    <register></register>
-    <logout></logout>
-    <add-taxonomy></add-taxonomy>
-    <add-history></add-history>
-    <history-by-taxonomy></history-by-taxonomy>
-    <user-data></user-data>
-    <all-data></all-data>
+    <router-outlet></router-outlet>
 </div>
 <nav id="navbar_botom" class="navbar navbar-inverse navbar-static-bottom">
     <p class="navbar-text">Brainstein Labs</p>
