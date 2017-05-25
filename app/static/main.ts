@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import {HttpModule} from "@angular/http";
+import {HttpModule, CookieXSRFStrategy, XSRFStrategy} from "@angular/http";
 import {AllDataComponent} from "./components/alldata/alldata";
 import {LoginComponent} from "./components/login/login";
 import {FormsModule} from "@angular/forms";
@@ -31,7 +31,11 @@ import {LoginGuard} from "./loginguard";
         RegisterComponent, UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent,
         IntroductionComponent
     ],
-    providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, LoginGuard],
+    providers: [
+        {provide: LocationStrategy, useClass: HashLocationStrategy},
+        {provide: XSRFStrategy,  useClass: CookieXSRFStrategy},
+        LoginGuard
+    ],
     bootstrap: [ApplicationComponent]
 })
 export class TrackercizeModule {
