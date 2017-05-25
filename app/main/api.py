@@ -136,7 +136,8 @@ def login():
 def who_am_i():
     if current_user.is_authenticated:
         return dumps({
-            'user': current_user.nickname
+            'user': current_user.nickname,
+            'password': current_user.password
         }), 200
     else:
         return dumps({
