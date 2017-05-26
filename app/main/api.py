@@ -1,8 +1,9 @@
 from json import dumps
 from os.path import dirname, join
 
-from flask import send_file, request
+from flask import send_file, request, g
 from flask_login import current_user
+from flask_wtf.csrf import generate_csrf
 
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
@@ -14,6 +15,13 @@ from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict, user_data_to_dict, list_history_objs_to_dicts
 from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
 from app.main import main_blueprint as main
+
+
+@main.after_request
+def add_csrf_token(response):
+    generate_csrf()
+    response.headers['X-CSRFToken'] = getattr(g, 'csrf_token')
+    return response
 
 
 @main.route('/')
@@ -79,7 +87,7 @@ def add_rep_history():
     return dumps({'status': 'good'}), 200
 
 
-@main.route('/get-valid-id-exercise-pairs', methods=['POST'])
+@main.route('/get-valid-id-exercise-pairs', methods=['POST', 'GET'])
 def get_valid_id_exercise_pairs():
     return dumps({
         'pairs': RepExercisesManagement.get_valid_id_exercise_pairs()

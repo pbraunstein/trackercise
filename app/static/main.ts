@@ -33,7 +33,7 @@ import {LoginGuard} from "./loginguard";
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        {provide: XSRFStrategy,  useClass: CookieXSRFStrategy},
+        {provide: XSRFStrategy, useValue: new CookieXSRFStrategy('csrftoken', 'X-CSRFToken')},
         LoginGuard
     ],
     bootstrap: [ApplicationComponent]
