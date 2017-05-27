@@ -51,7 +51,7 @@ install_node_requirements() {
 }
 
 build_and_bundle() {
-    npm run clean && npm run build
+    npm run buildProduction
 }
 
 setup_nginx() {
