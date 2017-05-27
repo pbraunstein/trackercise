@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {Http, Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import {Router} from "@angular/router";
+import {CSRFService} from "../../services/csrfservice";
 
 @Component({
     selector:'login',
@@ -11,7 +12,7 @@ export class LoginComponent{
     private endpoint: Observable<any>;
     private router: Router;
 
-    constructor(private http: Http, router: Router) {
+    constructor(private http: Http, router: Router, private csrfService: CSRFService) {
         this.router = router;
     }
 
@@ -25,6 +26,7 @@ export class LoginComponent{
         this.endpoint.subscribe(
             data => {
                 this.router.navigate(['/']);
+                this.csrfService.setToken(data.headers.get('X-CSRFTOKEN'));
                 console.log(data);
             },
             err => console.log(err)

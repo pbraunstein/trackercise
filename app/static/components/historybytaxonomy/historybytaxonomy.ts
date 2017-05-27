@@ -21,7 +21,6 @@ export class HistoryByTaxonomyComponent {
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;
-                this.csrfService.setToken(data.headers.get('X-CSRFTOKEN'));
             },
             err => console.log(err)
         );

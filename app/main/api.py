@@ -46,6 +46,7 @@ def status():
 
 @main.route('/user-data', methods=['POST'])
 def user_data():
+    csrf.protect()
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
     return dumps(user_data_to_dict(UserData.get_user_data())), 200
@@ -53,6 +54,7 @@ def user_data():
 
 @main.route('/history-by-taxonomy', methods=['POST'])
 def history_by_taxonomy():
+    csrf.protect()
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
 
@@ -89,7 +91,6 @@ def add_rep_history():
 
 
 @main.route('/get-valid-id-exercise-pairs', methods=['POST', 'GET'])
-@csrf.exempt
 def get_valid_id_exercise_pairs():
     return dumps({
         'pairs': RepExercisesManagement.get_valid_id_exercise_pairs()
@@ -128,7 +129,6 @@ def add_rep_taxonomy():
 
 
 @main.route('/login', methods=['POST'])
-@csrf.exempt
 def login():
     parameters = request.get_json()
     email = parameters.get('email')
