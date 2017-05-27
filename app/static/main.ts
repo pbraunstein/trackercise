@@ -22,6 +22,7 @@ import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 import {routing} from './routing';
 import {IntroductionComponent} from "./components/introduction/introduction";
 import {LoginGuard} from "./loginguard";
+import {CSRFService} from "./services/csrfservice";
 
 
 @NgModule({
@@ -31,7 +32,11 @@ import {LoginGuard} from "./loginguard";
         RegisterComponent, UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent,
         IntroductionComponent
     ],
-    providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}, LoginGuard],
+    providers: [
+        {provide: LocationStrategy, useClass: HashLocationStrategy},
+        {provide: CSRFService, useClass: CSRFService},
+        LoginGuard
+    ],
     bootstrap: [ApplicationComponent]
 })
 export class TrackercizeModule {

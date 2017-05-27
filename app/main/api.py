@@ -1,9 +1,11 @@
 from json import dumps
 from os.path import dirname, join
 
-from flask import send_file, request
+from flask import send_file, request, g
 from flask_login import current_user
+from flask_wtf.csrf import generate_csrf
 
+from app import csrf
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
@@ -14,6 +16,13 @@ from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict, user_data_to_dict, list_history_objs_to_dicts
 from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
 from app.main import main_blueprint as main
+
+
+@main.after_request
+def add_csrf_token(response):
+    generate_csrf()
+    response.headers['X-CSRFToken'] = getattr(g, 'csrf_token')
+    return response
 
 
 @main.route('/')
@@ -37,6 +46,7 @@ def status():
 
 @main.route('/user-data', methods=['POST'])
 def user_data():
+    csrf.protect()
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
     return dumps(user_data_to_dict(UserData.get_user_data())), 200
@@ -44,6 +54,7 @@ def user_data():
 
 @main.route('/history-by-taxonomy', methods=['POST'])
 def history_by_taxonomy():
+    csrf.protect()
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
 
