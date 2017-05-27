@@ -5,6 +5,7 @@ from flask import send_file, request, g
 from flask_login import current_user
 from flask_wtf.csrf import generate_csrf
 
+from app import csrf
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
@@ -88,6 +89,7 @@ def add_rep_history():
 
 
 @main.route('/get-valid-id-exercise-pairs', methods=['POST', 'GET'])
+@csrf.exempt
 def get_valid_id_exercise_pairs():
     return dumps({
         'pairs': RepExercisesManagement.get_valid_id_exercise_pairs()
@@ -126,6 +128,7 @@ def add_rep_taxonomy():
 
 
 @main.route('/login', methods=['POST'])
+@csrf.exempt
 def login():
     parameters = request.get_json()
     email = parameters.get('email')

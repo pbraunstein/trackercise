@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
-import {HttpModule, CookieXSRFStrategy, XSRFStrategy} from "@angular/http";
+import {HttpModule} from "@angular/http";
 import {AllDataComponent} from "./components/alldata/alldata";
 import {LoginComponent} from "./components/login/login";
 import {FormsModule} from "@angular/forms";
@@ -22,6 +22,7 @@ import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 import {routing} from './routing';
 import {IntroductionComponent} from "./components/introduction/introduction";
 import {LoginGuard} from "./loginguard";
+import {CSRFService} from "./services/csrfservice";
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import {LoginGuard} from "./loginguard";
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
-        {provide: XSRFStrategy, useValue: new CookieXSRFStrategy('csrftoken', 'X-CSRFToken')},
+        {provide: CSRFService, useClass: CSRFService},
         LoginGuard
     ],
     bootstrap: [ApplicationComponent]
