@@ -1,7 +1,7 @@
 from json import dumps
 from os.path import dirname, join
 
-from flask import send_file, request, g
+from flask import send_file, request, g, Response
 from flask_login import current_user
 from flask_wtf.csrf import generate_csrf
 
@@ -16,13 +16,6 @@ from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict, user_data_to_dict, list_history_objs_to_dicts
 from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
 from app.main import main_blueprint as main
-
-
-@main.after_request
-def add_csrf_token(response):
-    generate_csrf()
-    response.headers['X-CSRFToken'] = getattr(g, 'csrf_token')
-    return response
 
 
 @main.route('/')
@@ -135,10 +128,13 @@ def login():
     password = parameters.get('password')
     login_result = Loginerator.login(email, password)
     if login_result == LoginResult.LOGGED_IN:
-        return dumps({
+        response = Response(dumps({
             'status': 'good',
             'user_logged_in': current_user.nickname
-        }), 200
+        }))
+        generate_csrf()
+        response.headers['X-CSRFToken'] = getattr(g, 'csrf_token')
+        return response, 200
     else:
         return dumps({'status': 'bad'}), 400
 
