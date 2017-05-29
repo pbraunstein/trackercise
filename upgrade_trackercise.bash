@@ -1,6 +1,9 @@
 #!/bin/bash
 
 main() {
+    echo "S T O P I N G  S E R V E R . . ."
+    ./stop_prod_server.bash
+
     echo "P U L L I N G  R E C E N T  C H A N G E S . . ."
     git pull
 
@@ -12,6 +15,9 @@ main() {
 
     echo "S E T T I N G  U P  N G I N X . . ."
     setup_nginx
+
+    echo "S T A R T I N G  S E R V E R . . ."
+    ./start_prod_server.bash
 }
 
 upgrade_node_packages() {
