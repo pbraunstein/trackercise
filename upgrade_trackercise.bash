@@ -8,7 +8,7 @@ main() {
     git pull
 
     echo "U P G R A D I N G  N O D E  P A C K A G E S . . ."
-    upgrade_node_pacakages
+    upgrade_node_packages
 
     echo "B U I L D I N G  A N D  B U N D L I N G . . ."
     build_and_bundle
