@@ -17,7 +17,8 @@ main() {
     setup_nginx
 
     echo "S T A R T I N G  S E R V E R . . ."
-    ./start_prod_server.bash
+    start_nginx
+
 }
 
 upgrade_node_packages() {
@@ -31,6 +32,11 @@ build_and_bundle() {
 setup_nginx() {
     cd ../../
     sudo cp nginx.conf /etc/nginx/nginx.conf
+}
+
+start_nginx(){
+    source ./venv/bin/activate
+    ./start_prod_server.bash
 }
 
 main
