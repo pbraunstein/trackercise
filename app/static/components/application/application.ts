@@ -8,4 +8,10 @@ import {Component} from "@angular/core";
     ]
 })
 export class ApplicationComponent {
+    ngOnInit() {
+        $("#main-navbar").on("click", () => {
+            $("#main-navbar").collapse('hide');
+        })
+    }
+
 }
