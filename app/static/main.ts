@@ -11,7 +11,6 @@ import {AllDataComponent} from "./components/alldata/alldata";
 import {LoginComponent} from "./components/login/login";
 import {FormsModule} from "@angular/forms";
 import {CurrentUserComponent} from "./components/currentuser/currentuser";
-import {LogoutComponent} from "./components/logout/logout";
 import {RegisterComponent} from "./components/register/register";
 import {UserDataComponent} from "./components/userdata/userdata";
 import {AddTaxonomyComponent} from "./components/addtaxonomy/addtaxonomy";
@@ -23,18 +22,20 @@ import {routing} from './routing';
 import {IntroductionComponent} from "./components/introduction/introduction";
 import {LoginGuard} from "./loginguard";
 import {CSRFService} from "./services/csrfservice";
+import {LogoutService} from "./services/logoutservice";
 
 
 @NgModule({
     imports: [BrowserModule, HttpModule, FormsModule, routing],
     declarations: [
-        ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, LogoutComponent,
-        RegisterComponent, UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent,
+        ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, RegisterComponent,
+        UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent,
         IntroductionComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         {provide: CSRFService, useClass: CSRFService},
+        {provide: LogoutService, useClass: LogoutService},
         LoginGuard
     ],
     bootstrap: [ApplicationComponent]

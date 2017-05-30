@@ -1,4 +1,5 @@
 import {Component} from "@angular/core";
+import {LogoutService} from "../../services/logoutservice";
 @Component({
     selector: 'application-component',
     templateUrl: '/static/components/application/application.html',
@@ -8,10 +9,18 @@ import {Component} from "@angular/core";
     ]
 })
 export class ApplicationComponent {
+    constructor(private logoutService: LogoutService) {
+
+    }
+
     ngOnInit() {
         $("#main-navbar").on("click", () => {
             $("#main-navbar").collapse('hide');
         })
+    }
+
+    public logout(): void {
+        this.logoutService.logout();
     }
 
 }

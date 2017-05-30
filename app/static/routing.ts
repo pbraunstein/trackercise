@@ -3,7 +3,6 @@ import {CurrentUserComponent} from "./components/currentuser/currentuser";
 import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
 import {IntroductionComponent} from "./components/introduction/introduction";
 import {LoginComponent} from "./components/login/login";
-import {LogoutComponent} from "./components/logout/logout";
 import {LoginGuard} from "./loginguard";
 
 const routes: Routes = [
@@ -11,7 +10,6 @@ const routes: Routes = [
     {path: 'history-by-taxonomy', component: HistoryByTaxonomyComponent, canActivate:[LoginGuard]},
     {path: 'settings', component: CurrentUserComponent, canActivate:[LoginGuard]},
     {path: 'login', component: LoginComponent},
-    {path: 'logout', component: LogoutComponent}
 ];
 
 export const routing = RouterModule.forRoot(routes);
