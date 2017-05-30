@@ -23,6 +23,7 @@ import {routing} from './routing';
 import {IntroductionComponent} from "./components/introduction/introduction";
 import {LoginGuard} from "./loginguard";
 import {CSRFService} from "./services/csrfservice";
+import {LogoutService} from "./services/logoutservice";
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {CSRFService} from "./services/csrfservice";
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
         {provide: CSRFService, useClass: CSRFService},
+        {provide: LogoutService, useClass: LogoutService},
         LoginGuard
     ],
     bootstrap: [ApplicationComponent]

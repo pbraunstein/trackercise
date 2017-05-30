@@ -9,6 +9,10 @@ import {LogoutService} from "../../services/logoutservice";
     ]
 })
 export class ApplicationComponent {
+    constructor(private logoutService: LogoutService) {
+
+    }
+
     ngOnInit() {
         $("#main-navbar").on("click", () => {
             $("#main-navbar").collapse('hide');
@@ -16,7 +20,7 @@ export class ApplicationComponent {
     }
 
     public logout(): void {
-        LogoutService.logout();
+        this.logoutService.logout();
     }
 
 }
