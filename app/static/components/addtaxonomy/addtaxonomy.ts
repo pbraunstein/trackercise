@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
+import {ButtonPainter} from "../../services/buttonpainter";
 @Component({
     selector: 'add-taxonomy',
     templateUrl: '/static/components/addtaxonomy/addtaxonomy.html'
@@ -11,7 +12,9 @@ export class AddTaxonomyComponent {
     constructor(private http: Http) {
     }
 
-    onSubmit(value: any) {
+    onSubmit(form: any) {
+        ButtonPainter.paintButtonYellow('#add-taxonomy-submit');
+        let value: any = form.value;
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let data: any = {};
@@ -28,8 +31,14 @@ export class AddTaxonomyComponent {
         data.taxonomy_is_weight_per_hand = AddTaxonomyComponent.booleanize(value.is_weight_per_hand);
         this.endpoint = this.http.post('/add-rep-taxonomy', JSON.stringify(data), {headers: headers});
         this.endpoint.subscribe(
-            data => console.log(data),
-            err => console.log(err),
+            data => {
+                console.log(data);
+                this.resetForm(form);
+            },
+            err => {
+                console.log(err);
+                ButtonPainter.paintButtonRed('#add-taxonomy-submit');
+            }
         )
     }
 
@@ -43,5 +52,15 @@ export class AddTaxonomyComponent {
         } else {
             return String(false);
         }
+    }
+
+    private resetForm(form: any): void {
+                setTimeout(
+            () => {
+                ButtonPainter.paintButtonGreen('#add-taxonomy-submit');
+                form.reset();
+            },
+            ButtonPainter.BUTTON_PAINT_DELAY_MS
+        );
     }
 }
