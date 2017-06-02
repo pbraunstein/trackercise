@@ -24,6 +24,7 @@ export class AddHistoryComponent {
     }
 
     onSubmit(value: any){
+        $('#add-history-submit').removeClass('btn-primary').addClass('btn-warning');
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let data: any = {};
@@ -34,8 +35,19 @@ export class AddHistoryComponent {
         data.history_date = value.history_date;
         this.endpoint_add_history = this.http.post('/add-rep-history', JSON.stringify(data), {headers: headers});
         this.endpoint_add_history.subscribe(
-            data => console.log(data),
+            data => {
+                console.log(data);
+                this.resetForm()
+            },
             err => console.log(err)
         )
+    }
+
+    private resetForm(): void {
+        setTimeout(this.resetButton, 2000);
+    }
+
+    private resetButton(): void {
+        $('#add-history-submit').removeClass('btn-warning').addClass('btn-primary');
     }
 }
