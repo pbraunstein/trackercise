@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
+import {ButtonPainter} from "../../services/buttonpainter";
 @Component({
     selector: 'add-history',
     templateUrl: '/static/components/addhistory/addhistory.html'
@@ -24,7 +25,7 @@ export class AddHistoryComponent {
     }
 
     onSubmit(value: any){
-        $('#add-history-submit').removeClass('btn-primary').addClass('btn-warning');
+        ButtonPainter.paintButtonYellow('#add-history-submit');
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let data: any = {};
@@ -39,15 +40,19 @@ export class AddHistoryComponent {
                 console.log(data);
                 this.resetForm()
             },
-            err => console.log(err)
+            err => {
+                console.log(err);
+                setTimeout(
+                    () => ButtonPainter.paintButtonRed('#add-history-submit'),
+                    ButtonPainter.BUTTON_PAINT_DELAY_MS);
+            }
         )
     }
 
     private resetForm(): void {
-        setTimeout(this.resetButton, 2000);
-    }
-
-    private resetButton(): void {
-        $('#add-history-submit').removeClass('btn-warning').addClass('btn-primary');
+        setTimeout(
+            () => ButtonPainter.paintButtonGreen('#add-history-submit'),
+            ButtonPainter.BUTTON_PAINT_DELAY_MS
+        );
     }
 }
