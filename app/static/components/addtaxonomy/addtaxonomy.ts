@@ -37,7 +37,10 @@ export class AddTaxonomyComponent {
             },
             err => {
                 console.log(err);
-                ButtonPainter.paintButtonRed('#add-taxonomy-submit');
+                setTimeout(
+                    () => ButtonPainter.paintButtonRed('#add-taxonomy-submit'),
+                    ButtonPainter.BUTTON_PAINT_DELAY_MS
+                )
             }
         )
     }
