@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
+import {ButtonPainter} from "../../services/buttonpainter";
 @Component({
     selector: 'add-history',
     templateUrl: '/static/components/addhistory/addhistory.html'
@@ -10,7 +11,7 @@ export class AddHistoryComponent {
     private endpoint_add_history: Observable<any>;
     private pairs: Array<any>;
 
-    constructor(private http: Http){
+    constructor(private http: Http) {
         this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
     }
 
@@ -23,7 +24,9 @@ export class AddHistoryComponent {
         );
     }
 
-    onSubmit(value: any){
+    onSubmit(form: any) {
+        let value: any = form.value;
+        ButtonPainter.paintButtonYellow('#add-history-submit');
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let data: any = {};
@@ -34,8 +37,26 @@ export class AddHistoryComponent {
         data.history_date = value.history_date;
         this.endpoint_add_history = this.http.post('/add-rep-history', JSON.stringify(data), {headers: headers});
         this.endpoint_add_history.subscribe(
-            data => console.log(data),
-            err => console.log(err)
+            data => {
+                console.log(data);
+                this.resetForm(form)
+            },
+            err => {
+                console.log(err);
+                setTimeout(
+                    () => ButtonPainter.paintButtonRed('#add-history-submit'),
+                    ButtonPainter.BUTTON_PAINT_DELAY_MS);
+            }
         )
+    }
+
+    private resetForm(form: any): void {
+        setTimeout(
+            () => {
+                ButtonPainter.paintButtonGreen('#add-history-submit');
+                form.reset();
+            },
+            ButtonPainter.BUTTON_PAINT_DELAY_MS
+        );
     }
 }
