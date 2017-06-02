@@ -11,7 +11,7 @@ export class AddHistoryComponent {
     private endpoint_add_history: Observable<any>;
     private pairs: Array<any>;
 
-    constructor(private http: Http){
+    constructor(private http: Http) {
         this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
     }
 
@@ -24,7 +24,8 @@ export class AddHistoryComponent {
         );
     }
 
-    onSubmit(value: any){
+    onSubmit(form: any) {
+        let value: any = form.value;
         ButtonPainter.paintButtonYellow('#add-history-submit');
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -38,7 +39,7 @@ export class AddHistoryComponent {
         this.endpoint_add_history.subscribe(
             data => {
                 console.log(data);
-                this.resetForm()
+                this.resetForm(form)
             },
             err => {
                 console.log(err);
@@ -49,9 +50,12 @@ export class AddHistoryComponent {
         )
     }
 
-    private resetForm(): void {
+    private resetForm(form: any): void {
         setTimeout(
-            () => ButtonPainter.paintButtonGreen('#add-history-submit'),
+            () => {
+                ButtonPainter.paintButtonGreen('#add-history-submit');
+                form.reset();
+            },
             ButtonPainter.BUTTON_PAINT_DELAY_MS
         );
     }
