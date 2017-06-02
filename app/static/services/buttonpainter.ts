@@ -1,6 +1,9 @@
-
+/**
+ * Helper class that changes the color of bootstrap buttons. This can be used to signal success or failure
+ * to the user
+ */
 export class ButtonPainter {
-    public static BUTTON_PAINT_DELAY_MS: number = 2000;
+    public static BUTTON_PAINT_DELAY_MS: number = 2000;  // delay change for better UX
 
     public static paintButtonGreen(buttonId: string): void {
         ButtonPainter.removeBootstrapButtonClasses(buttonId);
