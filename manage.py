@@ -110,10 +110,6 @@ def _generate_rep_history_from_row(row, user_id):
     :param user_id: id of user
     :return: RepExercisesHistory taxonomy object representing one row in the db table
     """
-    # if weight is body weight, signal that with -1
-    if row[3] == 'body':
-        row[3] = '0'
-
     return RepExercisesHistory(
         user_id=user_id,
         exercise_id=_get_exercise_id_for_name(row[0]),
