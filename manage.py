@@ -30,6 +30,9 @@ def run_importers():
 
 @manager.command
 def run_exporters():
+    """
+    Exports all db contents into three csv files
+    """
     export_users()
     export_rep_taxonomies()
     export_rep_history()
@@ -47,6 +50,9 @@ def import_users():
 
 @manager.command
 def export_users():
+    """
+    Exports the users from the db into a CSV file
+    """
     filehandle = FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
     users = Users.query.all()
     with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
@@ -90,6 +96,9 @@ def import_rep_taxonomies():
 
 @manager.command
 def export_rep_taxonomies():
+    """
+    Exports the rep taxonomies from the db into a CSV file
+    """
     filehandle = FILE_HANDLES.TAXONOMY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
     taxonomies = RepExercisesTaxonomy.query.all()
     with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
@@ -117,6 +126,9 @@ def import_rep_history():
 
 @manager.command
 def export_rep_history():
+    """
+    Exports the rep exercise history from the db into a csv file
+    """
     filehandle = FILE_HANDLES.HISTORY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
     history = RepExercisesHistory.query.all()
     with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
