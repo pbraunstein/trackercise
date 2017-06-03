@@ -32,7 +32,7 @@ def run_importers():
 def run_exporters():
     export_users()
     export_rep_taxonomies()
-    # export_rep_history()
+    export_rep_history()
 
 
 @manager.command
@@ -117,8 +117,13 @@ def import_rep_history():
 
 @manager.command
 def export_rep_history():
+    filehandle = FILE_HANDLES.HISTORY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
     history = RepExercisesHistory.query.all()
-    print history
+    with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
+        history_writer = writer(csvfile)
+        history_writer.writerow(RepExercisesHistory.get_attribute_header_list())
+        for h in history:
+            history_writer.writerow(h.get_attribute_list())
 
 
 def _booleanize(yes_or_no):

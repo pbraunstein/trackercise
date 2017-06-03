@@ -161,6 +161,14 @@ class RepExercisesHistory(db.Model):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    @classmethod
+    def get_attribute_header_list(cls):
+        return ['id', 'user_id', 'exercise_id', 'sets', 'reps', 'weight', 'date']
+
+    def get_attribute_list(self):
+        return [self.id, self.user_id, self.exercise_id, self.sets, self.reps, self.weight,
+                self.date.strftime('%Y-%m-%d')]
+
     def __repr__(self):
         return '<{0}: {1} sets of {2} reps at {3} lbs. on {4}>'.format(self.exercise_id, self.sets, self.reps,
                                                                        self.weight, self.date)
