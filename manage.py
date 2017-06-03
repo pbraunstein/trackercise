@@ -27,6 +27,13 @@ def run_importers():
 
 
 @manager.command
+def run_exporters():
+    export_users()
+    export_rep_taxonomies()
+    export_rep_history()
+
+
+@manager.command
 def import_users():
     hasher = hashlib.sha256()
     hasher.update('a')
@@ -34,6 +41,11 @@ def import_users():
     user = Users(email='a@a.a', nickname='Phil', password=password)
     db.session.add(user)
     db.session.commit()
+
+
+@manager.command
+def export_users():
+    pass
 
 
 @manager.command
@@ -69,6 +81,11 @@ def import_rep_taxonomies():
 
 
 @manager.command
+def export_rep_taxonomies():
+    pass
+
+
+@manager.command
 def import_rep_history():
     """
     Imports the rep exercise history sample data into the rep_exercises_history db table
@@ -83,6 +100,11 @@ def import_rep_history():
             entries.append(_generate_rep_history_from_row(row, user_id))
     db.session.add_all(entries)
     db.session.commit()
+
+
+@manager.command
+def export_rep_history():
+    pass
 
 
 def _booleanize(yes_or_no):
