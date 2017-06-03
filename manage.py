@@ -45,7 +45,8 @@ def import_users():
 
 @manager.command
 def export_users():
-    pass
+    users = Users.query.all()
+    print users
 
 
 @manager.command
@@ -82,7 +83,8 @@ def import_rep_taxonomies():
 
 @manager.command
 def export_rep_taxonomies():
-    pass
+    taxonomies = RepExercisesTaxonomy.query.all()
+    print taxonomies
 
 
 @manager.command
@@ -104,7 +106,8 @@ def import_rep_history():
 
 @manager.command
 def export_rep_history():
-    pass
+    history = RepExercisesHistory.query.all()
+    print history
 
 
 def _booleanize(yes_or_no):
