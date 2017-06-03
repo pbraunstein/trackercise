@@ -31,7 +31,7 @@ def run_importers():
 @manager.command
 def run_exporters():
     export_users()
-    # export_rep_taxonomies()
+    export_rep_taxonomies()
     # export_rep_history()
 
 
@@ -90,9 +90,13 @@ def import_rep_taxonomies():
 
 @manager.command
 def export_rep_taxonomies():
+    filehandle = FILE_HANDLES.TAXONOMY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
     taxonomies = RepExercisesTaxonomy.query.all()
-    print taxonomies
-
+    with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
+        taxonomy_writer = writer(csvfile)
+        taxonomy_writer.writerow(RepExercisesTaxonomy.get_attribute_header_list())
+        for t in taxonomies:
+            taxonomy_writer.writerow(t.get_attribute_list())
 
 @manager.command
 def import_rep_history():

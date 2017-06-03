@@ -52,6 +52,15 @@ class RepExercisesTaxonomy(db.Model):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    @classmethod
+    def get_attribute_header_list(cls):
+        return ['id', 'name', 'is_back', 'is_chest', 'is_shoulders', 'is_biceps', 'is_triceps', 'is_legs', 'is_core',
+                'is_balance', 'is_cardio', 'is_weight_per_hand']
+
+    def get_attribute_list(self):
+        return [self.id, self.name, self.is_back, self.is_chest, self.is_shoulders, self.is_biceps, self.is_triceps,
+                self.is_legs, self.is_core, self.is_balance, self.is_cardio, self.is_weight_per_hand]
+
     def __repr__(self):
         return '<{0}:  is_back: {1}  is_chest: {2}  is_shoulders: {3}  is_biceps: {4}  is_triceps: {5}  is_legs: {6}' \
                '  is_core: {7}  is_balance: {8}  is_cardio: {9}  is_weight_per_hand:  {10}>'\
