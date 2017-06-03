@@ -52,6 +52,15 @@ class RepExercisesTaxonomy(db.Model):
     def __ne__(self, other):
         return not self.__eq__(other)
 
+    @classmethod
+    def get_attribute_header_list(cls):
+        return ['id', 'name', 'is_back', 'is_chest', 'is_shoulders', 'is_biceps', 'is_triceps', 'is_legs', 'is_core',
+                'is_balance', 'is_cardio', 'is_weight_per_hand']
+
+    def get_attribute_list(self):
+        return [self.id, self.name, self.is_back, self.is_chest, self.is_shoulders, self.is_biceps, self.is_triceps,
+                self.is_legs, self.is_core, self.is_balance, self.is_cardio, self.is_weight_per_hand]
+
     def __repr__(self):
         return '<{0}:  is_back: {1}  is_chest: {2}  is_shoulders: {3}  is_biceps: {4}  is_triceps: {5}  is_legs: {6}' \
                '  is_core: {7}  is_balance: {8}  is_cardio: {9}  is_weight_per_hand:  {10}>'\
@@ -109,6 +118,13 @@ class Users(db.Model):
         """No users can be anonymous"""
         return False
 
+    @classmethod
+    def get_attribute_header_list(cls):
+        return ['id', 'email', 'nickname', 'password', 'authenticated']
+
+    def get_attribute_list(self):
+        return [self.id, self.email, self.nickname, self.password, self.authenticated]
+
     def __repr__(self):
         return '<Member Email: {0}  Nickname: {1}>'.format(self.email, self.nickname)
 
@@ -144,6 +160,14 @@ class RepExercisesHistory(db.Model):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    @classmethod
+    def get_attribute_header_list(cls):
+        return ['id', 'user_id', 'exercise_id', 'sets', 'reps', 'weight', 'date']
+
+    def get_attribute_list(self):
+        return [self.id, self.user_id, self.exercise_id, self.sets, self.reps, self.weight,
+                self.date.strftime('%Y-%m-%d')]
 
     def __repr__(self):
         return '<{0}: {1} sets of {2} reps at {3} lbs. on {4}>'.format(self.exercise_id, self.sets, self.reps,

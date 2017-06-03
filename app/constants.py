@@ -33,3 +33,11 @@ class HISTORY_CONSTNATS:
     REPS = 'history_reps'
     WEIGHT = 'history_weight'
     DATE = 'history_date'
+
+
+class FILE_HANDLES:
+    USERS = 'users'
+    TAXONOMY = 'taxomony'
+    HISTORY = 'history'
+    SEPARATOR = '_'
+    EXTENSION = '.csv'

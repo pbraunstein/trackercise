@@ -1,11 +1,13 @@
+from csv import reader, writer
+from datetime import date
 import hashlib
 import os
-from csv import reader
 
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
 from app import db, create_app
+from app.constants import FILE_HANDLES
 from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
 app = create_app(os.environ.get('APP_SETTINGS') or 'default')
@@ -27,6 +29,16 @@ def run_importers():
 
 
 @manager.command
+def run_exporters():
+    """
+    Exports all db contents into three csv files
+    """
+    export_users()
+    export_rep_taxonomies()
+    export_rep_history()
+
+
+@manager.command
 def import_users():
     hasher = hashlib.sha256()
     hasher.update('a')
@@ -34,6 +46,20 @@ def import_users():
     user = Users(email='a@a.a', nickname='Phil', password=password)
     db.session.add(user)
     db.session.commit()
+
+
+@manager.command
+def export_users():
+    """
+    Exports the users from the db into a CSV file
+    """
+    filehandle = FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
+    users = Users.query.all()
+    with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
+        user_writer = writer(csvfile)
+        user_writer.writerow(Users.get_attribute_header_list())
+        for u in users:
+            user_writer.writerow(u.get_attribute_list())
 
 
 @manager.command
@@ -69,6 +95,19 @@ def import_rep_taxonomies():
 
 
 @manager.command
+def export_rep_taxonomies():
+    """
+    Exports the rep taxonomies from the db into a CSV file
+    """
+    filehandle = FILE_HANDLES.TAXONOMY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
+    taxonomies = RepExercisesTaxonomy.query.all()
+    with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
+        taxonomy_writer = writer(csvfile)
+        taxonomy_writer.writerow(RepExercisesTaxonomy.get_attribute_header_list())
+        for t in taxonomies:
+            taxonomy_writer.writerow(t.get_attribute_list())
+
+@manager.command
 def import_rep_history():
     """
     Imports the rep exercise history sample data into the rep_exercises_history db table
@@ -83,6 +122,20 @@ def import_rep_history():
             entries.append(_generate_rep_history_from_row(row, user_id))
     db.session.add_all(entries)
     db.session.commit()
+
+
+@manager.command
+def export_rep_history():
+    """
+    Exports the rep exercise history from the db into a csv file
+    """
+    filehandle = FILE_HANDLES.HISTORY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
+    history = RepExercisesHistory.query.all()
+    with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
+        history_writer = writer(csvfile)
+        history_writer.writerow(RepExercisesHistory.get_attribute_header_list())
+        for h in history:
+            history_writer.writerow(h.get_attribute_list())
 
 
 def _booleanize(yes_or_no):
