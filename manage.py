@@ -1,11 +1,13 @@
+from csv import reader, writer
+from datetime import date
 import hashlib
 import os
-from csv import reader
 
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
 
 from app import db, create_app
+from app.constants import FILE_HANDLES
 from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
 app = create_app(os.environ.get('APP_SETTINGS') or 'default')
@@ -29,8 +31,8 @@ def run_importers():
 @manager.command
 def run_exporters():
     export_users()
-    export_rep_taxonomies()
-    export_rep_history()
+    # export_rep_taxonomies()
+    # export_rep_history()
 
 
 @manager.command
@@ -45,8 +47,13 @@ def import_users():
 
 @manager.command
 def export_users():
+    filehandle = FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
     users = Users.query.all()
-    print users
+    with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
+        user_writer = writer(csvfile)
+        user_writer.writerow(Users.get_attribute_header_list())
+        for u in users:
+            user_writer.writerow(u.get_attribute_list())
 
 
 @manager.command

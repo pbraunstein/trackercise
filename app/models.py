@@ -109,6 +109,13 @@ class Users(db.Model):
         """No users can be anonymous"""
         return False
 
+    @classmethod
+    def get_attribute_header_list(cls):
+        return ['id', 'email', 'nickname', 'password', 'authenticated']
+
+    def get_attribute_list(self):
+        return [self.id, self.email, self.nickname, self.password, self.authenticated]
+
     def __repr__(self):
         return '<Member Email: {0}  Nickname: {1}>'.format(self.email, self.nickname)
 
