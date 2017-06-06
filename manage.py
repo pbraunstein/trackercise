@@ -17,6 +17,18 @@ manager = Manager(app)
 
 manager.add_command('db', MigrateCommand)
 
+# FILE PATH CONSTANTS
+USERS_FILE = FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
+TAXONOMY_FILE = FILE_HANDLES.TAXONOMY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
+HISTORY_FILE = FILE_HANDLES.HISTORY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
+
+
+@manager.command
+def backup_data_to_s3():
+    """
+    Backs up all data to S3
+    """
+    run_exporters()
 
 @manager.command
 def run_importers():
@@ -53,9 +65,8 @@ def export_users():
     """
     Exports the users from the db into a CSV file
     """
-    filehandle = FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
     users = Users.query.all()
-    with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
+    with open(os.path.join(app.root_path, USERS_FILE), 'w') as csvfile:
         user_writer = writer(csvfile)
         user_writer.writerow(Users.get_attribute_header_list())
         for u in users:
@@ -99,9 +110,8 @@ def export_rep_taxonomies():
     """
     Exports the rep taxonomies from the db into a CSV file
     """
-    filehandle = FILE_HANDLES.TAXONOMY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
     taxonomies = RepExercisesTaxonomy.query.all()
-    with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
+    with open(os.path.join(app.root_path, TAXONOMY_FILE), 'w') as csvfile:
         taxonomy_writer = writer(csvfile)
         taxonomy_writer.writerow(RepExercisesTaxonomy.get_attribute_header_list())
         for t in taxonomies:
@@ -129,9 +139,8 @@ def export_rep_history():
     """
     Exports the rep exercise history from the db into a csv file
     """
-    filehandle = FILE_HANDLES.HISTORY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
     history = RepExercisesHistory.query.all()
-    with open(os.path.join(app.root_path, filehandle), 'w') as csvfile:
+    with open(os.path.join(app.root_path, HISTORY_FILE), 'w') as csvfile:
         history_writer = writer(csvfile)
         history_writer.writerow(RepExercisesHistory.get_attribute_header_list())
         for h in history:
