@@ -30,7 +30,7 @@ HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.HISTORY + FILE_HAND
 @manager.command
 def backup_data_to_s3():
     """
-    Backs up all data to S3
+    Runs the exporters, uploads each of the files up to s3, and then deletes the files that were created
     """
     run_exporters()
     _upload_files_s3()
@@ -44,7 +44,9 @@ def _upload_files_s3():
 
 
 def _clean_up_from_export():
-    pass
+    os.unlink(USERS_FILE_PATH)
+    os.unlink(TAXONOMY_FILE_PATH)
+    os.unlink(HISTORY_FILE_PATH)
 
 
 @manager.command
