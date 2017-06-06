@@ -2,6 +2,7 @@ from csv import reader, writer
 from datetime import date
 import hashlib
 import os
+import subprocess
 
 from flask_migrate import Migrate, MigrateCommand
 from flask_script import Manager
@@ -18,9 +19,12 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 # FILE PATH CONSTANTS
-USERS_FILE = FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
-TAXONOMY_FILE = FILE_HANDLES.TAXONOMY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
-HISTORY_FILE = FILE_HANDLES.HISTORY + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION
+USERS_FILE_PATH = os.path.join(app.root_path,
+                               FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION)
+TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TAXONOMY + FILE_HANDLES.SEPARATOR + str(
+    date.today()) + FILE_HANDLES.EXTENSION)
+HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.HISTORY + FILE_HANDLES.SEPARATOR + str(
+    date.today()) + FILE_HANDLES.EXTENSION)
 
 
 @manager.command
@@ -34,7 +38,9 @@ def backup_data_to_s3():
 
 
 def _upload_files_s3():
-    pass
+    subprocess.call(['aws', 's3', 'cp', USERS_FILE_PATH, 's3://trackercise'])
+    subprocess.call(['aws', 's3', 'cp', TAXONOMY_FILE_PATH, 's3://trackercise'])
+    subprocess.call(['aws', 's3', 'cp', HISTORY_FILE_PATH, 's3://trackercise'])
 
 
 def _clean_up_from_export():
@@ -77,7 +83,7 @@ def export_users():
     Exports the users from the db into a CSV file
     """
     users = Users.query.all()
-    with open(os.path.join(app.root_path, USERS_FILE), 'w') as csvfile:
+    with open(USERS_FILE_PATH, 'w') as csvfile:
         user_writer = writer(csvfile)
         user_writer.writerow(Users.get_attribute_header_list())
         for u in users:
@@ -122,11 +128,12 @@ def export_rep_taxonomies():
     Exports the rep taxonomies from the db into a CSV file
     """
     taxonomies = RepExercisesTaxonomy.query.all()
-    with open(os.path.join(app.root_path, TAXONOMY_FILE), 'w') as csvfile:
+    with open(TAXONOMY_FILE_PATH, 'w') as csvfile:
         taxonomy_writer = writer(csvfile)
         taxonomy_writer.writerow(RepExercisesTaxonomy.get_attribute_header_list())
         for t in taxonomies:
             taxonomy_writer.writerow(t.get_attribute_list())
+
 
 @manager.command
 def import_rep_history():
@@ -151,7 +158,7 @@ def export_rep_history():
     Exports the rep exercise history from the db into a csv file
     """
     history = RepExercisesHistory.query.all()
-    with open(os.path.join(app.root_path, HISTORY_FILE), 'w') as csvfile:
+    with open(HISTORY_FILE_PATH, 'w') as csvfile:
         history_writer = writer(csvfile)
         history_writer.writerow(RepExercisesHistory.get_attribute_header_list())
         for h in history:
@@ -207,6 +214,7 @@ def _get_exercise_id_for_name(exercise_name):
     if result is None:
         raise TypeError("No types match: {0} row is {1}".format(exercise_name))
     return result.id
+
 
 if __name__ == '__main__':
     manager.run()
