@@ -2,6 +2,8 @@ import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {ButtonPainter} from "../../services/buttonpainter";
+import 'select2';
+
 @Component({
     selector: 'add-history',
     templateUrl: '/static/components/addhistory/addhistory.html'
@@ -22,6 +24,9 @@ export class AddHistoryComponent {
             },
             err => console.log(err)
         );
+        $(document).ready(function () {
+            (<any>$("#workout-typeahead")).select2();
+        });
     }
 
     onSubmit(form: any) {
