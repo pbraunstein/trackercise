@@ -29,6 +29,17 @@ def backup_data_to_s3():
     Backs up all data to S3
     """
     run_exporters()
+    _upload_files_s3()
+    _clean_up_from_export()
+
+
+def _upload_files_s3():
+    pass
+
+
+def _clean_up_from_export():
+    pass
+
 
 @manager.command
 def run_importers():
