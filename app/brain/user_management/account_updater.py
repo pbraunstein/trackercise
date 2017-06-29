@@ -2,6 +2,7 @@ from flask_login import current_user
 
 from app.brain.user_management.change_password_result import ChangePasswordResult
 from app.brain.utilities import hash_password
+from app.service import UsersService
 
 
 class AccountUpdater(object):
@@ -16,5 +17,4 @@ class AccountUpdater(object):
             return ChangePasswordResult.CURRENT_PASSWORD_INCORRECT
         else:
             # If we get to here, we go ahead and change the password
-            # TODO: This logic needs to be updated
-            pass
+            UsersService.change_password(current_user, hash_password(new_password))
