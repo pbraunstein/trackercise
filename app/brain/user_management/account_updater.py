@@ -18,3 +18,4 @@ class AccountUpdater(object):
         else:
             # If we get to here, we go ahead and change the password
             UsersService.change_password(current_user, hash_password(new_password))
+            return ChangePasswordResult.PASSWORD_CHANGE_SUCCESSFUL
