@@ -1,6 +1,8 @@
 import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http} from "@angular/http";
+import * as d3 from 'd3';
+
 @Component({
     selector:'current-user',
     templateUrl:'/static/components/currentuser/currentuser.html'
@@ -21,6 +23,16 @@ export class CurrentUserComponent {
                 this.currentPassword = data.json().password;
             },
             err => console.log(err)
-        )
-    }
+        );
+        let data = [30, 86, 168, 281, 303, 365, 1000];
+
+        d3.select(".chart")
+          .selectAll("div")
+          .data(data)
+            .enter()
+            .append("div")
+            .style("width", function(d) { return d + "px"; })
+            .style("background-color", function(d) {return 'steelblue'})
+            .text(function(d) { return d; });
+            }
 }
