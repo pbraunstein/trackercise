@@ -9,6 +9,8 @@ from app import csrf
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
+from app.brain.user_management.account_updater import AccountUpdater
+from app.brain.user_management.change_password_result import ChangePasswordResult
 from app.brain.user_management.loginerator import Loginerator
 from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
@@ -166,6 +168,20 @@ def register():
     password = parameters.get('password')
     reg_result = RegisterCity.register(email, nickname, password)
     if reg_result == RegisterResult.REGISTERED:
+        return dumps({'status': 'good'}), 200
+    else:
+        return dumps({'status': 'bad'}), 400
+
+
+@main.route('/change-password', methods=['POST'])
+def change_password():
+    parameters = request.get_json()
+    old_password = parameters.get('old_password')
+    new_password = parameters.get('new_password')
+    confirm_password = parameters.get('confirm_password')
+    change_password_result = AccountUpdater.change_password(old_password, new_password, confirm_password)
+
+    if change_password_result == ChangePasswordResult.PASSWORD_CHANGE_SUCCESSFUL:
         return dumps({'status': 'good'}), 200
     else:
         return dumps({'status': 'bad'}), 400

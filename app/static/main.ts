@@ -23,6 +23,7 @@ import {IntroductionComponent} from "./components/introduction/introduction";
 import {LoginGuard} from "./loginguard";
 import {CSRFService} from "./services/csrfservice";
 import {LogoutService} from "./services/logoutservice";
+import {ChangePasswordComponent} from "./components/changepassword/changepassword";
 
 
 @NgModule({
@@ -30,7 +31,7 @@ import {LogoutService} from "./services/logoutservice";
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, RegisterComponent,
         UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent,
-        IntroductionComponent
+        IntroductionComponent, ChangePasswordComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
