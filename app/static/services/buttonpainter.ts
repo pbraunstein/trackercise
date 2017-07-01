@@ -20,6 +20,17 @@ export class ButtonPainter {
         $(buttonId).addClass('btn-danger');
     }
 
+    public static disableButton(buttonId: string): void {
+        $(buttonId).addClass('disabled');
+        $(buttonId).prop('disabled', true);
+    }
+
+    public static enableButton(buttonId: string): void {
+        $(buttonId).removeClass('disabled');
+        $(buttonId).prop('disabled', false);
+    }
+
+
     private static removeBootstrapButtonClasses(buttonId: string): void {
         $(buttonId).removeClass('btn-warning').removeClass('btn-success').removeClass('btn-danger');
     }
