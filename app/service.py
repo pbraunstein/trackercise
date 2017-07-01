@@ -59,6 +59,11 @@ class UsersService(object):
     def get_list_of_all_users():
         return list(Users.query.all())
 
+    @staticmethod
+    def change_password(user, new_password):
+        db.session.query(Users).filter(Users.id == user.id).update({Users.password: new_password})
+        db.session.commit()
+
 
 class RepExercisesTaxonomyService(object):
     """

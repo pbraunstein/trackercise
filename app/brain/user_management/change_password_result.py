@@ -1,0 +1,4 @@
+class ChangePasswordResult(object):
+    PASSWORD_CHANGE_SUCCESSFUL = 0
+    NEW_PASSWORDS_DO_NOT_MATCH = 1
+    CURRENT_PASSWORD_INCORRECT = 2

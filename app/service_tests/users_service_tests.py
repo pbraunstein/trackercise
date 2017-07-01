@@ -113,3 +113,16 @@ class UsersServiceTests(ServiceTestCase):
 
         # Service makes no guarantee of order of users returned
         self.assertListEqual(sorted(actual_results, key=sort_key), sorted(expected_results, key=sort_key))
+
+    # change_password tests
+    def test_change_password(self):
+        user_1 = Users(email='jake@jake.jake',
+                       nickname='Jake Wilson',
+                       password='old_pass')
+        new_password = 'new_pass'
+        UsersService.add_user_to_database(user_1)
+        UsersService.change_password(user_1, 'new_pass')
+
+        retrieved_user = UsersService.get_list_of_all_users()[0]
+
+        self.assertEqual(retrieved_user.password, new_password)
