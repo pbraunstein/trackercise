@@ -175,6 +175,9 @@ def register():
 
 @main.route('/change-password', methods=['POST'])
 def change_password():
+    if not current_user.is_authenticated:
+        return dumps({'status': 'bad'}), 400
+
     parameters = request.get_json()
     old_password = parameters.get('old_password')
     new_password = parameters.get('new_password')
