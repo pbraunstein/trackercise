@@ -27,6 +27,7 @@ export class AddHistoryComponent {
     onSubmit(form: any) {
         let value: any = form.value;
         ButtonPainter.paintButtonYellow('#add-history-submit');
+        ButtonPainter.disableButton('#add-history-submit');
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let data: any = {};
@@ -44,7 +45,10 @@ export class AddHistoryComponent {
             err => {
                 console.log(err);
                 setTimeout(
-                    () => ButtonPainter.paintButtonRed('#add-history-submit'),
+                    () => {
+                        ButtonPainter.paintButtonRed('#add-history-submit');
+                        ButtonPainter.enableButton('#add-history-submit');
+                    },
                     ButtonPainter.BUTTON_PAINT_DELAY_MS);
             }
         )
@@ -54,6 +58,7 @@ export class AddHistoryComponent {
         setTimeout(
             () => {
                 ButtonPainter.paintButtonGreen('#add-history-submit');
+                ButtonPainter.enableButton('#add-history-submit');
                 form.reset();
             },
             ButtonPainter.BUTTON_PAINT_DELAY_MS

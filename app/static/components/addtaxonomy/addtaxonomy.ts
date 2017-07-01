@@ -14,6 +14,7 @@ export class AddTaxonomyComponent {
 
     onSubmit(form: any) {
         ButtonPainter.paintButtonYellow('#add-taxonomy-submit');
+        ButtonPainter.disableButton('#add-taxonomy-submit');
         let value: any = form.value;
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -38,7 +39,10 @@ export class AddTaxonomyComponent {
             err => {
                 console.log(err);
                 setTimeout(
-                    () => ButtonPainter.paintButtonRed('#add-taxonomy-submit'),
+                    () => {
+                        ButtonPainter.paintButtonRed('#add-taxonomy-submit');
+                        ButtonPainter.enableButton('#add-taxonomy-submit');
+                    },
                     ButtonPainter.BUTTON_PAINT_DELAY_MS
                 )
             }
@@ -61,6 +65,7 @@ export class AddTaxonomyComponent {
                 setTimeout(
             () => {
                 ButtonPainter.paintButtonGreen('#add-taxonomy-submit');
+                ButtonPainter.enableButton('#add-taxonomy-submit');
                 form.reset();
             },
             ButtonPainter.BUTTON_PAINT_DELAY_MS
