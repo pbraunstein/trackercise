@@ -30,7 +30,6 @@ export class ButtonPainter {
         $(buttonId).prop('disabled', false);
     }
 
-
     private static removeBootstrapButtonClasses(buttonId: string): void {
         $(buttonId).removeClass('btn-warning').removeClass('btn-success').removeClass('btn-danger');
     }
