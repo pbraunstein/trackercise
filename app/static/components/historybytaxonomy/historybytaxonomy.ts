@@ -15,13 +15,17 @@ export class HistoryByTaxonomyComponent {
     private history: Array<any>;
     private username: string;
     private shouldBeA = true;
+    private svgs: any;
 
     constructor(private http: Http, private csrfService: CSRFService) {
         this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
     }
 
     ngOnInit() {
-        console.log("in ngOnInit");
+        this.svgs = d3.select('.chart')
+            .append('svg')
+            .attr('width', 300)
+            .attr('height', 300);
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;
@@ -31,9 +35,6 @@ export class HistoryByTaxonomyComponent {
     }
 
     onChange(value: any) {
-        console.log("In onChange");
-        console.log(this.shouldBeA);
-
         let bars;
         let data;
         if (this.shouldBeA) {
@@ -43,51 +44,32 @@ export class HistoryByTaxonomyComponent {
             data = [40, 60, 80];
             this.shouldBeA = true;
         }
-        bars = d3.select(".chart")
-            .selectAll("div")
+        console.log(data);
+
+        bars = this.svgs.selectAll('g')
             .data(data);
-        bars.enter()
-            .append("div")
-            .style("width", function (d: any) {
-                console.log(d);
-                return d + "px";
-            })
-            .style("background-color", d => 'steelblue')
-            .text((d) => d.toString());
-        bars.transition()
+
+        bars.select('rect')
+            .transition()
             .duration(400)
-            .style("width", function (d: any) {
-                console.log(d);
-                return d + "px";
-            })
-            .style("background-color", d => 'steelblue')
-            .text((d) => d.toString());
+            .attr('width', (d: any) => d);
+
+        bars.enter()
+            .append('g')
+            .attr('transform', (d: any, i: any) => 'translate(0,' + i * 50 + ')')
+            .append('rect')
+            .attr('height', (d: any) => 47)
+            .style('fill', 'blue')
+            .transition()
+            .duration(400)
+            .attr('width', (d: any) => d);
+
         bars.exit()
-            .remove();
-        // let headers: Headers = new Headers();
-        // headers.append('Content-Type', 'application/json');
-        // headers.append('X-CSRFTOKEN', this.csrfService.getToken());
-        // let data: any = {};
-        // data.exercise_id = value.exercise_id;
-        // this.endpoint_history_by_taxonomy = this.http.post(
-        //     '/history-by-taxonomy',
-        //     JSON.stringify(data),
-        //     {headers: headers}
-        // );
-        // let data2: any = [];
-        //
-        // this.endpoint_history_by_taxonomy.subscribe(
-        //     data => {
-        //         this.username = data.json().nickname;
-        //         this.history = data.json().history;
-        //         console.log(data.json().history);
-        //         for (let i = 0; i < this.history.length; i++) {
-        //             data2.push(this.history[i].history_weight)
-        //         }
-        //         // if (data2.length > 0) {
-        //
-        //     },
-        //     err => console.log(err)
-        // );
+            .select('rect')
+            .transition()
+            .duration(400)
+            .attr('width', 0);
+
+        bars.exit().transition().duration(400).remove();
     }
 }
