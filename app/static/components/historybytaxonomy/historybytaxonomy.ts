@@ -22,10 +22,7 @@ export class HistoryByTaxonomyComponent {
     }
 
     ngOnInit() {
-        this.svgs = d3.select('.chart')
-            .append('svg')
-            .attr('width', 300)
-            .attr('height', 300);
+        this.svgs = d3.select('.chart').append('svg')
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;
@@ -35,40 +32,58 @@ export class HistoryByTaxonomyComponent {
     }
 
     onChange(value: any) {
-        let bars;
-        let data;
-        if (this.shouldBeA) {
-            data = [10, 30, 50, 70];
-            this.shouldBeA = false;
-        } else {
-            data = [40, 60, 80];
-            this.shouldBeA = true;
-        }
+        let headers: Headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('X-CSRFTOKEN', this.csrfService.getToken());
+        let data: any = {};
+        data.exercise_id = value.exercise_id;
+        this.endpoint_history_by_taxonomy = this.http.post(
+            '/history-by-taxonomy',
+            JSON.stringify(data),
+            {headers: headers}
+        );
+        let data2: any = [];
 
-        bars = this.svgs.selectAll('g')
-            .data(data);
+        this.endpoint_history_by_taxonomy.subscribe(
+            data => {
+                this.username = data.json().nickname;
+                this.history = data.json().history;
+                console.log(data.json().history);
+                for (let i = 0; i < this.history.length; i++) {
+                    data2.push(this.history[i].history_weight);
+                }
+                this.svgs.attr('width', 720)
+                    .attr('height', data2.length * 50)
+                let bars;
+                bars = this.svgs.selectAll('g')
+                    .data(data2);
 
-        bars.select('rect')
-            .transition()
-            .duration(400)
-            .attr('width', (d: any) => d);
+                bars.select('rect')
+                    .transition()
+                    .duration(400)
+                    .attr('width', (d: any) => d);
 
-        bars.enter()
-            .append('g')
-            .attr('transform', (d: any, i: any) => 'translate(0,' + i * 50 + ')')
-            .append('rect')
-            .attr('height', (d: any) => 47)
-            .style('fill', 'blue')
-            .transition()
-            .duration(400)
-            .attr('width', (d: any) => d);
+                bars.enter()
+                    .append('g')
+                    .attr('transform', (d: any, i: any) => 'translate(0,' + i * 50 + ')')
+                    .append('rect')
+                    .attr('height', (d: any) => 47)
+                    .style('fill', 'blue')
+                    .transition()
+                    .duration(400)
+                    .attr('width', (d: any) => d);
 
-        bars.exit()
-            .select('rect')
-            .transition()
-            .duration(400)
-            .attr('width', 0);
+                bars.exit()
+                    .select('rect')
+                    .transition()
+                    .duration(400)
+                    .attr('width', 0);
 
-        bars.exit().transition().duration(400).remove();
+                bars.exit().transition().duration(400).remove();
+            },
+            err => console.log(err)
+        );
+
+
     }
 }
