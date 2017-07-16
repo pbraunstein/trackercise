@@ -44,7 +44,6 @@ export class HistoryByTaxonomyComponent {
             data = [40, 60, 80];
             this.shouldBeA = true;
         }
-        console.log(data);
 
         bars = this.svgs.selectAll('g')
             .data(data);
