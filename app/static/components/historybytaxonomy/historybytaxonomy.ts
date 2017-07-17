@@ -17,6 +17,10 @@ export class HistoryByTaxonomyComponent {
     private shouldBeA = true;
     private svgs: any;
 
+    private static ANIMATION_TIME: number = 400;  // in milliseconds
+    private static BAR_HEIGHT: number = 46;
+    private static TEXT_HORIZONTAL_OFFSET: number = 3;
+
     constructor(private http: Http, private csrfService: CSRFService) {
         this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
     }
@@ -53,33 +57,48 @@ export class HistoryByTaxonomyComponent {
                     data2.push(this.history[i].history_weight);
                 }
                 this.svgs.attr('width', 720)
-                    .attr('height', data2.length * 50)
-                let bars;
-                bars = this.svgs.selectAll('g')
+                    .attr('height', data2.length * 50);
+                let bars = this.svgs.selectAll('g')
                     .data(data2);
 
+                // Update
                 bars.select('rect')
                     .transition()
-                    .duration(400)
+                    .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
                     .attr('width', (d: any) => d);
+                bars.select('text')
+                    .transition()
+                    .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
+                    .attr('x', (d: any) => d + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
+                    .text((d: any) => d.toString());
 
-                bars.enter()
+                // Enter
+                let barsEnter = bars.enter()
                     .append('g')
-                    .attr('transform', (d: any, i: any) => 'translate(0,' + i * 50 + ')')
-                    .append('rect')
-                    .attr('height', (d: any) => 47)
+                    .attr('transform', (d: any, i: any) => 'translate(0,' + i * 50 + ')');
+
+                barsEnter.append('rect')
+                    .attr('height', (d: any) => HistoryByTaxonomyComponent.BAR_HEIGHT)
                     .style('fill', 'blue')
                     .transition()
-                    .duration(400)
+                    .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
                     .attr('width', (d: any) => d);
+                barsEnter.append('text')
+                    .attr('x', (d: any) => d + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
+                    .attr('y', (d: any) => HistoryByTaxonomyComponent.BAR_HEIGHT / 2)
+                    .text((d: any) => d.toString());
 
-                bars.exit()
-                    .select('rect')
+                // Exit
+                let barsExit = bars.exit();
+                barsExit.select('rect')
                     .transition()
                     .duration(400)
                     .attr('width', 0);
-
-                bars.exit().transition().duration(400).remove();
+                barsExit.transition()
+                    .delay(HistoryByTaxonomyComponent.ANIMATION_TIME)
+                    .remove();
+                barsExit.select('text')
+                    .remove();
             },
             err => console.log(err)
         );
