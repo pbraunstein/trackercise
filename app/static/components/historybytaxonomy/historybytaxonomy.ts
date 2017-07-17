@@ -46,31 +46,26 @@ export class HistoryByTaxonomyComponent {
             JSON.stringify(data),
             {headers: headers}
         );
-        let data2: any = [];
 
         this.endpoint_history_by_taxonomy.subscribe(
             data => {
                 this.username = data.json().nickname;
                 this.history = data.json().history;
-                console.log(data.json().history);
-                for (let i = 0; i < this.history.length; i++) {
-                    data2.push(this.history[i].history_weight);
-                }
                 this.svgs.attr('width', 720)
-                    .attr('height', data2.length * 50);
+                    .attr('height', this.history.length * 50);
                 let bars = this.svgs.selectAll('g')
-                    .data(data2);
+                    .data(this.history);
 
                 // Update
                 bars.select('rect')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: any) => d);
+                    .attr('width', (d: any) => d.history_weight);
                 bars.select('text')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('x', (d: any) => d + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
-                    .text((d: any) => d.toString());
+                    .attr('x', (d: any) => d.history_weight + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
+                    .text((d: any) => d.history_weight.toString());
 
                 // Enter
                 let barsEnter = bars.enter()
@@ -82,11 +77,11 @@ export class HistoryByTaxonomyComponent {
                     .style('fill', 'blue')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: any) => d);
+                    .attr('width', (d: any) => d.history_weight);
                 barsEnter.append('text')
-                    .attr('x', (d: any) => d + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
+                    .attr('x', (d: any) => d.history_weight + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
                     .attr('y', (d: any) => HistoryByTaxonomyComponent.BAR_HEIGHT / 2)
-                    .text((d: any) => d.toString());
+                    .text((d: any) => d.history_weight.toString());
 
                 // Exit
                 let barsExit = bars.exit();
