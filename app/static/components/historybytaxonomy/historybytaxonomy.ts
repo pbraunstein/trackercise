@@ -12,7 +12,7 @@ export class HistoryByTaxonomyComponent {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_taxonomy: Observable<any>;
     private pairs: Array<any>;
-    private history: Array<any>;
+    private exerciseHistory: Array<any>;
     private username: string;
     private shouldBeA = true;
     private svgs: any;
@@ -20,6 +20,7 @@ export class HistoryByTaxonomyComponent {
     private static ANIMATION_TIME: number = 400;  // in milliseconds
     private static BAR_HEIGHT: number = 46;
     private static TEXT_HORIZONTAL_OFFSET: number = 3;
+    private static REP_MULTIPLIER: number = 6;
 
     constructor(private http: Http, private csrfService: CSRFService) {
         this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
@@ -46,42 +47,48 @@ export class HistoryByTaxonomyComponent {
             JSON.stringify(data),
             {headers: headers}
         );
-
         this.endpoint_history_by_taxonomy.subscribe(
             data => {
                 this.username = data.json().nickname;
-                this.history = data.json().history;
+                this.exerciseHistory = data.json().history;
+                let totalOffset = this.addOffsets();
                 this.svgs.attr('width', 720)
-                    .attr('height', this.history.length * 50);
+                    .attr('height', totalOffset);
                 let bars = this.svgs.selectAll('g')
-                    .data(this.history);
+                    .data(this.exerciseHistory);
 
                 // Update
                 bars.select('rect')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: any) => d.history_weight);
+                    .attr('width', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER)
+                    .attr('height', (d: any) => d.history_weight);
                 bars.select('text')
+                    .attr('text-anchor', 'start')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('x', (d: any) => d.history_weight + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
-                    .text((d: any) => d.history_weight.toString());
+                    .attr('x', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
+                    .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
 
                 // Enter
                 let barsEnter = bars.enter()
                     .append('g')
-                    .attr('transform', (d: any, i: any) => 'translate(0,' + i * 50 + ')');
+                    .attr('transform', (d: any, i: any) => 'translate(0,' + d.offset + ')');
 
                 barsEnter.append('rect')
                     .attr('height', (d: any) => HistoryByTaxonomyComponent.BAR_HEIGHT)
                     .style('fill', 'blue')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: any) => d.history_weight);
+                    .attr('width', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER)
+                    .attr('height', (d: any) => d.history_weight);
                 barsEnter.append('text')
-                    .attr('x', (d: any) => d.history_weight + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
-                    .attr('y', (d: any) => HistoryByTaxonomyComponent.BAR_HEIGHT / 2)
-                    .text((d: any) => d.history_weight.toString());
+                    .attr('text-anchor', 'start')
+                    .transition()
+                    .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
+                    .attr('x', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
+                    .attr('y', (d: any) => d.history_weight / 2)
+                    .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
 
                 // Exit
                 let barsExit = bars.exit();
@@ -97,7 +104,14 @@ export class HistoryByTaxonomyComponent {
             },
             err => console.log(err)
         );
+    }
 
-
+    addOffsets(): number {
+        let totalOffset = 0;
+        for (let i = 0; i < this.exerciseHistory.length; i++) {
+            this.exerciseHistory[i].offset = totalOffset;
+            totalOffset += this.exerciseHistory[i].history_weight + 1;
+        }
+        return totalOffset;
     }
 }
