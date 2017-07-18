@@ -14,11 +14,9 @@ export class HistoryByTaxonomyComponent {
     private pairs: Array<any>;
     private exerciseHistory: Array<any>;
     private username: string;
-    private shouldBeA = true;
     private svgs: any;
 
     private static ANIMATION_TIME: number = 400;  // in milliseconds
-    private static BAR_HEIGHT: number = 46;
     private static TEXT_HORIZONTAL_OFFSET: number = 3;
     private static REP_MULTIPLIER: number = 6;
 
@@ -52,55 +50,55 @@ export class HistoryByTaxonomyComponent {
                 this.username = data.json().nickname;
                 this.exerciseHistory = data.json().history;
                 let totalOffset = this.addOffsets();
-                this.svgs.attr('width', 720)
-                    .attr('height', totalOffset);
+                this.svgs.attr('width', totalOffset)
+                    .attr('height', 300);
                 let bars = this.svgs.selectAll('g')
                     .data(this.exerciseHistory);
-
-                // Update
-                bars.select('rect')
-                    .transition()
-                    .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER)
-                    .attr('height', (d: any) => d.history_weight);
-                bars.select('text')
-                    .attr('text-anchor', 'start')
-                    .transition()
-                    .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('x', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
-                    .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
 
                 // Enter
                 let barsEnter = bars.enter()
                     .append('g')
-                    .attr('transform', (d: any, i: any) => 'translate(0,' + d.offset + ')');
-
+                    .attr('transform', (d: any, i: any) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
                 barsEnter.append('rect')
-                    .attr('height', (d: any) => HistoryByTaxonomyComponent.BAR_HEIGHT)
                     .style('fill', 'blue')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER)
-                    .attr('height', (d: any) => d.history_weight);
-                barsEnter.append('text')
-                    .attr('text-anchor', 'start')
+                    .attr('width', (d: any) => d.history_weight)
+                    .attr('height', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER);
+                // barsEnter.append('text')
+                //     .attr('text-anchor', 'start')
+                //     .transition()
+                //     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
+                //     .attr('x', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
+                //     .attr('y', (d: any) => d.history_weight / 2)
+                //     .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
+
+                // Update
+                bars.attr('transform', (d: any, i: any) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
+                bars.select('rect')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('x', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
-                    .attr('y', (d: any) => d.history_weight / 2)
-                    .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
+                    .attr('width', (d: any) => d.history_weight)
+                    .attr('height', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER);
+                // bars.select('text')
+                //     .attr('text-anchor', 'start')
+                //     .transition()
+                //     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
+                //     .attr('x', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER + HistoryByTaxonomyComponent.TEXT_HORIZONTAL_OFFSET)
+                //     .attr('y', (d: any) => d.history_weight / 2)
+                //     .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
 
                 // Exit
                 let barsExit = bars.exit();
                 barsExit.select('rect')
                     .transition()
                     .duration(400)
-                    .attr('width', 0);
+                    .attr('height', 0);
                 barsExit.transition()
                     .delay(HistoryByTaxonomyComponent.ANIMATION_TIME)
                     .remove();
-                barsExit.select('text')
-                    .remove();
+                // barsExit.select('text')
+                //     .remove();
             },
             err => console.log(err)
         );
@@ -109,8 +107,12 @@ export class HistoryByTaxonomyComponent {
     addOffsets(): number {
         let totalOffset = 0;
         for (let i = 0; i < this.exerciseHistory.length; i++) {
-            this.exerciseHistory[i].offset = totalOffset;
+            this.exerciseHistory[i].x_offset = totalOffset;
             totalOffset += this.exerciseHistory[i].history_weight + 1;
+
+            this.exerciseHistory[i].y_offset = 300 - this.exerciseHistory[i].history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER;
+
+            console.log(this.exerciseHistory[i].y_offset);
         }
         return totalOffset;
     }
