@@ -17,7 +17,7 @@ export class HistoryByTaxonomyComponent {
     private svgs: any;
 
     private static ANIMATION_TIME: number = 400;  // in milliseconds
-    private static TEXT_VERTICAL_OFFSET: number = 3;
+    private static TEXT_OFFSET: number = 4;
     private static REP_MULTIPLIER: number = 6;
 
     constructor(private http: Http, private csrfService: CSRFService) {
@@ -66,7 +66,7 @@ export class HistoryByTaxonomyComponent {
                     .attr('width', (d: any) => d.history_weight)
                     .attr('height', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER);
                 barsEnter.append('text')
-                    .attr('transform', (d: any, i: any) => 'translate(0,' + -1 * HistoryByTaxonomyComponent.TEXT_VERTICAL_OFFSET + ')')
+                    .attr('transform', (d: any, i: any) => 'translate(0,' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
                     .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
@@ -79,7 +79,7 @@ export class HistoryByTaxonomyComponent {
                     .attr('width', (d: any) => d.history_weight)
                     .attr('height', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER);
                 bars.select('text')
-                    .attr('transform', (d: any, i: any) => 'translate(0,' + -1 * HistoryByTaxonomyComponent.TEXT_VERTICAL_OFFSET + ')')
+                    .attr('transform', (d: any, i: any) => 'translate(0,' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
                     .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
