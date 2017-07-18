@@ -66,7 +66,7 @@ export class HistoryByTaxonomyComponent {
                     .attr('width', (d: any) => d.history_weight)
                     .attr('height', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER);
                 barsEnter.append('text')
-                    .attr('transform', (d: any, i: any) => 'translate(0,' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
+                    .attr('transform', (d: any, i: any) => 'translate(' + d.history_weight / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
                     .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
@@ -79,7 +79,7 @@ export class HistoryByTaxonomyComponent {
                     .attr('width', (d: any) => d.history_weight)
                     .attr('height', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER);
                 bars.select('text')
-                    .attr('transform', (d: any, i: any) => 'translate(0,' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
+                    .attr('transform', (d: any, i: any) => 'translate(' + d.history_weight / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
                     .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
