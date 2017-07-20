@@ -19,7 +19,7 @@ export class HistoryByTaxonomyComponent {
     private static ANIMATION_TIME: number = 400;  // in milliseconds
     private static TEXT_OFFSET: number = 4;
     private static REP_MULTIPLIER: number = 6;
-    private static VERTICAL_OFFSET: number = 120;
+    private static VERTICAL_OFFSET: number = 170;
 
     constructor(private http: Http, private csrfService: CSRFService) {
         this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
@@ -70,7 +70,7 @@ export class HistoryByTaxonomyComponent {
                     .attr('transform', (d: any, i: any) => 'translate(' + d.history_weight / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
+                    .text((d: any) => d.history_reps.toString() + ',' + d.history_weight.toString());
 
                 // Update
                 bars.attr('transform', (d: any, i: any) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
@@ -83,7 +83,7 @@ export class HistoryByTaxonomyComponent {
                     .attr('transform', (d: any, i: any) => 'translate(' + d.history_weight / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .text((d: any) => d.history_reps.toString() + ' reps with ' + d.history_weight.toString() + ' pounds');
+                    .text((d: any) => d.history_reps.toString() + ',' + d.history_weight.toString());
 
                 // Exit
                 let barsExit = bars.exit();
