@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http} from "@angular/http";
+
 @Component({
     selector:'current-user',
     templateUrl:'/static/components/currentuser/currentuser.html'
@@ -21,6 +22,6 @@ export class CurrentUserComponent {
                 this.currentPassword = data.json().password;
             },
             err => console.log(err)
-        )
+        );
     }
 }
