@@ -103,13 +103,21 @@ export class HistoryByTaxonomyComponent {
 
     addOffsets(): number {
         let totalOffset = 0;
+        let newArray: Array<any> = [];
         for (let i = 0; i < this.exerciseHistory.length; i++) {
-            this.exerciseHistory[i].x_offset = totalOffset;
-            totalOffset += this.exerciseHistory[i].history_weight + 1;
+            for (let j = 0; j < this.exerciseHistory[i].history_sets; j++) {
+                let oneSet: any = $.extend(true, {}, this.exerciseHistory[i]);
+                oneSet.x_offset = totalOffset;
+                totalOffset += oneSet.history_weight + 1;
 
-            this.exerciseHistory[i].y_offset = HistoryByTaxonomyComponent.VERTICAL_OFFSET
-                - this.exerciseHistory[i].history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER;
+                oneSet.y_offset = HistoryByTaxonomyComponent.VERTICAL_OFFSET
+                    - oneSet.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER;
+
+                newArray.push(oneSet);
+            }
+            totalOffset += 5;  // Spacing between groups of sets
         }
+        this.exerciseHistory = newArray;
         return totalOffset;
     }
 }
