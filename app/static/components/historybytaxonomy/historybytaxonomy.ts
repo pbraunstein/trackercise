@@ -19,6 +19,7 @@ export class HistoryByTaxonomyComponent {
     private static ANIMATION_TIME: number = 400;  // in milliseconds
     private static TEXT_OFFSET: number = 4;
     private static REP_MULTIPLIER: number = 6;
+    private static VERTICAL_OFFSET: number = 120;
 
     constructor(private http: Http, private csrfService: CSRFService) {
         this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
@@ -51,7 +52,7 @@ export class HistoryByTaxonomyComponent {
                 this.exerciseHistory = data.json().history;
                 let totalOffset = this.addOffsets();
                 this.svgs.attr('width', totalOffset)
-                    .attr('height', 300);
+                    .attr('height', HistoryByTaxonomyComponent.VERTICAL_OFFSET);
                 let bars = this.svgs.selectAll('g')
                     .data(this.exerciseHistory);
 
@@ -106,7 +107,8 @@ export class HistoryByTaxonomyComponent {
             this.exerciseHistory[i].x_offset = totalOffset;
             totalOffset += this.exerciseHistory[i].history_weight + 1;
 
-            this.exerciseHistory[i].y_offset = 300 - this.exerciseHistory[i].history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER;
+            this.exerciseHistory[i].y_offset = HistoryByTaxonomyComponent.VERTICAL_OFFSET
+                - this.exerciseHistory[i].history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER;
         }
         return totalOffset;
     }
