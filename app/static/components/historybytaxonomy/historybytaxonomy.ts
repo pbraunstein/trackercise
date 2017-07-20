@@ -50,6 +50,7 @@ export class HistoryByTaxonomyComponent {
             data => {
                 this.username = data.json().nickname;
                 this.exerciseHistory = data.json().history;
+                this.splitOutSets();
                 let totalOffset = this.addOffsets();
                 this.svgs.attr('width', totalOffset)
                     .attr('height', HistoryByTaxonomyComponent.VERTICAL_OFFSET);
@@ -101,14 +102,35 @@ export class HistoryByTaxonomyComponent {
         );
     }
 
-    addOffsets(): number {
-        let totalOffset = 0;
+    splitOutSets(): void {
+        let newArray: Array<any> = [];
         for (let i = 0; i < this.exerciseHistory.length; i++) {
+            for (let j = 0; j < this.exerciseHistory[i].history_sets; j++) {
+                newArray.push($.extend(true, {}, this.exerciseHistory[i]));  // deep copy necessary here
+            }
+        }
+        this.exerciseHistory = newArray;
+    }
+
+    addOffsets(): number {
+        let totalOffset: number = 0;
+        let currentDate: string = null;
+        for (let i = 0; i < this.exerciseHistory.length; i++) {
+            let thisDate: string = this.exerciseHistory[i].history_date;
+            if (currentDate) {
+                if (currentDate == thisDate) {
+                    totalOffset += 1;
+                } else {
+                    totalOffset += 7;
+                }
+            }
             this.exerciseHistory[i].x_offset = totalOffset;
-            totalOffset += this.exerciseHistory[i].history_weight + 1;
+
+            totalOffset += this.exerciseHistory[i].history_weight;
 
             this.exerciseHistory[i].y_offset = HistoryByTaxonomyComponent.VERTICAL_OFFSET
                 - this.exerciseHistory[i].history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER;
+            currentDate = thisDate;
         }
         return totalOffset;
     }
