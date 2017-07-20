@@ -26,7 +26,7 @@ export class HistoryByTaxonomyComponent {
     }
 
     ngOnInit() {
-        this.svgs = d3.select('.chart').append('svg')
+        this.svgs = d3.select('.chart').append('svg');
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;
@@ -49,7 +49,7 @@ export class HistoryByTaxonomyComponent {
         this.endpoint_history_by_taxonomy.subscribe(
             data => {
                 this.username = data.json().nickname;
-                this.exerciseHistory = data.json().history;
+                this.exerciseHistory = this.convertJsonArrayToObjectArray(data.json().history);
                 this.splitOutSets();
                 let totalOffset = this.addOffsets();
                 this.svgs.attr('width', totalOffset)
@@ -102,21 +102,25 @@ export class HistoryByTaxonomyComponent {
         );
     }
 
-    splitOutSets(): void {
+    private convertJsonArrayToObjectArray(historyArray: Array<any>): Array<RepHistoryObject> {
+        return null;
+    }
+
+    private splitOutSets(): void {
         let newArray: Array<any> = [];
         for (let i = 0; i < this.exerciseHistory.length; i++) {
-            for (let j = 0; j < this.exerciseHistory[i].history_sets; j++) {
+            for (let j = 0; j < this.exerciseHistory[i].getSets(); j++) {
                 newArray.push($.extend(true, {}, this.exerciseHistory[i]));  // deep copy necessary here
             }
         }
         this.exerciseHistory = newArray;
     }
 
-    addOffsets(): number {
+    private addOffsets(): number {
         let totalOffset: number = 0;
         let currentDate: string = null;
         for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisDate: string = this.exerciseHistory[i].history_date;
+            let thisDate: string = this.exerciseHistory[i].getDatestamp();
             if (currentDate) {
                 if (currentDate == thisDate) {
                     totalOffset += 1;
@@ -124,12 +128,12 @@ export class HistoryByTaxonomyComponent {
                     totalOffset += 7;
                 }
             }
-            this.exerciseHistory[i].x_offset = totalOffset;
+            this.exerciseHistory[i].setXOffset(totalOffset);
 
-            totalOffset += this.exerciseHistory[i].history_weight;
+            totalOffset += this.exerciseHistory[i].getWeight();
 
-            this.exerciseHistory[i].y_offset = HistoryByTaxonomyComponent.VERTICAL_OFFSET
-                - this.exerciseHistory[i].history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER;
+            this.exerciseHistory[i].setYOffset(HistoryByTaxonomyComponent.VERTICAL_OFFSET
+                - this.exerciseHistory[i].getReps() * HistoryByTaxonomyComponent.REP_MULTIPLIER);
             currentDate = thisDate;
         }
         return totalOffset;
