@@ -150,11 +150,15 @@ export class HistoryByTaxonomyComponent {
         let currentDate: string = null;
         for (let i = 0; i < this.exerciseHistory.length; i++) {
             let thisDate: string = this.exerciseHistory[i].getDatestamp();
+            if (!currentDate || currentDate != thisDate) {
+                this.svgs
+                    .append('text')
+                    .attr('class', 'date-text')
+                    .attr('x', this.exerciseHistory[i].getXOffset())
+                    .attr('y', HistoryByTaxonomyComponent.VERTICAL_OFFSET + 15)
+                    .text(thisDate);
+            }
+            currentDate = thisDate;
         }
-        this.svgs
-            .append('text')
-            .attr('class', 'date-text')
-            .attr('y', HistoryByTaxonomyComponent.VERTICAL_OFFSET + 15)
-            .text('mockdate');
     }
 }

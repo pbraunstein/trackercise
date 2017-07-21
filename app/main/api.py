@@ -49,7 +49,7 @@ def user_data():
 
 @main.route('/history-by-taxonomy', methods=['POST'])
 def history_by_taxonomy():
-    # csrf.protect()
+    csrf.protect()
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
 

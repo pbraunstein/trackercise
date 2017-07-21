@@ -15,7 +15,7 @@ export class RepHistory {
         this.sets = jsonObject.history_sets;
         this.reps = jsonObject.history_reps;
         this.weight = jsonObject.history_weight;
-        this.dateStamp = jsonObject.history_date;
+        this.dateStamp = jsonObject.history_date.slice(0, 10);  // fragile - this should happen serverside
 
         // Default values -- will be changed
         this.x_offset = 0;
