@@ -112,6 +112,11 @@ class RepExercisesHistoryService(object):
             [RepExercisesHistory(), ...]
         -- Entries are returned in ascending order by date (i.e. earlier to later)
 
+    get_user_history_by_date(user_id, exercise_date):
+        -- Exports all RepExerciseHistory entries of a particular user performed on a particular date
+            [RepExercisesHistory(), ...]
+        -- Does not make any guarantees regarding the order of elements returned
+
     add_entry_to_db(entry):
         -- Takes a RepExercisesHistory and adds it to the database
     """
@@ -126,6 +131,10 @@ class RepExercisesHistoryService(object):
     @staticmethod
     def get_user_history_by_exercise(user_id, exercise_id):
         return list(db.session.query(RepExercisesHistory).filter_by(user_id=user_id, exercise_id=exercise_id).all())
+
+    @staticmethod
+    def get_user_history_by_date(user_id, exercise_date):
+        return list(db.session.query(RepExercisesHistory).filter_by(user_id=user_id, date=exercise_date).all())
 
     @staticmethod
     def add_entry_to_db(entry):
