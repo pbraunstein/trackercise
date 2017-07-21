@@ -103,7 +103,11 @@ export class HistoryByTaxonomyComponent {
     }
 
     private convertJsonArrayToObjectArray(historyArray: Array<any>): Array<RepHistoryObject> {
-        return null;
+        let historyObjectArray: Array<RepHistoryObject> = [];
+        for (let jsonObject of historyArray) {
+            historyObjectArray.push(new RepHistoryObject(jsonObject));
+        }
+        return historyObjectArray;
     }
 
     private splitOutSets(): void {
