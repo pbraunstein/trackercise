@@ -1,7 +1,8 @@
 /**
- * Model for rep based history exercises. Does not currently keep track of the type of exercise
+ * Model for rep based history exercises
  */
 export class RepHistory {
+    private historyId: number;
     private sets: number;
     private reps: number;
     private weight: number;
@@ -10,6 +11,7 @@ export class RepHistory {
     private y_offset: number;
 
     constructor(jsonObject: any) {
+        this.historyId = jsonObject.history_exercise_id;
         this.sets = jsonObject.history_sets;
         this.reps = jsonObject.history_reps;
         this.weight = jsonObject.history_weight;
@@ -21,6 +23,14 @@ export class RepHistory {
     }
 
     // Getters and setters
+    public getHistoryId(): number {
+        return this.historyId;
+    }
+
+    public setHistoryId(newValue: number): void {
+        this.historyId = newValue;
+    }
+
     public getSets(): number {
         return this.sets;
     }
