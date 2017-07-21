@@ -53,8 +53,9 @@ export class HistoryByTaxonomyComponent {
                 this.exerciseHistory = this.convertJsonArrayToObjectArray(data.json().history);
                 this.splitOutSets();
                 let totalOffset = this.addOffsets();
+                this.renderDatestamps();
                 this.svgs.attr('width', totalOffset)
-                    .attr('height', HistoryByTaxonomyComponent.VERTICAL_OFFSET);
+                    .attr('height', HistoryByTaxonomyComponent.VERTICAL_OFFSET * 2);
                 let bars = this.svgs.selectAll('g')
                     .data(this.exerciseHistory);
 
@@ -142,5 +143,18 @@ export class HistoryByTaxonomyComponent {
             currentDate = thisDate;
         }
         return totalOffset;
+    }
+
+    private renderDatestamps(): void {
+        this.svgs.selectAll('.date-text').remove();
+        let currentDate: string = null;
+        for (let i = 0; i < this.exerciseHistory.length; i++) {
+            let thisDate: string = this.exerciseHistory[i].getDatestamp();
+        }
+        this.svgs
+            .append('text')
+            .attr('class', 'date-text')
+            .attr('y', HistoryByTaxonomyComponent.VERTICAL_OFFSET + 15)
+            .text('mockdate');
     }
 }
