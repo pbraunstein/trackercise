@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {CSRFService} from "../../services/csrfservice";
+import {RepHistory} from "../../models/rephistory";
 import * as d3 from 'd3';
 
 @Component({
@@ -12,7 +13,7 @@ export class HistoryByTaxonomyComponent {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_taxonomy: Observable<any>;
     private pairs: Array<any>;
-    private exerciseHistory: Array<any>;
+    private exerciseHistory: Array<RepHistory>;
     private username: string;
     private svgs: any;
 
@@ -26,7 +27,7 @@ export class HistoryByTaxonomyComponent {
     }
 
     ngOnInit() {
-        this.svgs = d3.select('.chart').append('svg')
+        this.svgs = d3.select('.chart').append('svg');
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;
@@ -49,7 +50,7 @@ export class HistoryByTaxonomyComponent {
         this.endpoint_history_by_taxonomy.subscribe(
             data => {
                 this.username = data.json().nickname;
-                this.exerciseHistory = data.json().history;
+                this.exerciseHistory = this.convertJsonArrayToObjectArray(data.json().history);
                 this.splitOutSets();
                 let totalOffset = this.addOffsets();
                 this.svgs.attr('width', totalOffset)
@@ -60,31 +61,31 @@ export class HistoryByTaxonomyComponent {
                 // Enter
                 let barsEnter = bars.enter()
                     .append('g')
-                    .attr('transform', (d: any, i: any) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
+                    .attr('transform', (d: any, i: number) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
                 barsEnter.append('rect')
                     .style('fill', 'blue')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: any) => d.history_weight)
-                    .attr('height', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER);
+                    .attr('width', (d: RepHistory) => d.getWeight())
+                    .attr('height', (d: RepHistory) => d.getReps() * HistoryByTaxonomyComponent.REP_MULTIPLIER);
                 barsEnter.append('text')
-                    .attr('transform', (d: any, i: any) => 'translate(' + d.history_weight / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
+                    .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .text((d: any) => d.history_reps.toString() + ',' + d.history_weight.toString());
+                    .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
 
                 // Update
-                bars.attr('transform', (d: any, i: any) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
+                bars.attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
                 bars.select('rect')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: any) => d.history_weight)
-                    .attr('height', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER);
+                    .attr('width', (d: RepHistory) => d.getWeight())
+                    .attr('height', (d: RepHistory) => d.getReps() * HistoryByTaxonomyComponent.REP_MULTIPLIER);
                 bars.select('text')
-                    .attr('transform', (d: any, i: any) => 'translate(' + d.history_weight / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
+                    .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .text((d: any) => d.history_reps.toString() + ',' + d.history_weight.toString());
+                    .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
 
                 // Exit
                 let barsExit = bars.exit();
@@ -102,21 +103,29 @@ export class HistoryByTaxonomyComponent {
         );
     }
 
-    splitOutSets(): void {
-        let newArray: Array<any> = [];
+    private convertJsonArrayToObjectArray(historyArray: Array<any>): Array<RepHistory> {
+        let historyObjectArray: Array<RepHistory> = [];
+        for (let jsonObject of historyArray) {
+            historyObjectArray.push(new RepHistory(jsonObject));
+        }
+        return historyObjectArray;
+    }
+
+    private splitOutSets(): void {
+        let newArray: Array<RepHistory> = [];
         for (let i = 0; i < this.exerciseHistory.length; i++) {
-            for (let j = 0; j < this.exerciseHistory[i].history_sets; j++) {
+            for (let j = 0; j < this.exerciseHistory[i].getSets(); j++) {
                 newArray.push($.extend(true, {}, this.exerciseHistory[i]));  // deep copy necessary here
             }
         }
         this.exerciseHistory = newArray;
     }
 
-    addOffsets(): number {
+    private addOffsets(): number {
         let totalOffset: number = 0;
         let currentDate: string = null;
         for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisDate: string = this.exerciseHistory[i].history_date;
+            let thisDate: string = this.exerciseHistory[i].getDatestamp();
             if (currentDate) {
                 if (currentDate == thisDate) {
                     totalOffset += 1;
@@ -124,12 +133,12 @@ export class HistoryByTaxonomyComponent {
                     totalOffset += 7;
                 }
             }
-            this.exerciseHistory[i].x_offset = totalOffset;
+            this.exerciseHistory[i].setXOffset(totalOffset);
 
-            totalOffset += this.exerciseHistory[i].history_weight;
+            totalOffset += this.exerciseHistory[i].getWeight();
 
-            this.exerciseHistory[i].y_offset = HistoryByTaxonomyComponent.VERTICAL_OFFSET
-                - this.exerciseHistory[i].history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER;
+            this.exerciseHistory[i].setYOffset(HistoryByTaxonomyComponent.VERTICAL_OFFSET
+                - this.exerciseHistory[i].getReps() * HistoryByTaxonomyComponent.REP_MULTIPLIER);
             currentDate = thisDate;
         }
         return totalOffset;
