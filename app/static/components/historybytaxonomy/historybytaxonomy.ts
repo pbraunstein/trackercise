@@ -61,31 +61,31 @@ export class HistoryByTaxonomyComponent {
                 // Enter
                 let barsEnter = bars.enter()
                     .append('g')
-                    .attr('transform', (d: any, i: any) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
+                    .attr('transform', (d: any, i: number) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
                 barsEnter.append('rect')
                     .style('fill', 'blue')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: any) => d.history_weight)
-                    .attr('height', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER);
+                    .attr('width', (d: RepHistory) => d.getWeight())
+                    .attr('height', (d: RepHistory) => d.getReps() * HistoryByTaxonomyComponent.REP_MULTIPLIER);
                 barsEnter.append('text')
-                    .attr('transform', (d: any, i: any) => 'translate(' + d.history_weight / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
+                    .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .text((d: any) => d.history_reps.toString() + ',' + d.history_weight.toString());
+                    .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
 
                 // Update
-                bars.attr('transform', (d: any, i: any) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
+                bars.attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
                 bars.select('rect')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: any) => d.history_weight)
-                    .attr('height', (d: any) => d.history_reps * HistoryByTaxonomyComponent.REP_MULTIPLIER);
+                    .attr('width', (d: RepHistory) => d.getWeight())
+                    .attr('height', (d: RepHistory) => d.getReps() * HistoryByTaxonomyComponent.REP_MULTIPLIER);
                 bars.select('text')
-                    .attr('transform', (d: any, i: any) => 'translate(' + d.history_weight / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
+                    .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
                     .transition()
                     .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .text((d: any) => d.history_reps.toString() + ',' + d.history_weight.toString());
+                    .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
 
                 // Exit
                 let barsExit = bars.exit();
@@ -112,7 +112,7 @@ export class HistoryByTaxonomyComponent {
     }
 
     private splitOutSets(): void {
-        let newArray: Array<any> = [];
+        let newArray: Array<RepHistory> = [];
         for (let i = 0; i < this.exerciseHistory.length; i++) {
             for (let j = 0; j < this.exerciseHistory[i].getSets(); j++) {
                 newArray.push($.extend(true, {}, this.exerciseHistory[i]));  // deep copy necessary here
