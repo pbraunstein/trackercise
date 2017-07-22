@@ -69,7 +69,7 @@ def history_by_taxonomy():
 
 @main.route('/history-by-date', methods=['POST'])
 def history_by_date():
-    csrf.protect()
+    # csrf.protect()
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
 
