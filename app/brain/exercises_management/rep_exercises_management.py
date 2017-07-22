@@ -18,6 +18,11 @@ class RepExercisesManagement(object):
             [RepExercisesHistory(), ...]
         -- Guarantees that the entries are in chronological order
 
+    get_user_history_by_date(user_id, exercise_date):
+        -- Returns a list of the RepExercisesHistory that occurred on date exercise_date for user_id
+            [RepExercisesHistory(), ...]
+        -- Guarantees that the entries are sorted in ascending order of exercise_id (this is somewhat arbitrary)
+
     submit_history_entry(user_id, exercise_id, sets, reps, weight, exercise_date):
         -- Creates and adds a RepExercisesHistory to the database for the user whose user_id is passed in
 
@@ -38,6 +43,13 @@ class RepExercisesManagement(object):
         return sorted(
             RepExercisesHistoryService.get_user_history_by_exercise(user_id, exercise_id),
             key=lambda x: x.date
+        )
+
+    @staticmethod
+    def get_user_history_by_date(user_id, exercise_date):
+        return sorted(
+            RepExercisesHistoryService.get_user_history_by_date(user_id, exercise_date),
+            key=lambda x: x.exercise_id
         )
 
     @staticmethod
