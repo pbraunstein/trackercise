@@ -67,7 +67,7 @@ def history_by_taxonomy():
     }), 200
 
 
-@main.route('/history-by-date', method=['POST'])
+@main.route('/history-by-date', methods=['POST'])
 def history_by_date():
     csrf.protect()
     if not current_user.is_authenticated:
