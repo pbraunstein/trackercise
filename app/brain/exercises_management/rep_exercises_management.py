@@ -41,6 +41,10 @@ class RepExercisesManagement(object):
         )
 
     @staticmethod
+    def get_user_history_by_date(user_id, exercise_date):
+        pass
+
+    @staticmethod
     def submit_history_entry(user_id, exercise_id, sets, reps, weight, exercise_date):
         entry_to_add = RepExercisesHistory(
             user_id=user_id,

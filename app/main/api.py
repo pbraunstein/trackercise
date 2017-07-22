@@ -67,6 +67,26 @@ def history_by_taxonomy():
     }), 200
 
 
+@main.route('/history-by-date', method=['POST'])
+def history_by_date():
+    csrf.protect()
+    if not current_user.is_authenticated:
+        return dumps({'status': 'bad'}), 400
+
+    parameters = request.get_json()
+
+    history = RepExercisesManagement.get_user_history_by_date(
+        user_id=current_user.id,
+        exercise_date=parameters.get('exercise_date')
+    )
+
+    return dumps({
+        'status': 'good',
+        'nickname': current_user.nickname,
+        'history': list_history_objs_to_dicts(history)
+    }), 200
+
+
 @main.route('/add-rep-history', methods=['POST'])
 def add_rep_history():
     if not current_user.is_authenticated:
