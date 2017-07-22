@@ -24,6 +24,7 @@ import {LoginGuard} from "./loginguard";
 import {CSRFService} from "./services/csrfservice";
 import {LogoutService} from "./services/logoutservice";
 import {ChangePasswordComponent} from "./components/changepassword/changepassword";
+import {HistoryByDateComponent} from "./components/historybydate/historybydate";
 
 
 @NgModule({
@@ -31,7 +32,7 @@ import {ChangePasswordComponent} from "./components/changepassword/changepasswor
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, RegisterComponent,
         UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent,
-        IntroductionComponent, ChangePasswordComponent
+        IntroductionComponent, ChangePasswordComponent, HistoryByDateComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
