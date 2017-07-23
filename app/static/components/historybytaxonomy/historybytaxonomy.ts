@@ -4,30 +4,26 @@ import {Http, Headers} from "@angular/http";
 import {CSRFService} from "../../services/csrfservice";
 import {RepHistory} from "../../models/rephistory";
 import * as d3 from 'd3';
+import {BarCharts} from "../barcharts/barcharts";
 
 @Component({
     selector: 'history-by-taxonomy',
     templateUrl: '/static/components/historybytaxonomy/historybytaxonomy.html'
 })
-export class HistoryByTaxonomyComponent {
+export class HistoryByTaxonomyComponent extends BarCharts {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_taxonomy: Observable<any>;
     private pairs: Array<any>;
-    private exerciseHistory: Array<RepHistory>;
     private username: string;
     private svgs: any;
 
-    private static ANIMATION_TIME: number = 400;  // in milliseconds
-    private static TEXT_OFFSET: number = 4;
-    private static REP_MULTIPLIER: number = 6;
-    private static VERTICAL_OFFSET: number = 170;
-
     constructor(private http: Http, private csrfService: CSRFService) {
+        super();
         this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
     }
 
     ngOnInit() {
-        this.svgs = d3.select('.chart').append('svg');
+        this.svgs = d3.select('#history-by-taxonomy-chart').append('svg');
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;
@@ -104,25 +100,7 @@ export class HistoryByTaxonomyComponent {
         );
     }
 
-    private convertJsonArrayToObjectArray(historyArray: Array<any>): Array<RepHistory> {
-        let historyObjectArray: Array<RepHistory> = [];
-        for (let jsonObject of historyArray) {
-            historyObjectArray.push(new RepHistory(jsonObject));
-        }
-        return historyObjectArray;
-    }
-
-    private splitOutSets(): void {
-        let newArray: Array<RepHistory> = [];
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            for (let j = 0; j < this.exerciseHistory[i].getSets(); j++) {
-                newArray.push($.extend(true, {}, this.exerciseHistory[i]));  // deep copy necessary here
-            }
-        }
-        this.exerciseHistory = newArray;
-    }
-
-    private addOffsets(): number {
+    protected addOffsets(): number {
         let totalOffset: number = 0;
         let currentDate: string = null;
         for (let i = 0; i < this.exerciseHistory.length; i++) {
