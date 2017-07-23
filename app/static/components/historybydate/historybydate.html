@@ -1,1 +1,8 @@
-
+<h2>History by Date</h2>
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <div class="form-group">
+        <label for="dateEntry">Date</label>
+        <input type="date" id="dateEntry" class="form-control" name="history_date" required ngModel>
+    </div>
+    <button id="add-history-submit" type="submit" class="btn btn-primary">See workouts</button>
+</form>
