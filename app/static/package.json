@@ -17,6 +17,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/bootstrap": "3.3.35",
+    "@types/jquery": "^3.2.9",
     "copy-webpack-plugin": "4.0.1",
     "css-loader": "0.28.0",
     "file-loader": "0.11.1",
