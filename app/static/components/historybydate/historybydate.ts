@@ -86,7 +86,20 @@ export class HistoryByDateComponent extends BarCharts{
     }
 
     protected renderXAxis(): void {
-
+        this.svgs.selectAll('.date-text').remove();
+        let currentId: number = null;
+        for (let i = 0; i < this.exerciseHistory.length; i++) {
+            let thisId: number = this.exerciseHistory[i].getHistoryId();
+            if (!currentId || currentId != thisId) {
+                this.svgs
+                    .append('text')
+                    .attr('class', 'date-text')
+                    .attr('x', this.exerciseHistory[i].getXOffset())
+                    .attr('y', HistoryByDateComponent.VERTICAL_OFFSET + 15)
+                    .text(this.pairs.get(String(thisId)));
+            }
+            currentId = thisId;
+        }
     }
 
 }
