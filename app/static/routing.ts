@@ -4,14 +4,14 @@ import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/history
 import {IntroductionComponent} from "./components/introduction/introduction";
 import {LoginComponent} from "./components/login/login";
 import {LoginGuard} from "./loginguard";
-import {AddHistoryComponent} from "./components/addhistory/addhistory";
-import {AddTaxonomyComponent} from "./components/addtaxonomy/addtaxonomy";
+import {HistoryByDateComponent} from "./components/historybydate/historybydate";
+import {AddEntriesComponent} from "./components/addentries/addentries";
 
 const routes: Routes = [
     {path: '', component: IntroductionComponent},
     {path: 'history-by-taxonomy', component: HistoryByTaxonomyComponent, canActivate:[LoginGuard]},
-    {path: 'add-history-entry', component: AddHistoryComponent, canActivate:[LoginGuard]},
-    {path: 'add-taxonomy-entry', component: AddTaxonomyComponent, canActivate:[LoginGuard]},
+    {path: 'history-by-date', component: HistoryByDateComponent, canActivate:[LoginGuard]},
+    {path: 'add-entries', component: AddEntriesComponent, canActivate:[LoginGuard]},
     {path: 'settings', component: CurrentUserComponent, canActivate:[LoginGuard]},
     {path: 'login', component: LoginComponent},
 ];

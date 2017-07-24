@@ -22,7 +22,7 @@ main() {
 }
 
 upgrade_node_packages() {
-    cd ./app/static && rm  -rf node_modules && npm install
+    cd ./app/static && npm install
 }
 
 build_and_bundle() {
