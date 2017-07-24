@@ -15,7 +15,6 @@ export class HistoryByTaxonomyComponent extends BarCharts {
     private endpoint_history_by_taxonomy: Observable<any>;
     private pairs: Array<any>;
     private username: string;
-    private svgs: any;
 
     constructor(private http: Http, private csrfService: CSRFService) {
         super();
@@ -46,55 +45,7 @@ export class HistoryByTaxonomyComponent extends BarCharts {
         this.endpoint_history_by_taxonomy.subscribe(
             data => {
                 this.username = data.json().nickname;
-                this.exerciseHistory = this.convertJsonArrayToObjectArray(data.json().history);
-                this.splitOutSets();
-                let totalOffset = this.addOffsets();
-                this.renderDatestamps();
-                this.svgs.attr('width', totalOffset)
-                    .attr('height', HistoryByTaxonomyComponent.VERTICAL_OFFSET * 2);
-                let bars = this.svgs.selectAll('g')
-                    .data(this.exerciseHistory);
-
-                // Enter
-                let barsEnter = bars.enter()
-                    .append('g')
-                    .attr('transform', (d: any, i: number) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
-                barsEnter.append('rect')
-                    .style('fill', 'blue')
-                    .transition()
-                    .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: RepHistory) => d.getWeight())
-                    .attr('height', (d: RepHistory) => d.getReps() * HistoryByTaxonomyComponent.REP_MULTIPLIER);
-                barsEnter.append('text')
-                    .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
-                    .transition()
-                    .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
-
-                // Update
-                bars.attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
-                bars.select('rect')
-                    .transition()
-                    .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .attr('width', (d: RepHistory) => d.getWeight())
-                    .attr('height', (d: RepHistory) => d.getReps() * HistoryByTaxonomyComponent.REP_MULTIPLIER);
-                bars.select('text')
-                    .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ',' + -1 * HistoryByTaxonomyComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
-                    .transition()
-                    .duration(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
-
-                // Exit
-                let barsExit = bars.exit();
-                barsExit.select('rect')
-                    .transition()
-                    .duration(400)
-                    .attr('height', 0);
-                barsExit.transition()
-                    .delay(HistoryByTaxonomyComponent.ANIMATION_TIME)
-                    .remove();
-                barsExit.select('text')
-                    .remove();
+                this.setUpViz(data);
             },
             err => console.log(err)
         );
@@ -123,7 +74,7 @@ export class HistoryByTaxonomyComponent extends BarCharts {
         return totalOffset;
     }
 
-    private renderDatestamps(): void {
+    protected renderXAxis(): void {
         this.svgs.selectAll('.date-text').remove();
         let currentDate: string = null;
         for (let i = 0; i < this.exerciseHistory.length; i++) {

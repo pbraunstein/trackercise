@@ -1,7 +1,6 @@
 import {Component} from "@angular/core";
 import {CSRFService} from "../../services/csrfservice";
 import {Http, Headers} from "@angular/http";
-import {RepHistory} from "../../models/rephistory";
 import {Observable} from "rxjs";
 import * as d3 from 'd3';
 import {BarCharts} from "../barcharts/barcharts";
@@ -14,7 +13,6 @@ export class HistoryByDateComponent extends BarCharts{
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_date: Observable<any>;
     private pairs: Map<string, string>;
-    private svgs: any;
 
     constructor(private http: Http, private csrfService: CSRFService) {
         super();
@@ -58,54 +56,7 @@ export class HistoryByDateComponent extends BarCharts{
         this.endpoint_history_by_date.subscribe(
             data => {
                 console.log(data);
-                this.exerciseHistory = this.convertJsonArrayToObjectArray(data.json().history);
-                this.splitOutSets();
-                let totalOffset = this.addOffsets();
-                this.svgs.attr('width', totalOffset)
-                    .attr('height', HistoryByDateComponent.VERTICAL_OFFSET * 2);
-                let bars = this.svgs.selectAll('g')
-                    .data(this.exerciseHistory);
-
-                // Enter
-                let barsEnter = bars.enter()
-                    .append('g')
-                    .attr('transform', (d: any, i: number) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
-                barsEnter.append('rect')
-                    .style('fill', 'blue')
-                    .transition()
-                    .duration(HistoryByDateComponent.ANIMATION_TIME)
-                    .attr('width', (d: RepHistory) => d.getWeight())
-                    .attr('height', (d: RepHistory) => d.getReps() * HistoryByDateComponent.REP_MULTIPLIER);
-                barsEnter.append('text')
-                    .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ',' + -1 * HistoryByDateComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
-                    .transition()
-                    .duration(HistoryByDateComponent.ANIMATION_TIME)
-                    .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
-
-                // Update
-                bars.attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
-                bars.select('rect')
-                    .transition()
-                    .duration(HistoryByDateComponent.ANIMATION_TIME)
-                    .attr('width', (d: RepHistory) => d.getWeight())
-                    .attr('height', (d: RepHistory) => d.getReps() * HistoryByDateComponent.REP_MULTIPLIER);
-                bars.select('text')
-                    .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ',' + -1 * HistoryByDateComponent.TEXT_OFFSET + ')' + ' rotate(-45)')
-                    .transition()
-                    .duration(HistoryByDateComponent.ANIMATION_TIME)
-                    .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
-
-                // Exit
-                let barsExit = bars.exit();
-                barsExit.select('rect')
-                    .transition()
-                    .duration(400)
-                    .attr('height', 0);
-                barsExit.transition()
-                    .delay(HistoryByDateComponent.ANIMATION_TIME)
-                    .remove();
-                barsExit.select('text')
-                    .remove();
+                this.setUpViz(data);
             },
             err => console.log(err)
         )
@@ -132,6 +83,10 @@ export class HistoryByDateComponent extends BarCharts{
         }
 
         return totalOffset;
+    }
+
+    protected renderXAxis(): void {
+
     }
 
 }
