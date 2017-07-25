@@ -8,7 +8,7 @@ import {BarCharts} from "../barcharts/barcharts";
     selector: 'history-by-date',
     templateUrl: '/static/components/historybydate/historybydate.html'
 })
-export class HistoryByDateComponent extends BarCharts{
+export class HistoryByDateComponent extends BarCharts {
 
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_date: Observable<any>;
@@ -86,17 +86,19 @@ export class HistoryByDateComponent extends BarCharts{
     }
 
     protected renderXAxis(): void {
+        // TODO Refactor so that the text is put in the middle of the bars?
         this.svgs.selectAll('.date-text').remove();
         let currentId: number = null;
         for (let i = 0; i < this.exerciseHistory.length; i++) {
             let thisId: number = this.exerciseHistory[i].getHistoryId();
             if (!currentId || currentId != thisId) {
+                let exerciseName: string = this.pairs.get(String(thisId));
                 this.svgs
                     .append('text')
+                    .text(exerciseName)
                     .attr('class', 'date-text')
-                    .attr('x', this.exerciseHistory[i].getXOffset())
-                    .attr('y', HistoryByDateComponent.VERTICAL_OFFSET + 15)
-                    .text(this.pairs.get(String(thisId)));
+                    .attr('text-anchor', 'end')
+                    .attr('transform', 'translate(' + String(this.exerciseHistory[i].getXOffset() + 25) + ',' + String(HistoryByDateComponent.VERTICAL_OFFSET_2) + ') rotate(-45)');
             }
             currentId = thisId;
         }

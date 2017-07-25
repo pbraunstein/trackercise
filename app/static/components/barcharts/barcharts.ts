@@ -7,6 +7,8 @@ export abstract class BarCharts {
     protected static TEXT_OFFSET: number = 4;
     protected static REP_MULTIPLIER: number = 6;
     protected static VERTICAL_OFFSET: number = 170;
+    protected static VERTICAL_OFFSET_2: number = 200;
+    protected static TEXT_ROTATION_DEGREES: number = 45;
 
     protected convertJsonArrayToObjectArray(historyArray: Array<any>): Array<RepHistory> {
         let historyObjectArray: Array<RepHistory> = [];
@@ -28,54 +30,56 @@ export abstract class BarCharts {
 
     protected setUpViz(data: any): void {
         this.exerciseHistory = this.convertJsonArrayToObjectArray(data.json().history);
-                this.splitOutSets();
-                let totalOffset = this.addOffsets();
-                this.renderXAxis();
-                this.svgs.attr('width', totalOffset)
-                    .attr('height', BarCharts.VERTICAL_OFFSET * 2);
-                let bars = this.svgs.selectAll('g')
-                    .data(this.exerciseHistory);
+        this.splitOutSets();
+        let totalOffset = this.addOffsets();
+        this.renderXAxis();
+        this.svgs.attr('width', totalOffset)
+            .attr('height', BarCharts.VERTICAL_OFFSET * 2);
+        let bars = this.svgs.selectAll('g')
+            .data(this.exerciseHistory);
 
-                // Enter
-                let barsEnter = bars.enter()
-                    .append('g')
-                    .attr('transform', (d: any, i: number) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
-                barsEnter.append('rect')
-                    .style('fill', 'blue')
-                    .transition()
-                    .duration(BarCharts.ANIMATION_TIME)
-                    .attr('width', (d: RepHistory) => d.getWeight())
-                    .attr('height', (d: RepHistory) => d.getReps() * BarCharts.REP_MULTIPLIER);
-                barsEnter.append('text')
-                    .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ',' + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(-45)')
-                    .transition()
-                    .duration(BarCharts.ANIMATION_TIME)
-                    .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
+        // Enter
+        let barsEnter = bars.enter()
+            .append('g')
+            .attr('transform', (d: any, i: number) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
+        barsEnter.append('rect')
+            .style('fill', 'blue')
+            .transition()
+            .duration(BarCharts.ANIMATION_TIME)
+            .attr('width', (d: RepHistory) => d.getWeight())
+            .attr('height', (d: RepHistory) => d.getReps() * BarCharts.REP_MULTIPLIER);
+        barsEnter.append('text')
+            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ','
+            + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
+            .transition()
+            .duration(BarCharts.ANIMATION_TIME)
+            .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
 
-                // Update
-                bars.attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
-                bars.select('rect')
-                    .transition()
-                    .duration(BarCharts.ANIMATION_TIME)
-                    .attr('width', (d: RepHistory) => d.getWeight())
-                    .attr('height', (d: RepHistory) => d.getReps() * BarCharts.REP_MULTIPLIER);
-                bars.select('text')
-                    .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ',' + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(-45)')
-                    .transition()
-                    .duration(BarCharts.ANIMATION_TIME)
-                    .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
+        // Update
+        bars.attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
+        bars.select('rect')
+            .transition()
+            .duration(BarCharts.ANIMATION_TIME)
+            .attr('width', (d: RepHistory) => d.getWeight())
+            .attr('height', (d: RepHistory) => d.getReps() * BarCharts.REP_MULTIPLIER);
+        bars.select('text')
+            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ','
+            + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
+            .transition()
+            .duration(BarCharts.ANIMATION_TIME)
+            .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
 
-                // Exit
-                let barsExit = bars.exit();
-                barsExit.select('rect')
-                    .transition()
-                    .duration(400)
-                    .attr('height', 0);
-                barsExit.transition()
-                    .delay(BarCharts.ANIMATION_TIME)
-                    .remove();
-                barsExit.select('text')
-                    .remove();
+        // Exit
+        let barsExit = bars.exit();
+        barsExit.select('rect')
+            .transition()
+            .duration(400)
+            .attr('height', 0);
+        barsExit.transition()
+            .delay(BarCharts.ANIMATION_TIME)
+            .remove();
+        barsExit.select('text')
+            .remove();
     }
 
     protected abstract addOffsets(): number;
