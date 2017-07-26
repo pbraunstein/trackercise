@@ -5,6 +5,7 @@ import {CSRFService} from "../../services/csrfservice";
 import {RepHistory} from "../../models/rephistory";
 import * as d3 from 'd3';
 import {BarCharts} from "../barcharts/barcharts";
+import {HistoryByDateComponent} from "../historybydate/historybydate";
 
 @Component({
     selector: 'history-by-taxonomy',
@@ -58,9 +59,9 @@ export class HistoryByTaxonomyComponent extends BarCharts {
             let thisDate: string = this.exerciseHistory[i].getDatestamp();
             if (currentDate) {
                 if (currentDate == thisDate) {
-                    totalOffset += 1;
+                    totalOffset += HistoryByTaxonomyComponent.IN_BETWEEN_SETS_GAP;
                 } else {
-                    totalOffset += 7;
+                    totalOffset += HistoryByTaxonomyComponent.IN_BETWEEN_DAYS_GAP;
                 }
             }
             this.exerciseHistory[i].setXOffset(totalOffset);

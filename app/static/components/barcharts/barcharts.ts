@@ -9,6 +9,8 @@ export abstract class BarCharts {
     protected static VERTICAL_OFFSET: number = 170;
     protected static VERTICAL_OFFSET_2: number = 200;
     protected static TEXT_ROTATION_DEGREES: number = 45;
+    protected static IN_BETWEEN_SETS_GAP: number = 1;
+    protected static IN_BETWEEN_DAYS_GAP: number = 7;
 
     protected convertJsonArrayToObjectArray(historyArray: Array<any>): Array<RepHistory> {
         let historyObjectArray: Array<RepHistory> = [];
