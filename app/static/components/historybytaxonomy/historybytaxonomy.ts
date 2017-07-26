@@ -2,10 +2,8 @@ import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {CSRFService} from "../../services/csrfservice";
-import {RepHistory} from "../../models/rephistory";
 import * as d3 from 'd3';
 import {BarCharts} from "../barcharts/barcharts";
-import {HistoryByDateComponent} from "../historybydate/historybydate";
 
 @Component({
     selector: 'history-by-taxonomy',
