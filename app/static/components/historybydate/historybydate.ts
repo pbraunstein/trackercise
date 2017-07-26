@@ -8,7 +8,7 @@ import {BarCharts} from "../barcharts/barcharts";
     selector: 'history-by-date',
     templateUrl: '/static/components/historybydate/historybydate.html'
 })
-export class HistoryByDateComponent extends BarCharts{
+export class HistoryByDateComponent extends BarCharts {
 
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_date: Observable<any>;
@@ -70,9 +70,9 @@ export class HistoryByDateComponent extends BarCharts{
             let thisId: number = this.exerciseHistory[i].getHistoryId();
             if (currentId) {
                 if (currentId == thisId) {
-                    totalOffset += 1;
+                    totalOffset += HistoryByDateComponent.IN_BETWEEN_SETS_GAP;
                 } else {
-                    totalOffset += 7;
+                    totalOffset += HistoryByDateComponent.IN_BETWEEN_DAYS_GAP;
                 }
             }
             this.exerciseHistory[i].setXOffset(totalOffset);
@@ -87,19 +87,36 @@ export class HistoryByDateComponent extends BarCharts{
 
     protected renderXAxis(): void {
         this.svgs.selectAll('.date-text').remove();
-        let currentId: number = null;
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisId: number = this.exerciseHistory[i].getHistoryId();
-            if (!currentId || currentId != thisId) {
-                this.svgs
-                    .append('text')
-                    .attr('class', 'date-text')
-                    .attr('x', this.exerciseHistory[i].getXOffset())
-                    .attr('y', HistoryByDateComponent.VERTICAL_OFFSET + 15)
-                    .text(this.pairs.get(String(thisId)));
+        let iterA = 0;
+        let iterB = 0;
+        let extraOffset = 0;  // This accounts for the spaces in between columns
+
+        while (iterA < this.exerciseHistory.length) {
+            iterB = iterA;
+            let exericesIdA = this.exerciseHistory[iterA].getHistoryId();
+
+            // Find first next differing exercise Id
+            while (iterB < this.exerciseHistory.length && this.exerciseHistory[iterB].getHistoryId() == exericesIdA) {
+                extraOffset++;
+                iterB += HistoryByDateComponent.IN_BETWEEN_SETS_GAP;
             }
-            currentId = thisId;
+
+            // Need to back up one, to last one that was the same
+            iterB -= HistoryByDateComponent.IN_BETWEEN_SETS_GAP;
+            extraOffset--;
+
+            let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset() + extraOffset)
+                / 2;
+            this.svgs
+                .append('text')
+                .text(this.pairs.get(String(exericesIdA)))
+                .attr('class', 'date-text')
+                .attr('text-anchor', 'end')
+                .attr('transform', 'translate(' + String(middleXOffset) + ','
+                    + String(HistoryByDateComponent.VERTICAL_OFFSET_2) + ') rotate(-45)');
+
+            iterA = iterB + 1;
+            extraOffset += 7;
         }
     }
-
 }
