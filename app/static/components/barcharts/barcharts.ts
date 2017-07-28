@@ -11,6 +11,7 @@ export abstract class BarCharts {
     protected static TEXT_ROTATION_DEGREES: number = 45;
     protected static IN_BETWEEN_SETS_GAP: number = 1;
     protected static IN_BETWEEN_DAYS_GAP: number = 7;
+    protected static WEIGHT_BUFFER: number = 10;
 
     protected convertJsonArrayToObjectArray(historyArray: Array<any>): Array<RepHistory> {
         let historyObjectArray: Array<RepHistory> = [];
@@ -30,9 +31,18 @@ export abstract class BarCharts {
         this.exerciseHistory = newArray;
     }
 
+    protected scaleWeights(): void {
+        for (let i = 0; i < this.exerciseHistory.length; i++) {
+            this.exerciseHistory[i].setWeight(
+                this.exerciseHistory[i].getWeight() + BarCharts.WEIGHT_BUFFER
+            );
+        }
+    }
+
     protected setUpViz(data: any): void {
         this.exerciseHistory = this.convertJsonArrayToObjectArray(data.json().history);
         this.splitOutSets();
+        this.scaleWeights();
         let totalOffset = this.addOffsets();
         this.renderXAxis();
         this.svgs.attr('width', totalOffset)
