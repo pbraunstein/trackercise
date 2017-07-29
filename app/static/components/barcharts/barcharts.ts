@@ -31,6 +31,10 @@ export abstract class BarCharts {
         this.exerciseHistory = newArray;
     }
 
+    /**
+     * BarCharts.WEIGHT_BUFFER is added to every entries weight so that body weight exercises are not rendered
+     * as 0-width bars
+     */
     protected scaleWeights(): void {
         for (let i = 0; i < this.exerciseHistory.length; i++) {
             this.exerciseHistory[i].setWeight(
@@ -64,8 +68,8 @@ export abstract class BarCharts {
             .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ','
             + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
             .transition()
-            .duration(BarCharts.ANIMATION_TIME)
-            .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
+            .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
+            .text((d: RepHistory) => d.getReps().toString() + ',' + (d.getWeight() - BarCharts.WEIGHT_BUFFER).toString());
 
         // Update
         bars.attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
@@ -78,8 +82,8 @@ export abstract class BarCharts {
             .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ','
             + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
             .transition()
-            .duration(BarCharts.ANIMATION_TIME)
-            .text((d: RepHistory) => d.getReps().toString() + ',' + d.getWeight().toString());
+            .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
+            .text((d: RepHistory) => d.getReps().toString() + ',' + (d.getWeight() - BarCharts.WEIGHT_BUFFER).toString());
 
         // Exit
         let barsExit = bars.exit();
