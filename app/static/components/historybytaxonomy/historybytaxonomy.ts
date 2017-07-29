@@ -80,18 +80,37 @@ export class HistoryByTaxonomyComponent extends BarCharts {
 
     protected renderXAxis(): void {
         this.svgs.selectAll('.date-text').remove();
-        let currentDate: string = null;
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisDate: string = this.exerciseHistory[i].getDatestamp();
-            if (!currentDate || currentDate != thisDate) {
-                this.svgs
-                    .append('text')
-                    .attr('class', 'date-text')
-                    .attr('x', this.exerciseHistory[i].getXOffset())
-                    .attr('y', HistoryByTaxonomyComponent.VERTICAL_OFFSET + 15)
-                    .text(thisDate);
+        let iterA = 0;
+        let iterB = 0;
+        let extraOffset = 0;  // Space between the columns
+
+        while (iterA < this.exerciseHistory.length) {
+            iterB = iterA;
+            let dateA = this.exerciseHistory[iterA].getDatestamp();
+
+            // Find first differing date
+            while (iterB < this.exerciseHistory.length && this.exerciseHistory[iterB].getDatestamp() == dateA) {
+                iterB++;
             }
-            currentDate = thisDate;
+
+            // Back up one to the last date that was the same
+            iterB--;
+
+            // Add in space between bars
+            extraOffset += (iterB - iterA) * HistoryByTaxonomyComponent.IN_BETWEEN_SETS_GAP;
+
+            let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset()
+                + extraOffset) / 2;
+            this.svgs
+                .append('text')
+                .text(dateA)
+                .attr('class', 'date-text')
+                .attr('text-anchor', 'end')
+                .attr('transform', 'translate(' + String(middleXOffset) + ','
+                    + String(HistoryByTaxonomyComponent.VERTICAL_OFFSET_2) + ') rotate(-45)');
+
+            iterA = iterB + 1;
+            extraOffset += HistoryByTaxonomyComponent.IN_BETWEEN_DAYS_GAP;
         }
     }
 }

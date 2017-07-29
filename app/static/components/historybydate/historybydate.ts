@@ -102,13 +102,14 @@ export class HistoryByDateComponent extends BarCharts {
 
             // Find first next differing exercise Id
             while (iterB < this.exerciseHistory.length && this.exerciseHistory[iterB].getHistoryId() == exericesIdA) {
-                extraOffset++;
-                iterB += HistoryByDateComponent.IN_BETWEEN_SETS_GAP;
+                iterB++;
             }
 
             // Need to back up one, to last one that was the same
-            iterB -= HistoryByDateComponent.IN_BETWEEN_SETS_GAP;
-            extraOffset--;
+            iterB--;
+
+            // Add in space between bars
+            extraOffset += (iterB - iterA) * HistoryByDateComponent.IN_BETWEEN_SETS_GAP
 
             let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset() + extraOffset)
                 / 2;
@@ -121,7 +122,7 @@ export class HistoryByDateComponent extends BarCharts {
                     + String(HistoryByDateComponent.VERTICAL_OFFSET_2) + ') rotate(-45)');
 
             iterA = iterB + 1;
-            extraOffset += 7;
+            extraOffset += HistoryByDateComponent.IN_BETWEEN_SETS_GAP;
         }
     }
 }
