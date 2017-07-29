@@ -4,7 +4,6 @@ import {Http, Headers} from "@angular/http";
 import {CSRFService} from "../../services/csrfservice";
 import * as d3 from 'd3';
 import {BarCharts} from "../barcharts/barcharts";
-import {HistoryByDateComponent} from "../historybydate/historybydate";
 
 @Component({
     selector: 'history-by-taxonomy',
@@ -87,12 +86,13 @@ export class HistoryByTaxonomyComponent extends BarCharts {
             // Find first differing date
             while (iterB < this.exerciseHistory.length && this.exerciseHistory[iterB].getDatestamp() == dateA) {
                 iterB++;
-                extraOffset += HistoryByTaxonomyComponent.IN_BETWEEN_SETS_GAP;
             }
 
             // Back up one to the last date that was the same
             iterB--;
-            extraOffset -= HistoryByTaxonomyComponent.IN_BETWEEN_SETS_GAP;
+
+            // Add in space between bars
+            extraOffset += (iterB - iterA) * HistoryByTaxonomyComponent.IN_BETWEEN_SETS_GAP;
 
             let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset()
                 + extraOffset) / 2;
