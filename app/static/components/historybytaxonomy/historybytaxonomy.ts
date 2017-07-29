@@ -21,6 +21,11 @@ export class HistoryByTaxonomyComponent extends BarCharts {
     }
 
     ngOnInit() {
+        // Set up horizontal scrolling
+        d3.select('#history-by-taxonomy-chart')
+            .style('height', '400px')
+            .style('width', '100%')
+            .style('overflow', 'scroll');
         this.svgs = d3.select('#history-by-taxonomy-chart').append('svg');
         this.endpoint_exercise_pairs.subscribe(
             data => {
