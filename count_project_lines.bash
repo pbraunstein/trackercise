@@ -1,0 +1,2 @@
+#!/bin/bash
+find . -type f -name "*.ts" ! -path "./app/static/node_modules/*" -o -type f -name "*.html" ! -path "./app/static/node_modules/*" -o -type f -name "*.js" ! -path "./app/static/node_modules/*" ! -path "./app/static/dist/*" -o -type f -name "*.json" ! -path "./app/static/node_modules/*" ! -path "./app/static/dist/*" -o -type f -name "*.py" ! -path "./app/static/node_modules/*" -o -type f -name "*.bash" ! -path "./app/static/node_modules/*" | xargs wc -l
