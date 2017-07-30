@@ -174,12 +174,52 @@ class RepExercisesHistory(db.Model):
                                                                        self.weight, self.date)
 
 
-class TimeExercisesTaxonomy(object):
-    pass
+class TimeExercisesTaxonomy(db.Model):
+    __tablename__ = 'time_exercises_taxonomy'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(), nullable=False, unique=True)
+
+    def __init__(self, name):
+        self.name = name
+
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        return self.name == other.name
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
 
-class TimeExercisesHistory(object):
-    pass
+class TimeExercisesHistory(db.Model):
+    __tablename__ = 'time_exercises_history'
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
+    exercise_id = db.Column(db.Integer, ForeignKey('time_exercises_history.id'))
+    distance = db.Column(db.Float)
+    duration = db.Column(db.Float)
+    exercise_date = db.Column(db.DateTime)
+
+    def __init__(self, user_id, exercise_id, distance, duration, exercise_date):
+        self.user_id = user_id
+        self.exercise_id = exercise_id
+        self.distance = distance
+        self.duration = duration
+        self.exercise_date = exercise_date
+
+    def __eq__(self, other):
+        if not isinstance(other, self.__class__):
+            return False
+        return (self.user_id == other.user_id and
+                self.exercise_id == other.exercise_id and
+                self.distance == other.distance and
+                self.duration == other.duration and
+                self.exercise_date == other.exercise_date)
+
+    def __ne__(self, other):
+        return not self.__eq__(other)
 
 
 @login_manager.user_loader
