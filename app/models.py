@@ -174,6 +174,14 @@ class RepExercisesHistory(db.Model):
                                                                        self.weight, self.date)
 
 
+class TimeExercisesTaxonomy(object):
+    pass
+
+
+class TimeExercisesHistory(object):
+    pass
+
+
 @login_manager.user_loader
 def user_loader(user_email):
     return Users.query.get(user_email)
