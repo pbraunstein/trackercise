@@ -164,7 +164,10 @@ def export_rep_history():
         history_writer = writer(csvfile)
         history_writer.writerow(RepExercisesHistory.get_attribute_header_list())
         for h in history:
-            history_writer.writerow(h.get_attribute_list())
+            try:
+                history_writer.writerow(h.get_attribute_list())
+            except AttributeError:
+                pass
 
 
 def _booleanize(yes_or_no):
