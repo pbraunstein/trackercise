@@ -162,3 +162,7 @@ class TimeExercisesTaxonomyService(object):
     def add_entry_to_db(entry):
         db.session.add(entry)
         db.session.commit()
+
+
+class TimeExercisesHistoryService(object):
+    pass
