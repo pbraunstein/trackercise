@@ -1,10 +1,10 @@
 from app import db
-from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
+from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory, TimeExercisesTaxonomy, TimeExercisesHistory
 
 
 class UsersService(object):
     """
-    Service class for interacting with the Users SQLAlchemy object
+    Service class for interacting with the Users SQLAlchemy object and database
 
     I N T E R F A C E   G U A R A N T E E D
     ---------------------------------------
@@ -67,7 +67,7 @@ class UsersService(object):
 
 class RepExercisesTaxonomyService(object):
     """
-    Service class for interacting with the RepExercisesTaxonomy SQLAlchemy object
+    Service class for interacting with the RepExercisesTaxonomy SQLAlchemy object and database
 
     I N T E R F A C E   G U A R A N T E E D
     ---------------------------------------
@@ -97,7 +97,7 @@ class RepExercisesTaxonomyService(object):
 
 class RepExercisesHistoryService(object):
     """
-    Service class for interacting with the RepExercisesHistory SQLAlchemy object
+    Service class for interacting with the RepExercisesHistory SQLAlchemy object and database
 
     I N T E R F A C E   G U A R A N T E E D
     ---------------------------------------
@@ -135,6 +135,20 @@ class RepExercisesHistoryService(object):
     @staticmethod
     def get_user_history_by_date(user_id, exercise_date):
         return list(db.session.query(RepExercisesHistory).filter_by(user_id=user_id, date=exercise_date).all())
+
+    @staticmethod
+    def add_entry_to_db(entry):
+        db.session.add(entry)
+        db.session.commit()
+
+
+class TimeExercisesTaxonomyService(object):
+    """
+    Service class for interacting with TimeExercisesTaxonomy SQLAlchemy object and database
+    """
+    @staticmethod
+    def get_list_of_all_exercises():
+        return list(TimeExercisesTaxonomy.query.all())
 
     @staticmethod
     def add_entry_to_db(entry):
