@@ -145,6 +145,14 @@ class RepExercisesHistoryService(object):
 class TimeExercisesTaxonomyService(object):
     """
     Service class for interacting with TimeExercisesTaxonomy SQLAlchemy object and database
+
+    I N T E R F A C E   G U A R A N T E E D
+    ---------------------------------------
+    get_list_of_all_exercises():
+        -- Exports all TimeExercisesTaxonomy entries as a list [TimeExercisesTaxonomy(), ...]
+
+    add_entry_to_db(entry):
+        -- Adds a TimeExercisesTaxonomy to the database
     """
     @staticmethod
     def get_list_of_all_exercises():
