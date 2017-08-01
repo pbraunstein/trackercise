@@ -121,7 +121,8 @@ class RepExercisesHistoryTests(ServiceTestCase):
         actual_list = RepExercisesHistoryService.get_list_of_all_history()
 
         # no guarantee about ordering is made
-        self.assertListEqual(sorted(actual_list, key=self._sort_key_date), sorted(expected_list, key=self._sort_key_date))
+        self.assertListEqual(sorted(actual_list, key=self._sort_key_date),
+                             sorted(expected_list, key=self._sort_key_date))
 
     # get_list_of_users_exercises tests #
     def test_get_list_of_users_exercises_no_exercises_yet(self):
