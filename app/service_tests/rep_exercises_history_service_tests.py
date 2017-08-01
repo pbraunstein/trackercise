@@ -8,10 +8,14 @@ from app.service_tests.service_test_case import ServiceTestCase
 class RepExercisesHistoryTests(ServiceTestCase):
     def setUp(self):
         super(RepExercisesHistoryTests, self).setUp()
+
+        # sample users for tests
         user_1 = Users('p@p.p', 'Patrick', 'pass')
         user_2 = Users('j@j.j', 'Jaytrick', 'pass')
         UsersService.add_user_to_database(user_1)
         UsersService.add_user_to_database(user_2)
+
+        # sample exercises for tests
         RepExercisesTaxonomyService.add_entry_to_db(
             RepExercisesTaxonomy(
                 name='test_rows',
@@ -117,10 +121,11 @@ class RepExercisesHistoryTests(ServiceTestCase):
         actual_list = RepExercisesHistoryService.get_list_of_all_history()
 
         # no guarantee about ordering is made
-        self.assertListEqual(sorted(actual_list, key=self._sort_key_date), sorted(expected_list, key=self._sort_key_date))
+        self.assertListEqual(sorted(actual_list, key=self._sort_key_date),
+                             sorted(expected_list, key=self._sort_key_date))
 
     # get_list_of_users_exercises tests #
-    def test_get_list_of_users_exercises_no_exercises_yet(self):
+    def test_get_list_of_users_exercises_no_exercises(self):
         entry_1 = RepExercisesHistory(
             user_id=2,
             exercise_id=1,
@@ -176,13 +181,20 @@ class RepExercisesHistoryTests(ServiceTestCase):
         RepExercisesHistoryService.add_entry_to_db(entry_2)
         RepExercisesHistoryService.add_entry_to_db(entry_3)
 
-        expected_results = [entry_1, entry_3]
+        expected_results = [entry_1, entry_3]  # entry_2 was done by a different user
         actual_results = RepExercisesHistoryService.get_list_of_users_exercises(2)
 
         # no guarantee about ordering is made
-        self.assertListEqual(sorted(actual_results, key=self._sort_key_date), sorted(expected_results, key=self._sort_key_date))
+        self.assertListEqual(sorted(actual_results, key=self._sort_key_date),
+                             sorted(expected_results, key=self._sort_key_date))
 
     # get_user_history_by_exercise tests #
+    def test_get_user_history_by_exercise_empty_db(self):
+        expected_results = []
+        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(user_id=1, exercise_id=2)
+
+        self.assertListEqual(actual_results, expected_results)
+
     def test_get_user_history_by_exercise_user_not_done_that_exercise(self):
         entry_1 = RepExercisesHistory(
             user_id=2,
@@ -205,7 +217,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
         RepExercisesHistoryService.add_entry_to_db(entry_2)
 
         expected_results = []
-        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(1, 2)
+        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(user_id=1, exercise_id=2)
 
         self.assertListEqual(actual_results, expected_results)
 
@@ -240,7 +252,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
         RepExercisesHistoryService.add_entry_to_db(entry_3)
 
         expected_results = [entry_1, entry_3]
-        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(2, 2)
+        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(user_id=2, exercise_id=2)
 
         # no guarantee about ordering is made
         self.assertListEqual(sorted(actual_results, key=self._sort_key_date), sorted(expected_results, key=self._sort_key_date))
@@ -283,7 +295,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
     # get_user_history_by_date tests #
     def test_get_user_history_by_date_empty_db(self):
         expected_results = []
-        actual_results = RepExercisesHistoryService.get_user_history_by_date(1, '2017-07-20')
+        actual_results = RepExercisesHistoryService.get_user_history_by_date(user_id=1, exercise_date='2017-07-20')
 
         self.assertListEqual(actual_results, expected_results)
 
@@ -318,7 +330,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
         RepExercisesHistoryService.add_entry_to_db(entry_3)
 
         expected_results = []
-        actual_results = RepExercisesHistoryService.get_user_history_by_date(1, '1892-11-23')
+        actual_results = RepExercisesHistoryService.get_user_history_by_date(user_id=1, exercise_date='1892-11-23')
         self.assertListEqual(actual_results, expected_results)
 
     def test_get_user_history_by_date_match(self):
@@ -352,7 +364,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
         RepExercisesHistoryService.add_entry_to_db(entry_3)
 
         expected_results = [entry_1, entry_2]
-        actual_results = RepExercisesHistoryService.get_user_history_by_date(1, '1890-11-23')
+        actual_results = RepExercisesHistoryService.get_user_history_by_date(user_id=1, exercise_date='1890-11-23')
 
         self.assertListEqual(sorted(actual_results, key=self._sort_key_exercise_id),
                              sorted(expected_results, key=self._sort_key_exercise_id))

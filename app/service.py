@@ -1,10 +1,10 @@
 from app import db
-from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
+from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory, TimeExercisesTaxonomy, TimeExercisesHistory
 
 
 class UsersService(object):
     """
-    Service class for interacting with the Users SQLAlchemy object
+    Service class for interacting with the Users SQLAlchemy object and database
 
     I N T E R F A C E   G U A R A N T E E D
     ---------------------------------------
@@ -67,7 +67,7 @@ class UsersService(object):
 
 class RepExercisesTaxonomyService(object):
     """
-    Service class for interacting with the RepExercisesTaxonomy SQLAlchemy object
+    Service class for interacting with the RepExercisesTaxonomy SQLAlchemy object and database
 
     I N T E R F A C E   G U A R A N T E E D
     ---------------------------------------
@@ -97,7 +97,7 @@ class RepExercisesTaxonomyService(object):
 
 class RepExercisesHistoryService(object):
     """
-    Service class for interacting with the RepExercisesHistory SQLAlchemy object
+    Service class for interacting with the RepExercisesHistory SQLAlchemy object and database
 
     I N T E R F A C E   G U A R A N T E E D
     ---------------------------------------
@@ -135,6 +135,75 @@ class RepExercisesHistoryService(object):
     @staticmethod
     def get_user_history_by_date(user_id, exercise_date):
         return list(db.session.query(RepExercisesHistory).filter_by(user_id=user_id, date=exercise_date).all())
+
+    @staticmethod
+    def add_entry_to_db(entry):
+        db.session.add(entry)
+        db.session.commit()
+
+
+class TimeExercisesTaxonomyService(object):
+    """
+    Service class for interacting with TimeExercisesTaxonomy SQLAlchemy object and database
+
+    I N T E R F A C E   G U A R A N T E E D
+    ---------------------------------------
+    get_list_of_all_exercises():
+        -- Exports all TimeExercisesTaxonomy entries as a list [TimeExercisesTaxonomy(), ...]
+
+    add_entry_to_db(entry):
+        -- Adds a TimeExercisesTaxonomy to the database
+    """
+    @staticmethod
+    def get_list_of_all_exercises():
+        return list(TimeExercisesTaxonomy.query.all())
+
+    @staticmethod
+    def add_entry_to_db(entry):
+        db.session.add(entry)
+        db.session.commit()
+
+
+class TimeExercisesHistoryService(object):
+    """
+    Service class for interacting with the TimeExercisesHistory SQLAlchemy object and database
+
+    I N T E R F A C E   G U A R A N T E E D
+    ---------------------------------------
+    get_list_of_all_history():
+        -- Exports all TimeExercisesHistory entries as a list [TimeExercisesHistory(), ...]
+
+    get_list_of_users_exercises(user_id):
+        -- Exports all TimeExercisesHistory entries of a particular user [TimeExercisesHistory(), ...]
+
+    get_user_history_by_exercise(user_id, exercise_id):
+        -- Exports all TimeExercisesHistory entries of a particular user and particular exercise
+            [TimeExercisesHistory(), ...]
+        -- Entries are returned in ascending order by date (i.e. earlier to later)
+
+    get_user_history_by_date(user_id, exercise_date):
+        -- Exports all TimeExercisesHistory entries of a particular user performed on a particular date
+            [TimeExercisesHistory(), ...]
+        -- Does not make any guarantees regarding the order of elements returned
+
+    add_entry_to_db(entry):
+        -- Takes a RepExercisesHistory and adds it to the database
+    """
+    @staticmethod
+    def get_list_of_all_history():
+        return list(TimeExercisesHistory.query.all())
+
+    @staticmethod
+    def get_list_of_users_exercises(user_id):
+        return list(db.session.query(TimeExercisesHistory).filter_by(user_id=user_id).all())
+
+    @staticmethod
+    def get_user_history_by_exercise(user_id, exercise_id):
+        return list(db.session.query(TimeExercisesHistory).filter_by(user_id=user_id, exercise_id=exercise_id).all())
+
+    @staticmethod
+    def get_user_history_by_date(user_id, exercise_date):
+        return list(db.session.query(TimeExercisesHistory).filter_by(user_id=user_id, exercise_date=exercise_date).all())
 
     @staticmethod
     def add_entry_to_db(entry):
