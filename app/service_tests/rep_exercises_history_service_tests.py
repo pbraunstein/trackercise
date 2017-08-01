@@ -189,6 +189,12 @@ class RepExercisesHistoryTests(ServiceTestCase):
                              sorted(expected_results, key=self._sort_key_date))
 
     # get_user_history_by_exercise tests #
+    def test_get_user_history_by_exercise_empty_db(self):
+        expected_results = []
+        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(user_id=1, exercise_id=2)
+
+        self.assertListEqual(actual_results, expected_results)
+
     def test_get_user_history_by_exercise_user_not_done_that_exercise(self):
         entry_1 = RepExercisesHistory(
             user_id=2,

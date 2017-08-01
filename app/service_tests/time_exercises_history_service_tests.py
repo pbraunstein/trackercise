@@ -155,6 +155,12 @@ class TimeExercisesHistoryTests(ServiceTestCase):
                              sorted(expected_results, key=self._sort_key_date))
 
     # get_user_history_by_exercise tests #
+    def test_get_user_history_by_exercise_empty_db(self):
+        expected_results = []
+        actual_results = TimeExercisesHistoryService.get_user_history_by_exercise(user_id=1, exercise_id=2)
+
+        self.assertListEqual(actual_results, expected_results)
+
     def test_get_user_history_by_exercise_user_not_done_that_exercise(self):
         entry_1 = TimeExercisesHistory(
             user_id=2,
@@ -216,6 +222,13 @@ class TimeExercisesHistoryTests(ServiceTestCase):
 
         expected_results = [entry_1]
         actual_results = TimeExercisesHistoryService.get_user_history_by_exercise(user_id=2, exercise_id=1)
+
+        self.assertListEqual(actual_results, expected_results)
+
+    # get_user_history_by_date tests #
+    def test_get_user_history_by_date_empty_db(self):
+        expected_results = []
+        actual_results = TimeExercisesHistoryService.get_user_history_by_date(user_id=1, exercise_date='2017-05-02')
 
         self.assertListEqual(actual_results, expected_results)
 
