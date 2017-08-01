@@ -211,7 +211,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
         RepExercisesHistoryService.add_entry_to_db(entry_2)
 
         expected_results = []
-        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(1, 2)
+        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(user_id=1, exercise_id=2)
 
         self.assertListEqual(actual_results, expected_results)
 
@@ -246,7 +246,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
         RepExercisesHistoryService.add_entry_to_db(entry_3)
 
         expected_results = [entry_1, entry_3]
-        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(2, 2)
+        actual_results = RepExercisesHistoryService.get_user_history_by_exercise(user_id=2, exercise_id=2)
 
         # no guarantee about ordering is made
         self.assertListEqual(sorted(actual_results, key=self._sort_key_date), sorted(expected_results, key=self._sort_key_date))
