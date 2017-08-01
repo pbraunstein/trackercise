@@ -330,7 +330,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
         RepExercisesHistoryService.add_entry_to_db(entry_3)
 
         expected_results = []
-        actual_results = RepExercisesHistoryService.get_user_history_by_date(1, '1892-11-23')
+        actual_results = RepExercisesHistoryService.get_user_history_by_date(user_id=1, exercise_date='1892-11-23')
         self.assertListEqual(actual_results, expected_results)
 
     def test_get_user_history_by_date_match(self):
@@ -364,7 +364,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
         RepExercisesHistoryService.add_entry_to_db(entry_3)
 
         expected_results = [entry_1, entry_2]
-        actual_results = RepExercisesHistoryService.get_user_history_by_date(1, '1890-11-23')
+        actual_results = RepExercisesHistoryService.get_user_history_by_date(user_id=1, exercise_date='1890-11-23')
 
         self.assertListEqual(sorted(actual_results, key=self._sort_key_exercise_id),
                              sorted(expected_results, key=self._sort_key_exercise_id))
