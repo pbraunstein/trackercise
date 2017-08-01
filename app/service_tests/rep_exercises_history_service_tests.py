@@ -295,7 +295,7 @@ class RepExercisesHistoryTests(ServiceTestCase):
     # get_user_history_by_date tests #
     def test_get_user_history_by_date_empty_db(self):
         expected_results = []
-        actual_results = RepExercisesHistoryService.get_user_history_by_date(1, '2017-07-20')
+        actual_results = RepExercisesHistoryService.get_user_history_by_date(user_id=1, exercise_date='2017-07-20')
 
         self.assertListEqual(actual_results, expected_results)
 
