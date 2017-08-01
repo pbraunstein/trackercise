@@ -8,10 +8,14 @@ from app.service_tests.service_test_case import ServiceTestCase
 class RepExercisesHistoryTests(ServiceTestCase):
     def setUp(self):
         super(RepExercisesHistoryTests, self).setUp()
+
+        # sample users for tests
         user_1 = Users('p@p.p', 'Patrick', 'pass')
         user_2 = Users('j@j.j', 'Jaytrick', 'pass')
         UsersService.add_user_to_database(user_1)
         UsersService.add_user_to_database(user_2)
+
+        # sample exercises for tests
         RepExercisesTaxonomyService.add_entry_to_db(
             RepExercisesTaxonomy(
                 name='test_rows',
