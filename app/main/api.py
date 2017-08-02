@@ -113,6 +113,14 @@ def add_time_history():
 
     parameters = request.get_json()
 
+    TimeExercisesManagement.submit_history_entry(
+        user_id=current_user.id,
+        exercise_id=parameters.get(HISTORY_CONSTANTS.EXERCISE_ID),
+        distance=parameters.get(HISTORY_CONSTANTS.DISTANCE),
+        duration=parameters.get(HISTORY_CONSTANTS.DURATION),
+        exercise_date=parameters.get(HISTORY_CONSTANTS.DATE)
+    )
+
     return dumps({'status': 'good'}), 200
 
 

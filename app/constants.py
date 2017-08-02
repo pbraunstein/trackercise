@@ -33,6 +33,8 @@ class HISTORY_CONSTANTS:
     REPS = 'history_reps'
     WEIGHT = 'history_weight'
     DATE = 'history_date'
+    DISTANCE = 'history_distance'
+    DURATION = 'history_duration'
 
 
 class FILE_HANDLES:
