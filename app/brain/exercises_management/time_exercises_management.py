@@ -11,7 +11,6 @@ class TimeExercisesManagement(object):
     submit_taxonomy_entry(name):
         -- Creates and adds a TimeExercisesTaxonomy to the database. Returns the added entry
     """
-
     @staticmethod
     def submit_taxonomy_entry(name):
         entry_to_add = TimeExercisesTaxonomy(name=name)
