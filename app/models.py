@@ -170,8 +170,9 @@ class RepExercisesHistory(db.Model):
                 self.date.strftime('%Y-%m-%d')]
 
     def __repr__(self):
-        return '<{0}: {1} sets of {2} reps at {3} lbs. on {4}>'.format(self.exercise_id, self.sets, self.reps,
-                                                                       self.weight, self.date)
+        return '<user_id: {0} exercise_id{1}: {2} sets of {3} reps at {4} lbs. on {5}>'.format(
+            self.user_id, self.exercise_id, self.sets, self.reps, self.weight, self.date
+        )
 
 
 class TimeExercisesTaxonomy(db.Model):
@@ -190,6 +191,9 @@ class TimeExercisesTaxonomy(db.Model):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __repr__(self):
+        return '<name: {0}>'.format(self.name)
 
 
 class TimeExercisesHistory(db.Model):
@@ -220,6 +224,11 @@ class TimeExercisesHistory(db.Model):
 
     def __ne__(self, other):
         return not self.__eq__(other)
+
+    def __repr__(self):
+        return '<user_id: {0} exercise_id: {1}; {2} distance in {3} time>'.format(
+            self.user_id, self.exercise_id, self.distance, self.duration
+        )
 
 
 @login_manager.user_loader

@@ -2,7 +2,7 @@ import unittest
 from datetime import date
 
 from app.brain.utilities import prepare_history_entry, _user_obj_to_dict, _taxonomy_obj_to_dict, _history_obj_to_dict
-from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
+from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
 from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
 
 
@@ -116,13 +116,13 @@ class UtilitiesTests(unittest.TestCase):
         results = _history_obj_to_dict(history_obj)
 
         expected_results = {
-            HISTORY_CONSTNATS.ID: test_id,
-            HISTORY_CONSTNATS.USER_ID: test_user_id,
-            HISTORY_CONSTNATS.EXERCISE_ID: test_exercise_id,
-            HISTORY_CONSTNATS.SETS: test_sets,
-            HISTORY_CONSTNATS.REPS: test_reps,
-            HISTORY_CONSTNATS.WEIGHT: test_weight,
-            HISTORY_CONSTNATS.DATE: str(test_date)
+            HISTORY_CONSTANTS.ID: test_id,
+            HISTORY_CONSTANTS.USER_ID: test_user_id,
+            HISTORY_CONSTANTS.EXERCISE_ID: test_exercise_id,
+            HISTORY_CONSTANTS.SETS: test_sets,
+            HISTORY_CONSTANTS.REPS: test_reps,
+            HISTORY_CONSTANTS.WEIGHT: test_weight,
+            HISTORY_CONSTANTS.DATE: str(test_date)
         }
 
         self.assertDictEqual(results, expected_results)

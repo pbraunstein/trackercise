@@ -24,7 +24,7 @@ class TAXONOMY_CONSTANTS:
     IS_WEIGHT_PER_HAND = 'taxonomy_is_weight_per_hand'
 
 
-class HISTORY_CONSTNATS:
+class HISTORY_CONSTANTS:
     GROUP_NAME = 'history'
     ID = 'history_id'
     USER_ID = 'history_user_id'
@@ -33,6 +33,8 @@ class HISTORY_CONSTNATS:
     REPS = 'history_reps'
     WEIGHT = 'history_weight'
     DATE = 'history_date'
+    DISTANCE = 'history_distance'
+    DURATION = 'history_duration'
 
 
 class FILE_HANDLES:

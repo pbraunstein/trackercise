@@ -1,6 +1,6 @@
 import hashlib
 
-from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
+from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
 
 
 def hash_password(password):
@@ -18,12 +18,12 @@ def prepare_history_entry(entry):
 def all_data_to_dict(all_data):
     all_data[USERS_CONSTANTS.GROUP_NAME] = list_user_objs_to_list_dicts(all_data[USERS_CONSTANTS.GROUP_NAME])
     all_data[TAXONOMY_CONSTANTS.GROUP_NAME] = list_taxonomy_objs_to_dicts(all_data[TAXONOMY_CONSTANTS.GROUP_NAME])
-    all_data[HISTORY_CONSTNATS.GROUP_NAME] = list_history_objs_to_dicts(all_data[HISTORY_CONSTNATS.GROUP_NAME])
+    all_data[HISTORY_CONSTANTS.GROUP_NAME] = list_history_objs_to_dicts(all_data[HISTORY_CONSTANTS.GROUP_NAME])
     return all_data
 
 
 def user_data_to_dict(user_data):
-    user_data[HISTORY_CONSTNATS.GROUP_NAME] = list_history_objs_to_dicts(user_data[HISTORY_CONSTNATS.GROUP_NAME])
+    user_data[HISTORY_CONSTANTS.GROUP_NAME] = list_history_objs_to_dicts(user_data[HISTORY_CONSTANTS.GROUP_NAME])
     user_data[TAXONOMY_CONSTANTS.GROUP_NAME] = list_taxonomy_objs_to_dicts(user_data[TAXONOMY_CONSTANTS.GROUP_NAME])
     return user_data
 
@@ -78,11 +78,11 @@ def _history_obj_to_dict(history):
     Converts a RepExercisesHistory object (db model) into a dictionary
     """
     return {
-        HISTORY_CONSTNATS.ID: history.id,
-        HISTORY_CONSTNATS.USER_ID: history.user_id,
-        HISTORY_CONSTNATS.EXERCISE_ID: history.exercise_id,
-        HISTORY_CONSTNATS.SETS: history.sets,
-        HISTORY_CONSTNATS.REPS: history.reps,
-        HISTORY_CONSTNATS.WEIGHT: history.weight,
-        HISTORY_CONSTNATS.DATE: str(history.date)
+        HISTORY_CONSTANTS.ID: history.id,
+        HISTORY_CONSTANTS.USER_ID: history.user_id,
+        HISTORY_CONSTANTS.EXERCISE_ID: history.exercise_id,
+        HISTORY_CONSTANTS.SETS: history.sets,
+        HISTORY_CONSTANTS.REPS: history.reps,
+        HISTORY_CONSTANTS.WEIGHT: history.weight,
+        HISTORY_CONSTANTS.DATE: str(history.date)
     }

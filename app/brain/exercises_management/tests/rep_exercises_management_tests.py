@@ -184,13 +184,8 @@ class RepExercisesManagementTests(unittest.TestCase):
                                                                     weight=12.5,
                                                                     exercise_date=expected_date
                                                                     )
-        # make sure results are the same
-        self.assertEqual(actual_result.user_id, expected_result.user_id)
-        self.assertEqual(actual_result.exercise_id, expected_result.exercise_id)
-        self.assertEqual(actual_result.sets, expected_result.sets)
-        self.assertEqual(actual_result.reps, expected_result.reps)
-        self.assertEqual(actual_result.weight, expected_result.weight)
-        self.assertEqual(actual_result.date, expected_result.date)
+
+        self.assertEqual(actual_result, expected_result)
 
         # make sure the service method was called
         db_mock.assert_called_once_with(actual_result)
