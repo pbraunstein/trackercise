@@ -12,7 +12,7 @@ export class AddHistoryComponent {
     private pairs: Array<any>;
 
     constructor(private http: Http) {
-        this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
+        this.endpoint_exercise_pairs = http.post('/get-valid-rep-id-exercise-pairs', '');
     }
 
     ngOnInit() {
