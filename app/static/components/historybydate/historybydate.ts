@@ -16,7 +16,7 @@ export class HistoryByDateComponent extends BarCharts {
 
     constructor(private http: Http, private csrfService: CSRFService) {
         super();
-        this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
+        this.endpoint_exercise_pairs = http.post('/get-valid-rep-id-exercise-pairs', '');
     }
 
     ngOnInit() {
@@ -54,7 +54,7 @@ export class HistoryByDateComponent extends BarCharts {
         let data: any = {};
         data.exercise_date = value.history_date;
         this.endpoint_history_by_date = this.http.post(
-            '/history-by-date',
+            '/rep-history-by-date',
             JSON.stringify(data),
             {headers: headers}
         );
