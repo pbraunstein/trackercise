@@ -54,7 +54,7 @@ export class HistoryByDateComponent extends BarCharts {
         let data: any = {};
         data.exercise_date = value.history_date;
         this.endpoint_history_by_date = this.http.post(
-            '/history-by-date',
+            '/rep-history-by-date',
             JSON.stringify(data),
             {headers: headers}
         );

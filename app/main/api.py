@@ -48,8 +48,8 @@ def user_data():
     return dumps(user_data_to_dict(UserData.get_user_data())), 200
 
 
-@main.route('/history-by-taxonomy', methods=['POST'])
-def history_by_taxonomy():
+@main.route('/rep-history-by-taxonomy', methods=['POST'])
+def rep_history_by_taxonomy():
     csrf.protect()
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400
@@ -68,8 +68,8 @@ def history_by_taxonomy():
     }), 200
 
 
-@main.route('/history-by-date', methods=['POST'])
-def history_by_date():
+@main.route('/rep-history-by-date', methods=['POST'])
+def rep_history_by_date():
     csrf.protect()
     if not current_user.is_authenticated:
         return dumps({'status': 'bad'}), 400

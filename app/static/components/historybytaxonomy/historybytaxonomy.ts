@@ -42,7 +42,7 @@ export class HistoryByTaxonomyComponent extends BarCharts {
         let data: any = {};
         data.exercise_id = value.exercise_id;
         this.endpoint_history_by_taxonomy = this.http.post(
-            '/history-by-taxonomy',
+            '/rep-history-by-taxonomy',
             JSON.stringify(data),
             {headers: headers}
         );
