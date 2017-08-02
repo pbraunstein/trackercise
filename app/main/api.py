@@ -17,7 +17,7 @@ from app.brain.user_management.login_result import LoginResult
 from app.brain.user_management.register_city import RegisterCity
 from app.brain.user_management.register_result import RegisterResult
 from app.brain.utilities import all_data_to_dict, user_data_to_dict, list_history_objs_to_dicts
-from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
+from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
 from app.main import main_blueprint as main
 
 
@@ -97,12 +97,22 @@ def add_rep_history():
 
     RepExercisesManagement.submit_history_entry(
         user_id=current_user.id,
-        exercise_id=parameters.get(HISTORY_CONSTNATS.EXERCISE_ID),
-        sets=parameters.get(HISTORY_CONSTNATS.SETS),
-        reps=parameters.get(HISTORY_CONSTNATS.REPS),
-        weight=parameters.get(HISTORY_CONSTNATS.WEIGHT),
-        exercise_date=parameters.get(HISTORY_CONSTNATS.DATE)
+        exercise_id=parameters.get(HISTORY_CONSTANTS.EXERCISE_ID),
+        sets=parameters.get(HISTORY_CONSTANTS.SETS),
+        reps=parameters.get(HISTORY_CONSTANTS.REPS),
+        weight=parameters.get(HISTORY_CONSTANTS.WEIGHT),
+        exercise_date=parameters.get(HISTORY_CONSTANTS.DATE)
     )
+    return dumps({'status': 'good'}), 200
+
+
+@main.route('/add-time-history', methods=['POST'])
+def add_time_history():
+    if not current_user.is_authenticated:
+        return dumps({'status': 'bad'}), 400
+
+    parameters = request.get_json()
+
     return dumps({'status': 'good'}), 200
 
 

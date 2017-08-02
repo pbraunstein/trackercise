@@ -1,5 +1,5 @@
 from app.brain.utilities import prepare_history_entry
-from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTNATS
+from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
 from app.service import UsersService, RepExercisesTaxonomyService, RepExercisesHistoryService
 
 
@@ -23,5 +23,5 @@ class AllData(object):
         history_results = [prepare_history_entry(x) for x in history_results]
         all_results[USERS_CONSTANTS.GROUP_NAME] = user_results
         all_results[TAXONOMY_CONSTANTS.GROUP_NAME] = taxonomy_results
-        all_results[HISTORY_CONSTNATS.GROUP_NAME] = history_results
+        all_results[HISTORY_CONSTANTS.GROUP_NAME] = history_results
         return all_results
