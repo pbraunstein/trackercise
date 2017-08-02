@@ -25,10 +25,11 @@ class RepExercisesManagement(object):
 
     submit_history_entry(user_id, exercise_id, sets, reps, weight, exercise_date):
         -- Creates and adds a RepExercisesHistory to the database for the user whose user_id is passed in
+        -- Returns the added entry
 
     submit_taxonomy_entry(name, is_back, is_chest, is_shoulders, is_biceps, is_triceps, is_legs, is_core, is_balance,
         is_cardio, is_weight_per_hand):
-        -- Creates and adds a RepExercisesTaxonomy to the database
+        -- Creates and adds a RepExercisesTaxonomy to the database. Returns the added entry
     """
     @staticmethod
     def get_valid_id_exercise_pairs():

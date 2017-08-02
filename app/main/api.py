@@ -9,6 +9,7 @@ from app import csrf
 from app.brain.admin.all_data import AllData
 from app.brain.admin.user_data import UserData
 from app.brain.exercises_management.rep_exercises_management import RepExercisesManagement
+from app.brain.exercises_management.time_exercises_management import TimeExercisesManagement
 from app.brain.user_management.account_updater import AccountUpdater
 from app.brain.user_management.change_password_result import ChangePasswordResult
 from app.brain.user_management.loginerator import Loginerator
@@ -140,6 +141,18 @@ def add_rep_taxonomy():
             parameters.get(TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND)
         )
     )
+    return dumps({'status': 'good'}), 200
+
+
+@main.route('/add-time-taxonomy', methods=['POST'])
+def add_time_taxonomy():
+    parameters = request.get_json()
+
+    if not parameters.get(TAXONOMY_CONSTANTS.NAME):  # This is the only required field
+        return dumps({'status': 'bad'}), 400
+
+    TimeExercisesManagement.submit_taxonomy_entry(parameters.get(TAXONOMY_CONSTANTS.NAME))
+
     return dumps({'status': 'good'}), 200
 
 
