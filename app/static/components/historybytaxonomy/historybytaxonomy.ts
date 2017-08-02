@@ -17,7 +17,7 @@ export class HistoryByTaxonomyComponent extends BarCharts {
 
     constructor(private http: Http, private csrfService: CSRFService) {
         super();
-        this.endpoint_exercise_pairs = http.post('/get-valid-id-exercise-pairs', '');
+        this.endpoint_exercise_pairs = http.post('/get-valid-rep-id-exercise-pairs', '');
     }
 
     ngOnInit() {

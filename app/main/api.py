@@ -124,8 +124,8 @@ def add_time_history():
     return dumps({'status': 'good'}), 200
 
 
-@main.route('/get-valid-id-exercise-pairs', methods=['POST'])
-def get_valid_id_exercise_pairs():
+@main.route('/get-valid-rep-id-exercise-pairs', methods=['POST'])
+def get_valid_rep_id_exercise_pairs():
     return dumps({
         'pairs': RepExercisesManagement.get_valid_id_exercise_pairs()
     }), 200
