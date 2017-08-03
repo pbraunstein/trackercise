@@ -97,7 +97,7 @@ def _history_obj_to_dict(history):
             HISTORY_CONSTANTS.EXERCISE_ID: history.exercise_id,
             HISTORY_CONSTANTS.DISTANCE: history.distance,
             HISTORY_CONSTANTS.DURATION: history.duration,
-            HISTORY_CONSTANTS.DATE: history.exercise_date
+            HISTORY_CONSTANTS.DATE: str(history.exercise_date)
         }
     else:
         raise ThisShouldNeverHappenException('Unknown type passed to _history_obj_to_dict')
