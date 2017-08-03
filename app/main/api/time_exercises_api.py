@@ -5,6 +5,7 @@ from flask_login import current_user
 
 from app import csrf
 from app.brain.exercises_management.time_exercises_management import TimeExercisesManagement
+from app.brain.utilities import list_history_objs_to_dicts
 from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
 from app.main import main_blueprint as main
 
@@ -17,6 +18,17 @@ def time_history_by_taxonomy():
         return dumps({'status': 'bad'}), 400
 
     parameters = request.get_json()
+
+    history = TimeExercisesManagement.get_user_history_by_exercise_id(
+        user_id=current_user.id,
+        exercise_id=parameters.get('exercise_id')
+    )
+
+    return dumps({
+        'status': 'good',
+        'nickname': current_user.nickname,
+        'history': list_history_objs_to_dicts(history)
+    }), 200
 
 
 @main.route('/add-time-taxonomy', methods=['POST'])
