@@ -3,9 +3,20 @@ from json import dumps
 from flask import request
 from flask_login import current_user
 
+from app import csrf
 from app.brain.exercises_management.time_exercises_management import TimeExercisesManagement
 from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
 from app.main import main_blueprint as main
+
+
+@main.route('/time-history-by-taxonomy', methods=['POST'])
+def time_history_by_taxonomy():
+    csrf.protect()
+
+    if not current_user.is_authenticated:
+        return dumps({'status': 'bad'}), 400
+
+    parameters = request.get_json()
 
 
 @main.route('/add-time-taxonomy', methods=['POST'])

@@ -8,6 +8,11 @@ class TimeExercisesManagement(object):
 
     I N T E R F A C E   G U A R AN T E E D
     --------------------------------------
+    get_user_history_by_exercise_id(user_id, exercise_id):
+        -- Returns a chronological list of the TimeExercisesHistory of type exercise_id that user_id has entered
+            [TimeExercisesHistory(), ...]
+        -- Guarantees that the entries are returned in chronological order
+
     submit_history_entry(user_id, exercise_id, distance, duration, exercise_date):
         -- Creates and adds a TimeExercisesHistory to the database for the user_id that's passed in
         -- Returns the added entry
@@ -16,6 +21,13 @@ class TimeExercisesManagement(object):
     submit_taxonomy_entry(name):
         -- Creates and adds a TimeExercisesTaxonomy to the database. Returns the added entry
     """
+    @staticmethod
+    def get_user_history_by_exercise_id(user_id, exercise_id):
+        return sorted(
+            TimeExercisesHistoryService.get_user_history_by_exercise(user_id, exercise_id),
+            key=lambda x: x.exercise_date
+        )
+
     @staticmethod
     def submit_history_entry(user_id, exercise_id, distance, duration, exercise_date):
         entry_to_add = TimeExercisesHistory(
