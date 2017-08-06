@@ -10,58 +10,40 @@ from app.models import RepExercisesTaxonomy, RepExercisesHistory
 
 class RepExercisesManagementTests(unittest.TestCase):
     def setUp(self):
+        history_1 = RepExercisesHistory(
+            user_id=1,
+            exercise_id=27,
+            sets=2,
+            reps=12,
+            weight=45,
+            date=date(year=2016, month=4, day=12)
+        )
+        history_2 = RepExercisesHistory(
+            user_id=1,
+            exercise_id=27,
+            sets=2,
+            reps=12,
+            weight=45,
+            date=date(year=2016, month=4, day=16)
+        )
+        history_3 = RepExercisesHistory(
+            user_id=1,
+            exercise_id=27,
+            sets=2,
+            reps=16,
+            weight=40,
+            date=date(year=2016, month=4, day=14)
+        )
         self.history = [
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=12,
-                weight=45,
-                date=date(year=2016, month=4, day=12)
-            ),
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=12,
-                weight=45,
-                date=date(year=2016, month=4, day=16)
-            ),
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=16,
-                weight=40,
-                date=date(year=2016, month=4, day=14)
-            )
+            history_1,
+            history_2,
+            history_3
         ]
 
         self.history_sorted = [
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=12,
-                weight=45,
-                date=date(year=2016, month=4, day=12)
-            ),
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=16,
-                weight=40,
-                date=date(year=2016, month=4, day=14)
-            ),
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=12,
-                weight=45,
-                date=date(year=2016, month=4, day=16)
-            )
+            history_1,
+            history_3,
+            history_2
         ]
 
         self.exercises = [
