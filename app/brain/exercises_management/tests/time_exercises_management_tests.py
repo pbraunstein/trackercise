@@ -76,7 +76,8 @@ class TimeExercisesManagementTests(unittest.TestCase):
         ]
 
     @patch(
-        'app.brain.exercises_management.time_exercises_management.TimeExercisesTaxonomyService.get_list_of_all_exercises'
+        'app.brain.exercises_management.time_exercises_management.TimeExercisesTaxonomyService'
+        '.get_list_of_all_exercises'
     )
     def test_get_valid_id_exercise_pairs(self, taxonomy_service_mock):
         taxonomy_service_mock.return_value = self.exercises
@@ -91,7 +92,8 @@ class TimeExercisesManagementTests(unittest.TestCase):
         self.assertListEqual(actual_results, expected_results)
 
     @patch(
-        'app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService.get_user_history_by_exercise'
+        'app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService'
+        '.get_user_history_by_exercise'
     )
     def test_get_user_history_by_exercise_id(self, taxonomy_service_mock):
         taxonomy_service_mock.return_value = self.history
@@ -111,7 +113,8 @@ class TimeExercisesManagementTests(unittest.TestCase):
         taxonomy_service_mock.assert_called_once_with(user_id, exercise_id)
 
     @patch(
-        'app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService.get_user_history_by_exercise'
+        'app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService'
+        '.get_user_history_by_exercise'
     )
     def test_get_user_history_by_exercise_id_no_matches(self, taxonomy_service_mock):
         taxonomy_service_mock.return_value = []
