@@ -18,7 +18,7 @@ class TimeExercisesManagement(object):
         -- Guarantees that the entries are returned in chronological order
 
     get_user_history_by_date(user_id, exercise_date):
-        -- Returns a list of the TimexercisesHistory that occurred on date exercise_date for user_id
+        -- Returns a list of the TimExercisesHistory that occurred on date exercise_date for user_id
             [TimeExercisesHistory(), ...]
         -- Guarantees that the entries are sorted in ascending order of exercise_id (this is somewhat arbitrary)
 
