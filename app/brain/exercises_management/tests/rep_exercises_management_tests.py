@@ -148,6 +148,24 @@ class RepExercisesManagementTests(unittest.TestCase):
         # make sure the service method was called
         db_mock.assert_called_once_with(user_id, exercise_id)
 
+    @patch(
+        'app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService'
+        '.get_user_history_by_exercise'
+    )
+    def test_get_user_history_by_exercise_id_no_matches(self, db_mock):
+        db_mock.return_value = []
+        user_id = 1
+        exercise_id = 26
+
+        actual_results = RepExercisesManagement.get_user_history_by_exercise_id(user_id, exercise_id)
+        expected_results = []
+
+        # make sure contents and order the same
+        self.assertListEqual(actual_results, expected_results)
+
+        # make sure the service method was called
+        db_mock.assert_called_once_with(user_id, exercise_id)
+
     @patch('app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService.add_entry_to_db')
     def test_submit_history_entry(self, db_mock):
         expected_date = date(year=2000, month=12, day=23)
