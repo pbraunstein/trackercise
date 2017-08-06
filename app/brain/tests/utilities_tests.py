@@ -1,12 +1,14 @@
 import unittest
 from datetime import date
 
+from app.brain.custom_exceptions import ThisShouldNeverHappenException
 from app.brain.utilities import prepare_history_entry, _user_obj_to_dict, _taxonomy_obj_to_dict, _history_obj_to_dict
 from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
-from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory
+from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory, TimeExercisesHistory
 
 
 class UtilitiesTests(unittest.TestCase):
+    # prepare_history_entry tests #
     def test_prepare_history_entry_stringifies_date(self):
         test_entry = RepExercisesHistory(
             user_id=1,
@@ -19,6 +21,7 @@ class UtilitiesTests(unittest.TestCase):
         test_entry = prepare_history_entry(test_entry)
         self.assertIsInstance(test_entry.date, str)
 
+    # _user_obj_to_dict tests #
     def test_user_obj_to_dict(self):
         test_email = 'test@test.test'
         test_nickname = 'test_name'
@@ -44,6 +47,7 @@ class UtilitiesTests(unittest.TestCase):
 
         self.assertDictEqual(result, expected_result)
 
+    # _taxonomy_obj_to_dict tests #
     def test_taxonomy_obj_to_dict(self):
         test_id = 42
         test_name = 'squat'
@@ -93,7 +97,8 @@ class UtilitiesTests(unittest.TestCase):
 
         self.assertDictEqual(result, expected_result)
 
-    def test_history_obj_to_dict(self):
+    # _history_obj_to_dict tests #
+    def test_rep_history_obj_to_dict(self):
         test_id = 18
         test_user_id = 23
         test_exercise_id = 4
@@ -102,7 +107,7 @@ class UtilitiesTests(unittest.TestCase):
         test_weight = 20
         test_date = date.today()
 
-        history_obj = RepExercisesHistory(
+        rep_history_obj = RepExercisesHistory(
             user_id=test_user_id,
             exercise_id=test_exercise_id,
             sets=test_sets,
@@ -111,9 +116,9 @@ class UtilitiesTests(unittest.TestCase):
             date=test_date
         )
 
-        history_obj.id = test_id  # have to set this manually because there is no db
+        rep_history_obj.id = test_id  # have to set this manually because there is no db
 
-        results = _history_obj_to_dict(history_obj)
+        actual_results = _history_obj_to_dict(rep_history_obj)
 
         expected_results = {
             HISTORY_CONSTANTS.ID: test_id,
@@ -125,6 +130,55 @@ class UtilitiesTests(unittest.TestCase):
             HISTORY_CONSTANTS.DATE: str(test_date)
         }
 
-        self.assertDictEqual(results, expected_results)
+        self.assertDictEqual(actual_results, expected_results)
+
+    def test_time_history_obj_to_dict(self):
+        test_id = 15
+        test_user_id = 42
+        test_exercise_id = 12
+        test_distance = 14
+        test_duration = 50
+        test_exercise_date = date.today()
+
+        time_history_obj = TimeExercisesHistory(
+            user_id=test_user_id,
+            exercise_id=test_exercise_id,
+            distance=test_distance,
+            duration=test_duration,
+            exercise_date=test_exercise_date
+        )
+
+        time_history_obj.id = test_id  # have to set this manually because there is no db
+
+        actual_results = _history_obj_to_dict(time_history_obj)
+
+        expected_results = {
+            HISTORY_CONSTANTS.ID: test_id,
+            HISTORY_CONSTANTS.USER_ID: test_user_id,
+            HISTORY_CONSTANTS.EXERCISE_ID: test_exercise_id,
+            HISTORY_CONSTANTS.DISTANCE: test_distance,
+            HISTORY_CONSTANTS.DURATION: test_duration,
+            HISTORY_CONSTANTS.DATE: str(test_exercise_date)
+        }
+
+        self.assertDictEqual(actual_results, expected_results)
+
+    def test_unknown_obj_to_dict(self):
+        # Passing an object that is neither a RepExercisesTaxonomy nor a TimeExercisesTaxonomy
+        # should result in a ThisShouldNeverHappen exception being raised
+        with self.assertRaises(ThisShouldNeverHappenException):
+            _history_obj_to_dict(RepExercisesTaxonomy(
+                name='test_exercise',
+                is_back=True,
+                is_chest=False,
+                is_shoulders=True,
+                is_biceps=True,
+                is_triceps=False,
+                is_legs=False,
+                is_core=True,
+                is_balance=False,
+                is_cardio=False,
+                is_weight_per_hand=False
+            ))
 
 

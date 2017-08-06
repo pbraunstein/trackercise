@@ -10,58 +10,40 @@ from app.models import RepExercisesTaxonomy, RepExercisesHistory
 
 class RepExercisesManagementTests(unittest.TestCase):
     def setUp(self):
+        history_1 = RepExercisesHistory(
+            user_id=1,
+            exercise_id=27,
+            sets=2,
+            reps=12,
+            weight=45,
+            date=date(year=2016, month=4, day=12)
+        )
+        history_2 = RepExercisesHistory(
+            user_id=1,
+            exercise_id=27,
+            sets=2,
+            reps=12,
+            weight=45,
+            date=date(year=2016, month=4, day=16)
+        )
+        history_3 = RepExercisesHistory(
+            user_id=1,
+            exercise_id=27,
+            sets=2,
+            reps=16,
+            weight=40,
+            date=date(year=2016, month=4, day=14)
+        )
         self.history = [
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=12,
-                weight=45,
-                date=date(year=2016, month=4, day=12)
-            ),
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=12,
-                weight=45,
-                date=date(year=2016, month=4, day=16)
-            ),
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=16,
-                weight=40,
-                date=date(year=2016, month=4, day=14)
-            )
+            history_1,
+            history_2,
+            history_3
         ]
 
         self.history_sorted = [
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=12,
-                weight=45,
-                date=date(year=2016, month=4, day=12)
-            ),
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=16,
-                weight=40,
-                date=date(year=2016, month=4, day=14)
-            ),
-            RepExercisesHistory(
-                user_id=1,
-                exercise_id=27,
-                sets=2,
-                reps=12,
-                weight=45,
-                date=date(year=2016, month=4, day=16)
-            )
+            history_1,
+            history_3,
+            history_2
         ]
 
         self.exercises = [
@@ -162,6 +144,24 @@ class RepExercisesManagementTests(unittest.TestCase):
 
         # make sure contents are in ascending date order
         self.assertListEqual(actual_results, sorted(actual_results, key=lambda x: x.date))
+
+        # make sure the service method was called
+        db_mock.assert_called_once_with(user_id, exercise_id)
+
+    @patch(
+        'app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService'
+        '.get_user_history_by_exercise'
+    )
+    def test_get_user_history_by_exercise_id_no_matches(self, db_mock):
+        db_mock.return_value = []
+        user_id = 1
+        exercise_id = 26
+
+        actual_results = RepExercisesManagement.get_user_history_by_exercise_id(user_id, exercise_id)
+        expected_results = []
+
+        # make sure contents and order the same
+        self.assertListEqual(actual_results, expected_results)
 
         # make sure the service method was called
         db_mock.assert_called_once_with(user_id, exercise_id)

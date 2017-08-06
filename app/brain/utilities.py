@@ -1,6 +1,8 @@
 import hashlib
 
+from app.brain.custom_exceptions import ThisShouldNeverHappenException
 from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
+from app.models import RepExercisesHistory, TimeExercisesHistory
 
 
 def hash_password(password):
@@ -75,14 +77,27 @@ def _taxonomy_obj_to_dict(taxonomy):
 
 def _history_obj_to_dict(history):
     """
-    Converts a RepExercisesHistory object (db model) into a dictionary
+    Converts a history object to a dictionary. This method supports both RepExerciseHistory and TimeExerciseHistory
+    objects
     """
-    return {
-        HISTORY_CONSTANTS.ID: history.id,
-        HISTORY_CONSTANTS.USER_ID: history.user_id,
-        HISTORY_CONSTANTS.EXERCISE_ID: history.exercise_id,
-        HISTORY_CONSTANTS.SETS: history.sets,
-        HISTORY_CONSTANTS.REPS: history.reps,
-        HISTORY_CONSTANTS.WEIGHT: history.weight,
-        HISTORY_CONSTANTS.DATE: str(history.date)
-    }
+    if isinstance(history, RepExercisesHistory):
+        return {
+            HISTORY_CONSTANTS.ID: history.id,
+            HISTORY_CONSTANTS.USER_ID: history.user_id,
+            HISTORY_CONSTANTS.EXERCISE_ID: history.exercise_id,
+            HISTORY_CONSTANTS.SETS: history.sets,
+            HISTORY_CONSTANTS.REPS: history.reps,
+            HISTORY_CONSTANTS.WEIGHT: history.weight,
+            HISTORY_CONSTANTS.DATE: str(history.date)
+        }
+    elif isinstance(history, TimeExercisesHistory):
+        return {
+            HISTORY_CONSTANTS.ID: history.id,
+            HISTORY_CONSTANTS.USER_ID: history.user_id,
+            HISTORY_CONSTANTS.EXERCISE_ID: history.exercise_id,
+            HISTORY_CONSTANTS.DISTANCE: history.distance,
+            HISTORY_CONSTANTS.DURATION: history.duration,
+            HISTORY_CONSTANTS.DATE: str(history.exercise_date)
+        }
+    else:
+        raise ThisShouldNeverHappenException('Unknown type passed to _history_obj_to_dict')

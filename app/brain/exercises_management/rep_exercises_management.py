@@ -16,7 +16,7 @@ class RepExercisesManagement(object):
     get_user_history_by_exercise_id(user_id, exercise_id):
         -- Returns a chronological list of the RepExercisesHistory of type exercise_id that user_id has entered
             [RepExercisesHistory(), ...]
-        -- Guarantees that the entries are in chronological order
+        -- Guarantees that the entries are returned in chronological order
 
     get_user_history_by_date(user_id, exercise_date):
         -- Returns a list of the RepExercisesHistory that occurred on date exercise_date for user_id
@@ -35,9 +35,7 @@ class RepExercisesManagement(object):
     def get_valid_id_exercise_pairs():
         valid_exercises = RepExercisesTaxonomyService.get_list_of_all_exercises()
         id_exercise_pairs = [(str(x.id), x.name) for x in valid_exercises]
-        id_exercise_pairs_sorted = sorted(id_exercise_pairs, key=lambda y: y[1])
-
-        return id_exercise_pairs_sorted
+        return sorted(id_exercise_pairs, key=lambda y: y[1])
 
     @staticmethod
     def get_user_history_by_exercise_id(user_id, exercise_id):
