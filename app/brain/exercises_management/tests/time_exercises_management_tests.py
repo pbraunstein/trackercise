@@ -8,20 +8,39 @@ from app.models import TimeExercisesTaxonomy, TimeExercisesHistory
 
 
 class TimeExercisesManagementTests(unittest.TestCase):
-    def setUp(self):
-        self.exercises = [
+    @patch(
+        'app.brain.exercises_management.time_exercises_management.TimeExercisesTaxonomyService'
+        '.get_list_of_all_exercises'
+    )
+    def test_get_valid_id_exercise_pairs(self, taxonomy_service_mock):
+        exercises = [
             TimeExercisesTaxonomy(name='c_exercise'),
             TimeExercisesTaxonomy(name='a_exercise'),
             TimeExercisesTaxonomy(name='e_exercise'),
             TimeExercisesTaxonomy(name='d_exercise'),
             TimeExercisesTaxonomy(name='b_exercise')
         ]
-        self.exercises[0].id = 1
-        self.exercises[1].id = 2
-        self.exercises[2].id = 3
-        self.exercises[3].id = 4
-        self.exercises[4].id = 5
+        exercises[0].id = 1
+        exercises[1].id = 2
+        exercises[2].id = 3
+        exercises[3].id = 4
+        exercises[4].id = 5
+        taxonomy_service_mock.return_value = exercises
+        expected_results = [
+            ('2', 'a_exercise'),
+            ('5', 'b_exercise'),
+            ('1', 'c_exercise'),
+            ('4', 'd_exercise'),
+            ('3', 'e_exercise'),
+        ]
+        actual_results = TimeExercisesManagement.get_valid_id_exercise_pairs()
+        self.assertListEqual(actual_results, expected_results)
 
+    @patch(
+        'app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService'
+        '.get_user_history_by_exercise'
+    )
+    def test_get_user_history_by_exercise_id(self, taxonomy_service_mock):
         history_1 = TimeExercisesHistory(
             user_id=1,
             exercise_id=1,
@@ -52,14 +71,14 @@ class TimeExercisesManagementTests(unittest.TestCase):
             exercise_date=date(year=2017, month=1, day=21)
         )
         history_5 = TimeExercisesHistory(
-                user_id=1,
-                exercise_id=1,
-                distance=3.0,
-                duration=30,
-                exercise_date=date(year=2017, month=7, day=21)
-            )
+            user_id=1,
+            exercise_id=1,
+            distance=3.0,
+            duration=30,
+            exercise_date=date(year=2017, month=7, day=21)
+        )
 
-        self.history = [
+        history = [
             history_1,
             history_2,
             history_3,
@@ -67,41 +86,19 @@ class TimeExercisesManagementTests(unittest.TestCase):
             history_5
         ]
 
-        self.history_sorted = [
+        history_sorted = [
             history_4,
             history_3,
             history_5,
             history_1,
             history_2
         ]
-
-    @patch(
-        'app.brain.exercises_management.time_exercises_management.TimeExercisesTaxonomyService'
-        '.get_list_of_all_exercises'
-    )
-    def test_get_valid_id_exercise_pairs(self, taxonomy_service_mock):
-        taxonomy_service_mock.return_value = self.exercises
-        expected_results = [
-            ('2', 'a_exercise'),
-            ('5', 'b_exercise'),
-            ('1', 'c_exercise'),
-            ('4', 'd_exercise'),
-            ('3', 'e_exercise'),
-        ]
-        actual_results = TimeExercisesManagement.get_valid_id_exercise_pairs()
-        self.assertListEqual(actual_results, expected_results)
-
-    @patch(
-        'app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService'
-        '.get_user_history_by_exercise'
-    )
-    def test_get_user_history_by_exercise_id(self, taxonomy_service_mock):
-        taxonomy_service_mock.return_value = self.history
+        taxonomy_service_mock.return_value = history
         user_id = 1
         exercise_id = 1
 
         actual_results = TimeExercisesManagement.get_user_history_by_exercise_id(user_id, exercise_id)
-        expected_results = self.history_sorted
+        expected_results = history_sorted
 
         # make sure contents and order the same
         self.assertListEqual(actual_results, expected_results)
