@@ -110,6 +110,22 @@ class TimeExercisesManagementTests(unittest.TestCase):
         # make sure the service method was called
         taxonomy_service_mock.assert_called_once_with(user_id, exercise_id)
 
+    @patch(
+        'app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService.get_user_history_by_exercise'
+    )
+    def test_get_user_history_by_exercise_id_no_matches(self, taxonomy_service_mock):
+        taxonomy_service_mock.return_value = []
+        user_id = 1
+        exercise_id = 2
+
+        actual_results = TimeExercisesManagement.get_user_history_by_exercise_id(user_id, exercise_id)
+        expected_results = []
+
+        self.assertListEqual(actual_results, expected_results)
+
+        # make sure the service method was called
+        taxonomy_service_mock.assert_called_once_with(user_id, exercise_id)
+
     @patch('app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService.add_entry_to_db')
     def test_submit_history_entry(self, db_mock):
         expected_date = date(year=1999, month=11, day=30)
