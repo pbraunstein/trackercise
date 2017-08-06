@@ -8,6 +8,10 @@ class TimeExercisesManagement(object):
 
     I N T E R F A C E   G U A R AN T E E D
     --------------------------------------
+    get_valid_id_exercise_pairs():
+    -- Returns list of tuples of all available time exercise taxonomies sorted by the name of the exercise
+            [(exercise.id, exercise.name), ...]
+
     get_user_history_by_exercise_id(user_id, exercise_id):
         -- Returns a chronological list of the TimeExercisesHistory of type exercise_id that user_id has entered
             [TimeExercisesHistory(), ...]

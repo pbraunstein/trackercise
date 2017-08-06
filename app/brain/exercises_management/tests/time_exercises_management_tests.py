@@ -26,7 +26,16 @@ class TimeExercisesManagementTests(unittest.TestCase):
         'app.brain.exercises_management.time_exercises_management.TimeExercisesTaxonomyService.get_list_of_all_exercises'
     )
     def test_get_valid_id_exercise_pairs(self, taxonomy_service_mock):
-        pass
+        taxonomy_service_mock.return_value = self.exercises
+        expected_results = [
+            ('2', 'a_exercise'),
+            ('5', 'b_exercise'),
+            ('1', 'c_exercise'),
+            ('4', 'd_exercise'),
+            ('3', 'e_exercise'),
+        ]
+        actual_results = TimeExercisesManagement.get_valid_id_exercise_pairs()
+        self.assertListEqual(actual_results, expected_results)
 
     @patch('app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService.add_entry_to_db')
     def test_submit_history_entry(self, db_mock):
