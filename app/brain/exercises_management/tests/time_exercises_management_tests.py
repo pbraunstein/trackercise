@@ -36,6 +36,7 @@ class TimeExercisesManagementTests(unittest.TestCase):
         actual_results = TimeExercisesManagement.get_valid_id_exercise_pairs()
         self.assertListEqual(actual_results, expected_results)
 
+    # get_user_history_by_exercise_id tests #
     @patch(
         'app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService'
         '.get_user_history_by_exercise'
@@ -125,6 +126,96 @@ class TimeExercisesManagementTests(unittest.TestCase):
 
         # make sure the service method was called
         taxonomy_service_mock.assert_called_once_with(user_id, exercise_id)
+
+    # get_user_history_by_date tests #
+    @patch(
+        'app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService'
+        '.get_user_history_by_date'
+    )
+    def test_get_user_history_by_date(self, db_mock):
+        user_id = 1
+        exercise_date = date(year=2017, month=8, day=2)
+        history_1 = TimeExercisesHistory(
+            user_id=user_id,
+            exercise_id=23,
+            distance=2.2,
+            duration=28,
+            exercise_date=exercise_date
+        )
+        history_2 = TimeExercisesHistory(
+            user_id=user_id,
+            exercise_id=109,
+            distance=2.3,
+            duration=31,
+            exercise_date=exercise_date
+        )
+
+        history_3 = TimeExercisesHistory(
+            user_id=user_id,
+            exercise_id=1,
+            distance=2.0,
+            duration=27,
+            exercise_date=exercise_date
+        )
+        history_4 = TimeExercisesHistory(
+            user_id=user_id,
+            exercise_id=12,
+            distance=2.2,
+            duration=28,
+            exercise_date=exercise_date
+        )
+        history_5 = TimeExercisesHistory(
+            user_id=user_id,
+            exercise_id=7,
+            distance=3.0,
+            duration=30,
+            exercise_date=exercise_date
+        )
+
+        history = [
+            history_1,
+            history_2,
+            history_3,
+            history_4,
+            history_5
+        ]
+
+        history_sorted = [
+            history_3,
+            history_5,
+            history_4,
+            history_1,
+            history_2
+        ]
+
+        db_mock.return_value = history
+        actual_results = TimeExercisesManagement.get_user_history_by_date(user_id, exercise_date)
+        expected_results = history_sorted
+
+        self.assertListEqual(actual_results, expected_results)
+
+        # make sure contents are in ascending date order
+        self.assertListEqual(actual_results, sorted(actual_results, key=lambda x: x.exercise_id))
+
+        # make sure the service method was called
+        db_mock.assert_called_once_with(user_id, exercise_date)
+
+    @patch(
+        'app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService'
+        '.get_user_history_by_date'
+    )
+    def test_get_user_history_by_date_no_matches(self, db_mock):
+        user_id = 1
+        exercise_date = date(year=2017, month=8, day=2)
+        db_mock.return_value = []
+
+        actual_results = TimeExercisesManagement.get_user_history_by_date(user_id, exercise_date)
+        expected_results = []
+
+        self.assertListEqual(actual_results, expected_results)
+
+        # make sure the service method was called
+        db_mock.assert_called_once_with(user_id, exercise_date)
 
     @patch('app.brain.exercises_management.time_exercises_management.TimeExercisesHistoryService.add_entry_to_db')
     def test_submit_history_entry(self, db_mock):
