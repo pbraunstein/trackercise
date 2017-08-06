@@ -2,7 +2,7 @@ import hashlib
 
 from app.brain.custom_exceptions import ThisShouldNeverHappenException
 from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
-from app.models import RepExercisesHistory, TimeExercisesHistory
+from app.models import RepExercisesHistory, TimeExercisesHistory, RepExercisesTaxonomy, TimeExercisesTaxonomy
 
 
 def hash_password(password):
@@ -57,28 +57,42 @@ def _user_obj_to_dict(user):
 
 def _taxonomy_obj_to_dict(taxonomy):
     """
-    Converts a Taxonomy object (db model) into a dictionary
+    Converts a Taxonomy object into a dictionary. This method supports both RepExercisesTaxonomy
+    and TimeExercisesTaxonomy objects.
+
+    Throws ThisShouldNeverHappen exception if the arg passed in is neither RepExercisesTaxonomy nor
+    TimeExercisesTaxonomy
     """
-    return {
-        TAXONOMY_CONSTANTS.ID: taxonomy.id,
-        TAXONOMY_CONSTANTS.NAME: taxonomy.name,
-        TAXONOMY_CONSTANTS.IS_BACK: taxonomy.is_back,
-        TAXONOMY_CONSTANTS.IS_CHEST: taxonomy.is_chest,
-        TAXONOMY_CONSTANTS.IS_SHOULDERS: taxonomy.is_shoulders,
-        TAXONOMY_CONSTANTS.IS_BICEPS: taxonomy.is_biceps,
-        TAXONOMY_CONSTANTS.IS_TRICEPS: taxonomy.is_triceps,
-        TAXONOMY_CONSTANTS.IS_LEGS: taxonomy.is_legs,
-        TAXONOMY_CONSTANTS.IS_CORE: taxonomy.is_core,
-        TAXONOMY_CONSTANTS.IS_BALANCE: taxonomy.is_balance,
-        TAXONOMY_CONSTANTS.IS_CARDIO: taxonomy.is_cardio,
-        TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND: taxonomy.is_weight_per_hand
-    }
+    if isinstance(taxonomy, RepExercisesTaxonomy):
+        return {
+            TAXONOMY_CONSTANTS.ID: taxonomy.id,
+            TAXONOMY_CONSTANTS.NAME: taxonomy.name,
+            TAXONOMY_CONSTANTS.IS_BACK: taxonomy.is_back,
+            TAXONOMY_CONSTANTS.IS_CHEST: taxonomy.is_chest,
+            TAXONOMY_CONSTANTS.IS_SHOULDERS: taxonomy.is_shoulders,
+            TAXONOMY_CONSTANTS.IS_BICEPS: taxonomy.is_biceps,
+            TAXONOMY_CONSTANTS.IS_TRICEPS: taxonomy.is_triceps,
+            TAXONOMY_CONSTANTS.IS_LEGS: taxonomy.is_legs,
+            TAXONOMY_CONSTANTS.IS_CORE: taxonomy.is_core,
+            TAXONOMY_CONSTANTS.IS_BALANCE: taxonomy.is_balance,
+            TAXONOMY_CONSTANTS.IS_CARDIO: taxonomy.is_cardio,
+            TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND: taxonomy.is_weight_per_hand
+        }
+    elif isinstance(taxonomy, TimeExercisesTaxonomy):
+        return {
+            TAXONOMY_CONSTANTS.ID: taxonomy.id,
+            TAXONOMY_CONSTANTS.NAME: taxonomy.name
+        }
+    else:
+        raise ThisShouldNeverHappenException('Unknow type passed to _taxonomy_obj_to_dict')
 
 
 def _history_obj_to_dict(history):
     """
-    Converts a history object to a dictionary. This method supports both RepExerciseHistory and TimeExerciseHistory
-    objects
+    Converts a history object to a dictionary. This method supports both RepExercisesHistory and TimeExercisesHistory
+    objects.
+
+    Throws ThisShouldNeverHappen exception if the arg passed in is neither RepExercisesHistory nor TimeExercisesHistory
     """
     if isinstance(history, RepExercisesHistory):
         return {
