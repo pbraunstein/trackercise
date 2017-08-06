@@ -9,44 +9,10 @@ from app.models import RepExercisesTaxonomy, RepExercisesHistory
 
 
 class RepExercisesManagementTests(unittest.TestCase):
-    def setUp(self):
-        history_1 = RepExercisesHistory(
-            user_id=1,
-            exercise_id=27,
-            sets=2,
-            reps=12,
-            weight=45,
-            date=date(year=2016, month=4, day=12)
-        )
-        history_2 = RepExercisesHistory(
-            user_id=1,
-            exercise_id=27,
-            sets=2,
-            reps=12,
-            weight=45,
-            date=date(year=2016, month=4, day=16)
-        )
-        history_3 = RepExercisesHistory(
-            user_id=1,
-            exercise_id=27,
-            sets=2,
-            reps=16,
-            weight=40,
-            date=date(year=2016, month=4, day=14)
-        )
-        self.history = [
-            history_1,
-            history_2,
-            history_3
-        ]
-
-        self.history_sorted = [
-            history_1,
-            history_3,
-            history_2
-        ]
-
-        self.exercises = [
+    @patch(
+        'app.brain.exercises_management.rep_exercises_management.RepExercisesTaxonomyService.get_list_of_all_exercises')
+    def test_get_valid_id_exercise_pairs(self, taxonomy_service_mock):
+        exercises = [
             RepExercisesTaxonomy(
                 name='c_exercise',
                 is_back=True,
@@ -113,30 +79,62 @@ class RepExercisesManagementTests(unittest.TestCase):
                 is_weight_per_hand=True
             )
         ]
-        self.exercises[0].id = 1
-        self.exercises[1].id = 2
-        self.exercises[2].id = 3
-        self.exercises[3].id = 4
-        self.exercises[4].id = 5
-
-    @patch(
-        'app.brain.exercises_management.rep_exercises_management.RepExercisesTaxonomyService.get_list_of_all_exercises')
-    def test_get_valid_id_exercise_pairs(self, taxonomy_service_mock):
-        taxonomy_service_mock.return_value = self.exercises
+        exercises[0].id = 1
+        exercises[1].id = 2
+        exercises[2].id = 3
+        exercises[3].id = 4
+        exercises[4].id = 5
+        taxonomy_service_mock.return_value = exercises
         expected_results = [('4', 'a_exercise'), ('3', 'b_exercise'), ('1', 'c_exercise'), ('5', 'd_exercise'),
                             ('2', 'e_exercise')]
         actual_results = RepExercisesManagement.get_valid_id_exercise_pairs()
         self.assertListEqual(actual_results, expected_results)
 
+    # get_user_history_by_exercise_id tests #
     @patch(
         'app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService'
         '.get_user_history_by_exercise'
     )
     def test_get_user_history_by_exercise_id(self, db_mock):
-        db_mock.return_value = self.history
         user_id = 1
         exercise_id = 27
-        expected_results = self.history_sorted
+        history_1 = RepExercisesHistory(
+            user_id=user_id,
+            exercise_id=exercise_id,
+            sets=2,
+            reps=12,
+            weight=45,
+            date=date(year=2016, month=4, day=12)
+        )
+        history_2 = RepExercisesHistory(
+            user_id=user_id,
+            exercise_id=exercise_id,
+            sets=2,
+            reps=12,
+            weight=45,
+            date=date(year=2016, month=4, day=16)
+        )
+        history_3 = RepExercisesHistory(
+            user_id=user_id,
+            exercise_id=exercise_id,
+            sets=2,
+            reps=16,
+            weight=40,
+            date=date(year=2016, month=4, day=14)
+        )
+        history = [
+            history_1,
+            history_2,
+            history_3
+        ]
+
+        history_sorted = [
+            history_1,
+            history_3,
+            history_2
+        ]
+        db_mock.return_value = history
+        expected_results = history_sorted
         actual_results = RepExercisesManagement.get_user_history_by_exercise_id(user_id, exercise_id)
 
         # make sure contents and order the same
@@ -165,6 +163,79 @@ class RepExercisesManagementTests(unittest.TestCase):
 
         # make sure the service method was called
         db_mock.assert_called_once_with(user_id, exercise_id)
+
+    # get_user_history_by_date tests #
+    @patch(
+        'app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService'
+        '.get_user_history_by_date'
+    )
+    def test_get_user_history_by_date(self, db_mock):
+        user_id = 1
+        exercise_date = date(year=2016, month=4, day=12)
+        history_1 = RepExercisesHistory(
+            user_id=user_id,
+            exercise_id=27,
+            sets=2,
+            reps=12,
+            weight=45,
+            date=exercise_date
+        )
+        history_2 = RepExercisesHistory(
+            user_id=user_id,
+            exercise_id=2,
+            sets=2,
+            reps=12,
+            weight=45,
+            date=exercise_date
+        )
+        history_3 = RepExercisesHistory(
+            user_id=user_id,
+            exercise_id=109,
+            sets=2,
+            reps=16,
+            weight=40,
+            date=exercise_date
+        )
+        history = [
+            history_1,
+            history_2,
+            history_3
+        ]
+
+        history_sorted = [
+            history_2,
+            history_1,
+            history_3
+        ]
+
+        db_mock.return_value = history
+        actual_results = RepExercisesManagement.get_user_history_by_date(user_id, exercise_date)
+        expected_results = history_sorted
+
+        self.assertListEqual(actual_results, expected_results)
+
+        # make sure contents are in ascending date order
+        self.assertListEqual(actual_results, sorted(actual_results, key=lambda x: x.exercise_id))
+
+        # make sure the service method was called
+        db_mock.assert_called_once_with(user_id, exercise_date)
+
+    @patch(
+        'app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService'
+        '.get_user_history_by_date'
+    )
+    def test_get_user_history_by_date_no_matches(self, db_mock):
+        db_mock.return_value = []
+        user_id = 1
+        exercise_date = date(year=2016, month=4, day=12)
+
+        actual_results = RepExercisesManagement.get_user_history_by_date(user_id, exercise_date)
+        expected_results = []
+
+        self.assertListEqual(actual_results, expected_results)
+
+        # make sure the service method was called
+        db_mock.assert_called_once_with(user_id, exercise_date)
 
     @patch('app.brain.exercises_management.rep_exercises_management.RepExercisesHistoryService.add_entry_to_db')
     def test_submit_history_entry(self, db_mock):

@@ -4,7 +4,7 @@ from datetime import date
 from app.brain.custom_exceptions import ThisShouldNeverHappenException
 from app.brain.utilities import prepare_history_entry, _user_obj_to_dict, _taxonomy_obj_to_dict, _history_obj_to_dict
 from app.constants import USERS_CONSTANTS, TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
-from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory, TimeExercisesHistory
+from app.models import Users, RepExercisesTaxonomy, RepExercisesHistory, TimeExercisesHistory, TimeExercisesTaxonomy
 
 
 class UtilitiesTests(unittest.TestCase):
@@ -48,7 +48,7 @@ class UtilitiesTests(unittest.TestCase):
         self.assertDictEqual(result, expected_result)
 
     # _taxonomy_obj_to_dict tests #
-    def test_taxonomy_obj_to_dict(self):
+    def test_rep_taxonomy_obj_to_dict(self):
         test_id = 42
         test_name = 'squat'
         test_is_back = True
@@ -78,7 +78,7 @@ class UtilitiesTests(unittest.TestCase):
 
         taxonomy_obj.id = test_id  # have to set this manually because there is no db
 
-        result = _taxonomy_obj_to_dict(taxonomy_obj)
+        actual_result = _taxonomy_obj_to_dict(taxonomy_obj)
 
         expected_result = {
             TAXONOMY_CONSTANTS.ID: test_id,
@@ -95,7 +95,35 @@ class UtilitiesTests(unittest.TestCase):
             TAXONOMY_CONSTANTS.IS_WEIGHT_PER_HAND: test_is_weight_per_hand
         }
 
-        self.assertDictEqual(result, expected_result)
+        self.assertDictEqual(actual_result, expected_result)
+
+    def test_time_taxonomy_obj_to_dict(self):
+        test_id = 42
+        test_name = 'running'
+
+        taxonomy_obj = TimeExercisesTaxonomy(
+            name=test_name
+        )
+        taxonomy_obj.id = test_id  # have to set this manually because there is no db
+
+        actual_result = _taxonomy_obj_to_dict(taxonomy_obj)
+
+        expected_result = {
+            TAXONOMY_CONSTANTS.ID: test_id,
+            TAXONOMY_CONSTANTS.NAME: test_name
+        }
+
+        self.assertDictEqual(actual_result, expected_result)
+
+    def test_unknown_type_taxonomy_obj_to_dict(self):
+        with self.assertRaises(ThisShouldNeverHappenException):
+            _taxonomy_obj_to_dict(TimeExercisesHistory(
+                user_id=1,
+                exercise_id=2,
+                distance=12,
+                duration=68,
+                exercise_date=date.today()
+            ))
 
     # _history_obj_to_dict tests #
     def test_rep_history_obj_to_dict(self):
@@ -163,7 +191,7 @@ class UtilitiesTests(unittest.TestCase):
 
         self.assertDictEqual(actual_results, expected_results)
 
-    def test_unknown_obj_to_dict(self):
+    def test_unknown_type_history_obj_to_dict(self):
         # Passing an object that is neither a RepExercisesTaxonomy nor a TimeExercisesTaxonomy
         # should result in a ThisShouldNeverHappen exception being raised
         with self.assertRaises(ThisShouldNeverHappenException):
