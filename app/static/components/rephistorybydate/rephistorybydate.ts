@@ -5,10 +5,10 @@ import {Observable} from "rxjs";
 import * as d3 from 'd3';
 import {BarCharts} from "../barcharts/barcharts";
 @Component({
-    selector: 'history-by-date',
-    templateUrl: '/static/components/historybydate/historybydate.html'
+    selector: 'rep-history-by-date',
+    templateUrl: '/static/components/rephistorybydate/rephistorybydate.html'
 })
-export class HistoryByDateComponent extends BarCharts {
+export class RepHistoryByDateComponent extends BarCharts {
 
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_date: Observable<any>;
@@ -21,11 +21,11 @@ export class HistoryByDateComponent extends BarCharts {
 
     ngOnInit() {
         // Set up horizontal scrolling
-        d3.select('#history-by-date-chart')
+        d3.select('#rep-history-by-date-chart')
             .style('height', '400px')
             .style('width', '100%')
             .style('overflow', 'scroll');
-        this.svgs = d3.select('#history-by-date-chart').append('svg');
+        this.svgs = d3.select('#rep-history-by-date-chart').append('svg');
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 console.log(data.json());
@@ -75,15 +75,15 @@ export class HistoryByDateComponent extends BarCharts {
             let thisId: number = this.exerciseHistory[i].getHistoryId();
             if (currentId) {
                 if (currentId == thisId) {
-                    totalOffset += HistoryByDateComponent.IN_BETWEEN_SETS_GAP;
+                    totalOffset += RepHistoryByDateComponent.IN_BETWEEN_SETS_GAP;
                 } else {
-                    totalOffset += HistoryByDateComponent.IN_BETWEEN_DAYS_GAP;
+                    totalOffset += RepHistoryByDateComponent.IN_BETWEEN_DAYS_GAP;
                 }
             }
             this.exerciseHistory[i].setXOffset(totalOffset);
             totalOffset += this.exerciseHistory[i].getWeight();
-            this.exerciseHistory[i].setYOffset(HistoryByDateComponent.VERTICAL_OFFSET
-                - this.exerciseHistory[i].getReps() * HistoryByDateComponent.REP_MULTIPLIER);
+            this.exerciseHistory[i].setYOffset(RepHistoryByDateComponent.VERTICAL_OFFSET
+                - this.exerciseHistory[i].getReps() * RepHistoryByDateComponent.REP_MULTIPLIER);
             currentId = thisId;
         }
 
@@ -109,7 +109,7 @@ export class HistoryByDateComponent extends BarCharts {
             iterB--;
 
             // Add in space between bars
-            extraOffset += (iterB - iterA) * HistoryByDateComponent.IN_BETWEEN_SETS_GAP
+            extraOffset += (iterB - iterA) * RepHistoryByDateComponent.IN_BETWEEN_SETS_GAP
 
             let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset() + extraOffset)
                 / 2;
@@ -119,10 +119,10 @@ export class HistoryByDateComponent extends BarCharts {
                 .attr('class', 'date-text')
                 .attr('text-anchor', 'end')
                 .attr('transform', 'translate(' + String(middleXOffset) + ','
-                    + String(HistoryByDateComponent.VERTICAL_OFFSET_2) + ') rotate(-45)');
+                    + String(RepHistoryByDateComponent.VERTICAL_OFFSET_2) + ') rotate(-45)');
 
             iterA = iterB + 1;
-            extraOffset += HistoryByDateComponent.IN_BETWEEN_SETS_GAP;
+            extraOffset += RepHistoryByDateComponent.IN_BETWEEN_SETS_GAP;
         }
     }
 }

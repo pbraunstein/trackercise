@@ -4,9 +4,9 @@ import {Http, Headers} from "@angular/http";
 import {ButtonPainter} from "../../services/buttonpainter";
 @Component({
     selector: 'add-history',
-    templateUrl: '/static/components/addhistory/addhistory.html'
+    templateUrl: '/static/components/addrephistory/addrephistory.html'
 })
-export class AddHistoryComponent {
+export class AddRepHistoryComponent {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_add_history: Observable<any>;
     private pairs: Array<any>;

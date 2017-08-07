@@ -12,9 +12,9 @@ import {FormsModule} from "@angular/forms";
 import {CurrentUserComponent} from "./components/currentuser/currentuser";
 import {RegisterComponent} from "./components/register/register";
 import {UserDataComponent} from "./components/userdata/userdata";
-import {AddTaxonomyComponent} from "./components/addtaxonomy/addtaxonomy";
-import {AddHistoryComponent} from "./components/addhistory/addhistory";
-import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
+import {AddRepTaxonomyComponent} from "./components/addreptaxonomy/addreptaxonomy";
+import {AddRepHistoryComponent} from "./components/addrephistory/addrephistory";
+import {RepHistoryByTaxonomyComponent} from "./components/rephistorybytaxonomy/rephistorybytaxonomy";
 import {ApplicationComponent} from "./components/application/application";
 import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 import {routing} from './routing';
@@ -23,7 +23,7 @@ import {LoginGuard} from "./loginguard";
 import {CSRFService} from "./services/csrfservice";
 import {LogoutService} from "./services/logoutservice";
 import {ChangePasswordComponent} from "./components/changepassword/changepassword";
-import {HistoryByDateComponent} from "./components/historybydate/historybydate";
+import {RepHistoryByDateComponent} from "./components/rephistorybydate/rephistorybydate";
 import {AddEntriesComponent} from "./components/addentries/addentries";
 
 
@@ -31,8 +31,8 @@ import {AddEntriesComponent} from "./components/addentries/addentries";
     imports: [BrowserModule, HttpModule, FormsModule, routing],
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, RegisterComponent,
-        UserDataComponent, AddTaxonomyComponent, AddHistoryComponent, HistoryByTaxonomyComponent,
-        IntroductionComponent, ChangePasswordComponent, HistoryByDateComponent, AddEntriesComponent
+        UserDataComponent, AddRepTaxonomyComponent, AddRepHistoryComponent, RepHistoryByTaxonomyComponent,
+        IntroductionComponent, ChangePasswordComponent, RepHistoryByDateComponent, AddEntriesComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
