@@ -23,7 +23,7 @@ import {LoginGuard} from "./loginguard";
 import {CSRFService} from "./services/csrfservice";
 import {LogoutService} from "./services/logoutservice";
 import {ChangePasswordComponent} from "./components/changepassword/changepassword";
-import {HistoryByDateComponent} from "./components/historybydate/historybydate";
+import {RepHistoryByDateComponent} from "./components/rephistorybydate/rephistorybydate";
 import {AddEntriesComponent} from "./components/addentries/addentries";
 
 
@@ -32,7 +32,7 @@ import {AddEntriesComponent} from "./components/addentries/addentries";
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, RegisterComponent,
         UserDataComponent, AddRepTaxonomyComponent, AddRepHistoryComponent, RepHistoryByTaxonomyComponent,
-        IntroductionComponent, ChangePasswordComponent, HistoryByDateComponent, AddEntriesComponent
+        IntroductionComponent, ChangePasswordComponent, RepHistoryByDateComponent, AddEntriesComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},

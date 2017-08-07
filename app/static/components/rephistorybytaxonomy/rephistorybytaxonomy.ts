@@ -6,7 +6,7 @@ import * as d3 from 'd3';
 import {BarCharts} from "../barcharts/barcharts";
 
 @Component({
-    selector: 'history-by-taxonomy',
+    selector: 'rep-history-by-taxonomy',
     templateUrl: '/static/components/rephistorybytaxonomy/rephistorybytaxonomy.html'
 })
 export class RepHistoryByTaxonomyComponent extends BarCharts {
