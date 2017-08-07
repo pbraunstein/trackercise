@@ -1,1 +1,8 @@
 <h2>Add Time Taxonomy</h2>
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <div class="form-group">
+        <label for="timeExerciseName">Exercise Name</label>
+        <input type="text" id="timeExerciseName" class="form-control" name="time_taxonomy_name" placeholder="Exercise Name" required ngModel>
+    </div>
+    <button id="add-time-taxonomy-submit" type="submit" class="btn btn-success">Add Time Taxonomy</button>
+</form>
