@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {ButtonPainter} from "../../services/buttonpainter";
 @Component({
-    selector: 'add-taxonomy',
+    selector: 'add-rep-taxonomy',
     templateUrl: '/static/components/addreptaxonomy/addreptaxonomy.html'
 })
 export class AddRepTaxonomyComponent {
@@ -13,8 +13,8 @@ export class AddRepTaxonomyComponent {
     }
 
     onSubmit(form: any) {
-        ButtonPainter.paintButtonYellow('#add-taxonomy-submit');
-        ButtonPainter.disableButton('#add-taxonomy-submit');
+        ButtonPainter.paintButtonYellow('#add-rep-taxonomy-submit');
+        ButtonPainter.disableButton('#add-rep-taxonomy-submit');
         let value: any = form.value;
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -40,8 +40,8 @@ export class AddRepTaxonomyComponent {
                 console.log(err);
                 setTimeout(
                     () => {
-                        ButtonPainter.paintButtonRed('#add-taxonomy-submit');
-                        ButtonPainter.enableButton('#add-taxonomy-submit');
+                        ButtonPainter.paintButtonRed('#add-rep-taxonomy-submit');
+                        ButtonPainter.enableButton('#add-rep-taxonomy-submit');
                     },
                     ButtonPainter.BUTTON_PAINT_DELAY_MS
                 )
@@ -64,8 +64,8 @@ export class AddRepTaxonomyComponent {
     private resetForm(form: any): void {
                 setTimeout(
             () => {
-                ButtonPainter.paintButtonGreen('#add-taxonomy-submit');
-                ButtonPainter.enableButton('#add-taxonomy-submit');
+                ButtonPainter.paintButtonGreen('#add-rep-taxonomy-submit');
+                ButtonPainter.enableButton('#add-rep-taxonomy-submit');
                 form.reset();
             },
             ButtonPainter.BUTTON_PAINT_DELAY_MS
