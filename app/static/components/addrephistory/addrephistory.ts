@@ -10,6 +10,7 @@ export class AddRepHistoryComponent {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_add_history: Observable<any>;
     private pairs: Array<any>;
+    private buttonId: string = '#add-history-submit';
 
     constructor(private http: Http) {
         this.endpoint_exercise_pairs = http.post('/get-valid-rep-id-exercise-pairs', '');
@@ -26,8 +27,7 @@ export class AddRepHistoryComponent {
 
     onSubmit(form: any) {
         let value: any = form.value;
-        ButtonPainter.paintButtonYellow('#add-history-submit');
-        ButtonPainter.disableButton('#add-history-submit');
+        ButtonPainter.handleFormSubmitProcessing(this.buttonId);
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
         let data: any = {};
@@ -40,28 +40,12 @@ export class AddRepHistoryComponent {
         this.endpoint_add_history.subscribe(
             data => {
                 console.log(data);
-                this.resetForm(form)
+                ButtonPainter.handleFormSubmitSuccess(form, this.buttonId);
             },
             err => {
                 console.log(err);
-                setTimeout(
-                    () => {
-                        ButtonPainter.paintButtonRed('#add-history-submit');
-                        ButtonPainter.enableButton('#add-history-submit');
-                    },
-                    ButtonPainter.BUTTON_PAINT_DELAY_MS);
+                ButtonPainter.handleFormSubmitFailure(this.buttonId);
             }
         )
-    }
-
-    private resetForm(form: any): void {
-        setTimeout(
-            () => {
-                ButtonPainter.paintButtonGreen('#add-history-submit');
-                ButtonPainter.enableButton('#add-history-submit');
-                form.reset();
-            },
-            ButtonPainter.BUTTON_PAINT_DELAY_MS
-        );
     }
 }

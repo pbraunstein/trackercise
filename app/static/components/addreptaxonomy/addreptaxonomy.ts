@@ -3,18 +3,18 @@ import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {ButtonPainter} from "../../services/buttonpainter";
 @Component({
-    selector: 'add-taxonomy',
+    selector: 'add-rep-taxonomy',
     templateUrl: '/static/components/addreptaxonomy/addreptaxonomy.html'
 })
 export class AddRepTaxonomyComponent {
     private endpoint: Observable<any>;
+    private buttonId: string = '#add-rep-taxonomy-submit';
 
     constructor(private http: Http) {
     }
 
     onSubmit(form: any) {
-        ButtonPainter.paintButtonYellow('#add-taxonomy-submit');
-        ButtonPainter.disableButton('#add-taxonomy-submit');
+        ButtonPainter.handleFormSubmitProcessing(this.buttonId);
         let value: any = form.value;
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -34,17 +34,11 @@ export class AddRepTaxonomyComponent {
         this.endpoint.subscribe(
             data => {
                 console.log(data);
-                this.resetForm(form);
+                ButtonPainter.handleFormSubmitSuccess(form, this.buttonId);
             },
             err => {
                 console.log(err);
-                setTimeout(
-                    () => {
-                        ButtonPainter.paintButtonRed('#add-taxonomy-submit');
-                        ButtonPainter.enableButton('#add-taxonomy-submit');
-                    },
-                    ButtonPainter.BUTTON_PAINT_DELAY_MS
-                )
+                ButtonPainter.handleFormSubmitFailure(this.buttonId);
             }
         )
     }
@@ -59,16 +53,5 @@ export class AddRepTaxonomyComponent {
         } else {
             return String(false);
         }
-    }
-
-    private resetForm(form: any): void {
-                setTimeout(
-            () => {
-                ButtonPainter.paintButtonGreen('#add-taxonomy-submit');
-                ButtonPainter.enableButton('#add-taxonomy-submit');
-                form.reset();
-            },
-            ButtonPainter.BUTTON_PAINT_DELAY_MS
-        );
     }
 }

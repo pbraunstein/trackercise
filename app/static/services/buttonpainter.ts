@@ -5,17 +5,43 @@
 export class ButtonPainter {
     public static BUTTON_PAINT_DELAY_MS: number = 2000;  // delay change for better UX
 
-    public static paintButtonGreen(buttonId: string): void {
+    public static handleFormSubmitProcessing(buttonId: string): void {
+        ButtonPainter.paintButtonYellow(buttonId);
+        ButtonPainter.disableButton(buttonId);
+    }
+
+    public static handleFormSubmitSuccess(form: any, buttonId: string): void {
+        setTimeout(
+            () => {
+                ButtonPainter.paintButtonGreen(buttonId);
+                ButtonPainter.enableButton(buttonId);
+                form.reset();
+            },
+            ButtonPainter.BUTTON_PAINT_DELAY_MS
+        );
+    }
+
+    public static handleFormSubmitFailure(buttonId: string): void {
+        setTimeout(
+            () => {
+                ButtonPainter.paintButtonRed(buttonId);
+                ButtonPainter.enableButton(buttonId);
+            },
+            ButtonPainter.BUTTON_PAINT_DELAY_MS
+        );
+    }
+
+    private static paintButtonGreen(buttonId: string): void {
         ButtonPainter.removeBootstrapButtonClasses(buttonId);
         $(buttonId).addClass('btn-success');
     }
 
-    public static paintButtonYellow(buttonId: string): void {
+    private static paintButtonYellow(buttonId: string): void {
         ButtonPainter.removeBootstrapButtonClasses(buttonId);
         $(buttonId).addClass('btn-warning');
     }
 
-    public static paintButtonRed(buttonId: string): void {
+    private static paintButtonRed(buttonId: string): void {
         ButtonPainter.removeBootstrapButtonClasses(buttonId);
         $(buttonId).addClass('btn-danger');
     }
@@ -33,4 +59,5 @@ export class ButtonPainter {
     private static removeBootstrapButtonClasses(buttonId: string): void {
         $(buttonId).removeClass('btn-warning').removeClass('btn-success').removeClass('btn-danger');
     }
+
 }

@@ -25,6 +25,7 @@ import {LogoutService} from "./services/logoutservice";
 import {ChangePasswordComponent} from "./components/changepassword/changepassword";
 import {RepHistoryByDateComponent} from "./components/rephistorybydate/rephistorybydate";
 import {AddEntriesComponent} from "./components/addentries/addentries";
+import {AddTimeTaxonomyComponent} from "./components/addtimetaxonomy/addtimetaxonomy";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {AddEntriesComponent} from "./components/addentries/addentries";
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, RegisterComponent,
         UserDataComponent, AddRepTaxonomyComponent, AddRepHistoryComponent, RepHistoryByTaxonomyComponent,
-        IntroductionComponent, ChangePasswordComponent, RepHistoryByDateComponent, AddEntriesComponent
+        IntroductionComponent, ChangePasswordComponent, RepHistoryByDateComponent, AddEntriesComponent,
+        AddTimeTaxonomyComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},
