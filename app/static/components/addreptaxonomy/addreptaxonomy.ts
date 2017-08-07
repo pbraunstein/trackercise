@@ -4,9 +4,9 @@ import {Http, Headers} from "@angular/http";
 import {ButtonPainter} from "../../services/buttonpainter";
 @Component({
     selector: 'add-taxonomy',
-    templateUrl: '/static/components/addtaxonomy/addtaxonomy.html'
+    templateUrl: '/static/components/addreptaxonomy/addreptaxonomy.html'
 })
-export class AddTaxonomyComponent {
+export class AddRepTaxonomyComponent {
     private endpoint: Observable<any>;
 
     constructor(private http: Http) {
@@ -20,16 +20,16 @@ export class AddTaxonomyComponent {
         headers.append('Content-Type', 'application/json');
         let data: any = {};
         data.taxonomy_name = value.taxonomy_name;
-        data.taxonomy_is_back = AddTaxonomyComponent.booleanize(value.is_back);
-        data.taxonomy_is_chest = AddTaxonomyComponent.booleanize(value.is_chest);
-        data.taxonomy_is_shoulders = AddTaxonomyComponent.booleanize(value.is_shoulders);
-        data.taxonomy_is_biceps = AddTaxonomyComponent.booleanize(value.is_biceps);
-        data.taxonomy_is_triceps = AddTaxonomyComponent.booleanize(value.is_triceps);
-        data.taxonomy_is_legs = AddTaxonomyComponent.booleanize(value.is_legs);
-        data.taxonomy_is_core = AddTaxonomyComponent.booleanize(value.is_core);
-        data.taxonomy_is_balance = AddTaxonomyComponent.booleanize(value.is_balance);
-        data.taxonomy_is_cardio = AddTaxonomyComponent.booleanize(value.is_cardio);
-        data.taxonomy_is_weight_per_hand = AddTaxonomyComponent.booleanize(value.is_weight_per_hand);
+        data.taxonomy_is_back = AddRepTaxonomyComponent.booleanize(value.is_back);
+        data.taxonomy_is_chest = AddRepTaxonomyComponent.booleanize(value.is_chest);
+        data.taxonomy_is_shoulders = AddRepTaxonomyComponent.booleanize(value.is_shoulders);
+        data.taxonomy_is_biceps = AddRepTaxonomyComponent.booleanize(value.is_biceps);
+        data.taxonomy_is_triceps = AddRepTaxonomyComponent.booleanize(value.is_triceps);
+        data.taxonomy_is_legs = AddRepTaxonomyComponent.booleanize(value.is_legs);
+        data.taxonomy_is_core = AddRepTaxonomyComponent.booleanize(value.is_core);
+        data.taxonomy_is_balance = AddRepTaxonomyComponent.booleanize(value.is_balance);
+        data.taxonomy_is_cardio = AddRepTaxonomyComponent.booleanize(value.is_cardio);
+        data.taxonomy_is_weight_per_hand = AddRepTaxonomyComponent.booleanize(value.is_weight_per_hand);
         this.endpoint = this.http.post('/add-rep-taxonomy', JSON.stringify(data), {headers: headers});
         this.endpoint.subscribe(
             data => {

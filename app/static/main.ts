@@ -12,7 +12,7 @@ import {FormsModule} from "@angular/forms";
 import {CurrentUserComponent} from "./components/currentuser/currentuser";
 import {RegisterComponent} from "./components/register/register";
 import {UserDataComponent} from "./components/userdata/userdata";
-import {AddTaxonomyComponent} from "./components/addtaxonomy/addtaxonomy";
+import {AddRepTaxonomyComponent} from "./components/addreptaxonomy/addreptaxonomy";
 import {AddRepHistoryComponent} from "./components/addrephistory/addrephistory";
 import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
 import {ApplicationComponent} from "./components/application/application";
@@ -31,7 +31,7 @@ import {AddEntriesComponent} from "./components/addentries/addentries";
     imports: [BrowserModule, HttpModule, FormsModule, routing],
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, RegisterComponent,
-        UserDataComponent, AddTaxonomyComponent, AddRepHistoryComponent, HistoryByTaxonomyComponent,
+        UserDataComponent, AddRepTaxonomyComponent, AddRepHistoryComponent, HistoryByTaxonomyComponent,
         IntroductionComponent, ChangePasswordComponent, HistoryByDateComponent, AddEntriesComponent
     ],
     providers: [
