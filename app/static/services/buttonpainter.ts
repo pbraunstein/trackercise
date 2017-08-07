@@ -30,7 +30,34 @@ export class ButtonPainter {
         $(buttonId).prop('disabled', false);
     }
 
+    public static handleFormSubmitProcessing(buttonId: string): void {
+        ButtonPainter.paintButtonYellow(buttonId);
+        ButtonPainter.disableButton(buttonId);
+    }
+
+    public static handleFormSubmitSuccess(form: any, buttonId: string): void {
+        setTimeout(
+            () => {
+                ButtonPainter.paintButtonGreen(buttonId);
+                ButtonPainter.enableButton(buttonId);
+                form.reset();
+            },
+            ButtonPainter.BUTTON_PAINT_DELAY_MS
+        );
+    }
+
+    public static handleFormSubmitFailure(buttonId: string): void {
+        setTimeout(
+            () => {
+                ButtonPainter.paintButtonRed(buttonId);
+                ButtonPainter.enableButton(buttonId);
+            },
+            ButtonPainter.BUTTON_PAINT_DELAY_MS
+        );
+    }
+
     private static removeBootstrapButtonClasses(buttonId: string): void {
         $(buttonId).removeClass('btn-warning').removeClass('btn-success').removeClass('btn-danger');
     }
+
 }

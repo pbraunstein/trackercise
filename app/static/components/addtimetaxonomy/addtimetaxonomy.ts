@@ -8,14 +8,14 @@ import {Headers, Http} from "@angular/http";
 })
 export class AddTimeTaxonomyComponent {
     private endpoint: Observable<any>;
+    private buttonId: string = '#add-time-taxonomy-submit';
 
     constructor(private http:Http) {
     }
 
     onSubmit(form: any) {
         let exerciseName: string = form.value.time_taxonomy_name;
-        ButtonPainter.paintButtonYellow('#add-time-taxonomy-submit');
-        ButtonPainter.disableButton('#add-time-taxonomy-submit');
+        ButtonPainter.handleFormSubmitProcessing(this.buttonId);
 
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -27,10 +27,12 @@ export class AddTimeTaxonomyComponent {
         this.endpoint = this.http.post('/add-time-taxonomy', JSON.stringify(data), {headers: headers});
         this.endpoint.subscribe(
             data => {
-                console.log(data)
+                console.log(data);
+                ButtonPainter.handleFormSubmitSuccess(form, this.buttonId)
             },
             err => {
                 console.log(err)
+                ButtonPainter.handleFormSubmitFailure(this.buttonId)
             }
         )
     }
