@@ -14,7 +14,7 @@ import {RegisterComponent} from "./components/register/register";
 import {UserDataComponent} from "./components/userdata/userdata";
 import {AddRepTaxonomyComponent} from "./components/addreptaxonomy/addreptaxonomy";
 import {AddRepHistoryComponent} from "./components/addrephistory/addrephistory";
-import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
+import {RepHistoryByTaxonomyComponent} from "./components/rephistorybytaxonomy/rephistorybytaxonomy";
 import {ApplicationComponent} from "./components/application/application";
 import {LocationStrategy, HashLocationStrategy} from "@angular/common";
 import {routing} from './routing';
@@ -31,7 +31,7 @@ import {AddEntriesComponent} from "./components/addentries/addentries";
     imports: [BrowserModule, HttpModule, FormsModule, routing],
     declarations: [
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, RegisterComponent,
-        UserDataComponent, AddRepTaxonomyComponent, AddRepHistoryComponent, HistoryByTaxonomyComponent,
+        UserDataComponent, AddRepTaxonomyComponent, AddRepHistoryComponent, RepHistoryByTaxonomyComponent,
         IntroductionComponent, ChangePasswordComponent, HistoryByDateComponent, AddEntriesComponent
     ],
     providers: [

@@ -7,9 +7,9 @@ import {BarCharts} from "../barcharts/barcharts";
 
 @Component({
     selector: 'history-by-taxonomy',
-    templateUrl: '/static/components/historybytaxonomy/historybytaxonomy.html'
+    templateUrl: '/static/components/rephistorybytaxonomy/rephistorybytaxonomy.html'
 })
-export class HistoryByTaxonomyComponent extends BarCharts {
+export class RepHistoryByTaxonomyComponent extends BarCharts {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_taxonomy: Observable<any>;
     private pairs: Array<any>;
@@ -62,17 +62,17 @@ export class HistoryByTaxonomyComponent extends BarCharts {
             let thisDate: string = this.exerciseHistory[i].getDatestamp();
             if (currentDate) {
                 if (currentDate == thisDate) {
-                    totalOffset += HistoryByTaxonomyComponent.IN_BETWEEN_SETS_GAP;
+                    totalOffset += RepHistoryByTaxonomyComponent.IN_BETWEEN_SETS_GAP;
                 } else {
-                    totalOffset += HistoryByTaxonomyComponent.IN_BETWEEN_DAYS_GAP;
+                    totalOffset += RepHistoryByTaxonomyComponent.IN_BETWEEN_DAYS_GAP;
                 }
             }
             this.exerciseHistory[i].setXOffset(totalOffset);
 
             totalOffset += this.exerciseHistory[i].getWeight();
 
-            this.exerciseHistory[i].setYOffset(HistoryByTaxonomyComponent.VERTICAL_OFFSET
-                - this.exerciseHistory[i].getReps() * HistoryByTaxonomyComponent.REP_MULTIPLIER);
+            this.exerciseHistory[i].setYOffset(RepHistoryByTaxonomyComponent.VERTICAL_OFFSET
+                - this.exerciseHistory[i].getReps() * RepHistoryByTaxonomyComponent.REP_MULTIPLIER);
             currentDate = thisDate;
         }
         return totalOffset;
@@ -97,7 +97,7 @@ export class HistoryByTaxonomyComponent extends BarCharts {
             iterB--;
 
             // Add in space between bars
-            extraOffset += (iterB - iterA) * HistoryByTaxonomyComponent.IN_BETWEEN_SETS_GAP;
+            extraOffset += (iterB - iterA) * RepHistoryByTaxonomyComponent.IN_BETWEEN_SETS_GAP;
 
             let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset()
                 + extraOffset) / 2;
@@ -107,10 +107,10 @@ export class HistoryByTaxonomyComponent extends BarCharts {
                 .attr('class', 'date-text')
                 .attr('text-anchor', 'end')
                 .attr('transform', 'translate(' + String(middleXOffset) + ','
-                    + String(HistoryByTaxonomyComponent.VERTICAL_OFFSET_2) + ') rotate(-45)');
+                    + String(RepHistoryByTaxonomyComponent.VERTICAL_OFFSET_2) + ') rotate(-45)');
 
             iterA = iterB + 1;
-            extraOffset += HistoryByTaxonomyComponent.IN_BETWEEN_DAYS_GAP;
+            extraOffset += RepHistoryByTaxonomyComponent.IN_BETWEEN_DAYS_GAP;
         }
     }
 }
