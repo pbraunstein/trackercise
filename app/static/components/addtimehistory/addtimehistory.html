@@ -1,6 +1,6 @@
 <h2>Add Time Workout</h2>
 <form #f="ngForm" (ngSubmit)="onSubmit(f)">
-    <select class="form-control" name="time-history-exercise-id" required ngModel>
+    <select class="form-control" name="time_history_exercise_id" required ngModel>
         <option *ngFor="let p of timeExercisePairs" [ngValue]="p[0]">{{p[1]}}</option>
     </select>
     <div class="form-group">
@@ -20,6 +20,10 @@
                    name="time_history_duration_seconds"
                    placeholder="Seconds spent" required ngModel>
         </div>
+    </div>
+    <div class="form-group">
+        <label for="dateEntry">Date</label>
+        <input type="date" id="dateEntry" class="form-control" name="time_history_date" required ngModel>
     </div>
     <button id="add-time-history-submit" type="submit" class="btn btn-success">Add Time Workout</button>
 </form>

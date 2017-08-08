@@ -32,6 +32,12 @@ export class AddTimeHistoryComponent {
         let durationSeconds: number;
         durationSeconds = TimeService.minutesToSeconds(value.time_history_duration_minutes)
             + value.time_history_duration_seconds;
+        let data: Object = {
+            'history_exercise_id': value.time_history_exercise_id,
+            'history_distance': value.time_history_distance,
+            'history_duration': durationSeconds,
+            'history_date': value.time_history_date
+        };
     }
 
 }
