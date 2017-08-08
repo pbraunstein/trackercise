@@ -18,13 +18,13 @@ depends_on = None
 
 def upgrade():
     op.alter_column('time_exercises_history', 'duration',
-               existing_type=postgresql.DOUBLE_PRECISION(precision=53),
-               type_=sa.Integer(),
-               existing_nullable=True)
+                    existing_type=postgresql.DOUBLE_PRECISION(precision=53),
+                    type_=sa.Integer(),
+                    existing_nullable=True)
 
 
 def downgrade():
     op.alter_column('time_exercises_history', 'duration',
-               existing_type=sa.Integer(),
-               type_=postgresql.DOUBLE_PRECISION(precision=53),
-               existing_nullable=True)
+                    existing_type=sa.Integer(),
+                    type_=postgresql.DOUBLE_PRECISION(precision=53),
+                    existing_nullable=True)
