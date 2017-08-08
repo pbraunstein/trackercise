@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {ButtonPainter} from "../../services/buttonpainter";
 @Component({
-    selector: 'add-history',
+    selector: 'add-rep-history',
     templateUrl: '/static/components/addrephistory/addrephistory.html'
 })
 export class AddRepHistoryComponent {
