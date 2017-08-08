@@ -201,7 +201,7 @@ class TimeExercisesHistory(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
-    exercise_id = db.Column(db.Integer, ForeignKey('time_exercises_history.id'))
+    exercise_id = db.Column(db.Integer, ForeignKey('time_exercises_taxonomy.id'))
     distance = db.Column(db.Float)
     duration = db.Column(db.Integer)
     exercise_date = db.Column(db.DateTime)
