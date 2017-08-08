@@ -33,7 +33,7 @@ class TimeExercisesManagement(object):
     @staticmethod
     def get_valid_id_exercise_pairs():
         valid_exercises = TimeExercisesTaxonomyService.get_list_of_all_exercises()
-        id_exercise_pairs = [(str(x.id), x.name) for x in valid_exercises]
+        id_exercise_pairs = [(str(x.id), x.name.upper()) for x in valid_exercises]
         return sorted(id_exercise_pairs, key=lambda y: y[1])
 
     @staticmethod

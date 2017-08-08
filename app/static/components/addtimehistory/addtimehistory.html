@@ -1,1 +1,6 @@
 <h2>Add Time Workout</h2>
+<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+    <select class="form-control" name="time-history-exercise-id" required ngModel>
+        <option *ngFor="let p of timeExercisePairs" [ngValue]="p[0]">{{p[1]}}</option>
+    </select>
+</form>
