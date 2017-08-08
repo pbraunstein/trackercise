@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs";
+import {TimeService} from "../../services/timeservice";
 @Component({
     selector: 'add-time-history',
     templateUrl: '/static/components/addtimehistory/addtimehistory.html'
@@ -14,7 +15,7 @@ export class AddTimeHistoryComponent {
         this.endpoint_time_exercise_pairs = http.post('/get-valid-time-id-exercise-pairs', '');
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.endpoint_time_exercise_pairs.subscribe(
             data => {
                 console.log(data);
@@ -23,4 +24,14 @@ export class AddTimeHistoryComponent {
             err => console.log(err)
         );
     }
+
+    onSubmit(form: any): void {
+        let value: any = form.value;
+        let minutes = value.time_history_duration_minutes;
+        let seconds = value.time_history_duration_seconds;
+        let durationSeconds: number;
+        durationSeconds = TimeService.minutesToSeconds(value.time_history_duration_minutes)
+            + value.time_history_duration_seconds;
+    }
+
 }
