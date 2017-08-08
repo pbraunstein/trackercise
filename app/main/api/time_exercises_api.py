@@ -10,6 +10,13 @@ from app.constants import TAXONOMY_CONSTANTS, HISTORY_CONSTANTS
 from app.main import main_blueprint as main
 
 
+@main.route('/get-valid-time-id-exercise-pairs', methods=['POST'])
+def get_valid_time_id_exercise_pairs():
+    return dumps({
+        'pairs': TimeExercisesManagement.get_valid_id_exercise_pairs()
+    }), 200
+
+
 @main.route('/time-history-by-taxonomy', methods=['POST'])
 def time_history_by_taxonomy():
     csrf.protect()

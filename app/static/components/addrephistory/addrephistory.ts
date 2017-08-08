@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {ButtonPainter} from "../../services/buttonpainter";
 @Component({
-    selector: 'add-history',
+    selector: 'add-rep-history',
     templateUrl: '/static/components/addrephistory/addrephistory.html'
 })
 export class AddRepHistoryComponent {
@@ -16,7 +16,7 @@ export class AddRepHistoryComponent {
         this.endpoint_exercise_pairs = http.post('/get-valid-rep-id-exercise-pairs', '');
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;
@@ -25,7 +25,7 @@ export class AddRepHistoryComponent {
         );
     }
 
-    onSubmit(form: any) {
+    onSubmit(form: any): void {
         let value: any = form.value;
         ButtonPainter.handleFormSubmitProcessing(this.buttonId);
         let headers: Headers = new Headers();
