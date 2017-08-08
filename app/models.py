@@ -203,7 +203,7 @@ class TimeExercisesHistory(db.Model):
     user_id = db.Column(db.Integer, ForeignKey('users.id'), nullable=False)
     exercise_id = db.Column(db.Integer, ForeignKey('time_exercises_history.id'))
     distance = db.Column(db.Float)
-    duration = db.Column(db.Float)
+    duration = db.Column(db.Integer)
     exercise_date = db.Column(db.DateTime)
 
     def __init__(self, user_id, exercise_id, distance, duration, exercise_date):
