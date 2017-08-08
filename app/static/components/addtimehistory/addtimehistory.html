@@ -3,4 +3,23 @@
     <select class="form-control" name="time-history-exercise-id" required ngModel>
         <option *ngFor="let p of timeExercisePairs" [ngValue]="p[0]">{{p[1]}}</option>
     </select>
+    <div class="form-group">
+        <label for="distanceEntry">Distance</label>
+        <input type="number" step="0.01" id="distanceEntry" class="form-control" name="time_history_distance"
+               placeholder="Distance traversed (miles)" required ngModel>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-6">
+            <label for="durationMinutes">Minutes</label>
+            <input type="number" step="0.01" id="durationMinutes" class="form-control"
+                   name="time_history_duration_minutes" placeholder="Minutes spent" required ngModel>
+        </div>
+        <div class="col-sm-6">
+            <label for="durationSeconds">Seconds</label>
+            <input type="number" id="durationSeconds" class="form-control"
+                   name="time_history_duration_seconds"
+                   placeholder="Seconds spent" required ngModel>
+        </div>
+    </div>
+
 </form>
