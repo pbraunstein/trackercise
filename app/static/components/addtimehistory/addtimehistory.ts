@@ -22,7 +22,6 @@ export class AddTimeHistoryComponent {
     ngOnInit(): void {
         this.endpoint_time_exercise_pairs.subscribe(
             data => {
-                console.log(data);
                 this.timeExercisePairs = [];
                 data.json().pairs.forEach((p: any) => this.timeExercisePairs.push(new SelectOption(p)));
             },
