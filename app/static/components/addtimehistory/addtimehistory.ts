@@ -3,6 +3,8 @@ import {Http, Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import {TimeService} from "../../services/timeservice";
 import {ButtonPainter} from "../../services/buttonpainter";
+import {SelectOption} from "../../models/selectoption";
+import {json} from "d3-request";
 @Component({
     selector: 'add-time-history',
     templateUrl: '/static/components/addtimehistory/addtimehistory.html'
@@ -10,7 +12,7 @@ import {ButtonPainter} from "../../services/buttonpainter";
 export class AddTimeHistoryComponent {
     private endpoint_time_exercise_pairs: Observable<any>;
     private endpoint_add_time_history: Observable<any>;
-    private timeExercisePairs: Array<any>;
+    private timeExercisePairs: Array<SelectOption>;
     private buttonId: string = '#add-time-history-submit';
 
     constructor(private http: Http) {
@@ -21,7 +23,8 @@ export class AddTimeHistoryComponent {
         this.endpoint_time_exercise_pairs.subscribe(
             data => {
                 console.log(data);
-                this.timeExercisePairs = data.json().pairs;
+                this.timeExercisePairs = [];
+                data.json().pairs.forEach((p: any) => this.timeExercisePairs.push(new SelectOption(p)));
             },
             err => console.log(err)
         );
