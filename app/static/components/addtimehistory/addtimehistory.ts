@@ -4,7 +4,6 @@ import {Observable} from "rxjs";
 import {TimeService} from "../../services/timeservice";
 import {ButtonPainter} from "../../services/buttonpainter";
 import {SelectOption} from "../../models/selectoption";
-import {json} from "d3-request";
 @Component({
     selector: 'add-time-history',
     templateUrl: '/static/components/addtimehistory/addtimehistory.html'
