@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {ButtonPainter} from "../../services/buttonpainter";
+import {SelectOption} from "../../models/selectoption";
 @Component({
     selector: 'add-rep-history',
     templateUrl: '/static/components/addrephistory/addrephistory.html'
@@ -9,7 +10,7 @@ import {ButtonPainter} from "../../services/buttonpainter";
 export class AddRepHistoryComponent {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_add_history: Observable<any>;
-    private pairs: Array<any>;
+    private repExercisePairs: Array<SelectOption>;
     private buttonId: string = '#add-history-submit';
 
     constructor(private http: Http) {
@@ -19,7 +20,8 @@ export class AddRepHistoryComponent {
     ngOnInit(): void {
         this.endpoint_exercise_pairs.subscribe(
             data => {
-                this.pairs = data.json().pairs;
+                this.repExercisePairs = [];
+                data.json().pairs.forEach((p: any) => this.repExercisePairs.push(new SelectOption(p)));
             },
             err => console.log(err)
         );
@@ -32,10 +34,10 @@ export class AddRepHistoryComponent {
         headers.append('Content-Type', 'application/json');
         let data: any = {};
         data.history_exercise_id = value.history_exercise_id;
-        data.history_sets = value.history_sets;
-        data.history_reps = value.history_reps;
-        data.history_weight = value.history_weight;
-        data.history_date = value.history_date;
+        data.history_sets = value.rep_history_sets;
+        data.history_reps = value.rep_history_reps;
+        data.history_weight = value.rep_history_weight;
+        data.history_date = value.rep_history_date;
         this.endpoint_add_history = this.http.post('/add-rep-history', JSON.stringify(data), {headers: headers});
         this.endpoint_add_history.subscribe(
             data => {

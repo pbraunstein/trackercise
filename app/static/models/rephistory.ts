@@ -1,7 +1,8 @@
+import {BarChartsBar} from "./barchartsbar";
 /**
  * Model for rep based history exercises
  */
-export class RepHistory {
+export class RepHistory implements BarChartsBar {
     private historyId: number;
     private sets: number;
     private reps: number;
@@ -35,23 +36,23 @@ export class RepHistory {
         return this.sets;
     }
 
-    public setSets(newValue: number): void {
-        this.sets = newValue;
+    public setSets(value: number): void {
+        this.sets = value;
     }
 
-    public getReps(): number {
+    public getHeight(): number {
         return this.reps;
     }
 
-    public setReps(newValue: number): void {
-        this.reps = newValue;
+    public setHeight(value: number): void {
+        this.reps = value;
     }
 
-    public getWeight(): number {
+    public getWidth(): number {
         return this.weight;
     }
 
-    public setWeight(newValue: number): void {
+    public setWidth(newValue: number): void {
         this.weight = newValue;
     }
 
@@ -59,23 +60,27 @@ export class RepHistory {
         return this.dateStamp;
     }
 
-    public setDatestamp(newValue: string): void {
-        this.dateStamp = newValue;
+    public setDatestamp(value: string): void {
+        this.dateStamp = value;
     }
 
     public getXOffset(): number {
         return this.x_offset;
     }
 
-    public setXOffset(newValue: number): void {
-        this.x_offset = newValue;
+    public setXOffset(value: number): void {
+        this.x_offset = value;
     }
 
     public getYOffset(): number {
         return this.y_offset;
     }
 
-    public setYOffset(newValue: number): void {
-        this.y_offset = newValue;
+    public setYOffset(value: number): void {
+        this.y_offset = value;
+    }
+
+    public getWidthBuffer(): number {
+        return 10;
     }
 }
