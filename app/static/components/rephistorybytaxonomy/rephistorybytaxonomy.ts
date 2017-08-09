@@ -69,10 +69,10 @@ export class RepHistoryByTaxonomyComponent extends BarCharts {
             }
             this.exerciseHistory[i].setXOffset(totalOffset);
 
-            totalOffset += this.exerciseHistory[i].getWeight();
+            totalOffset += this.exerciseHistory[i].getWidth();
 
             this.exerciseHistory[i].setYOffset(RepHistoryByTaxonomyComponent.VERTICAL_OFFSET
-                - this.exerciseHistory[i].getReps() * RepHistoryByTaxonomyComponent.REP_MULTIPLIER);
+                - this.exerciseHistory[i].getHeight() * RepHistoryByTaxonomyComponent.REP_MULTIPLIER);
             currentDate = thisDate;
         }
         return totalOffset;

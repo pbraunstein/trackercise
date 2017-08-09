@@ -81,9 +81,9 @@ export class RepHistoryByDateComponent extends BarCharts {
                 }
             }
             this.exerciseHistory[i].setXOffset(totalOffset);
-            totalOffset += this.exerciseHistory[i].getWeight();
+            totalOffset += this.exerciseHistory[i].getWidth();
             this.exerciseHistory[i].setYOffset(RepHistoryByDateComponent.VERTICAL_OFFSET
-                - this.exerciseHistory[i].getReps() * RepHistoryByDateComponent.REP_MULTIPLIER);
+                - this.exerciseHistory[i].getHeight() * RepHistoryByDateComponent.REP_MULTIPLIER);
             currentId = thisId;
         }
 

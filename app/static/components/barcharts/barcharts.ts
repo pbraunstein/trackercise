@@ -1,6 +1,7 @@
 import {RepHistory} from "../../models/rephistory";
+import {BarChartsBar} from "../../models/barchartsbar";
 export abstract class BarCharts {
-    protected exerciseHistory: Array<RepHistory>;
+    protected exerciseHistory: Array<BarChartsBar>;
     protected svgs: any;
 
     protected static ANIMATION_TIME: number = 400;  // in milliseconds
@@ -13,7 +14,7 @@ export abstract class BarCharts {
     protected static IN_BETWEEN_DAYS_GAP: number = 7;
     protected static WEIGHT_BUFFER: number = 10;
 
-    protected convertJsonArrayToObjectArray(historyArray: Array<any>): Array<RepHistory> {
+    protected convertJsonArrayToObjectArray(historyArray: Array<any>): Array<BarChartsBar> {
         let historyObjectArray: Array<RepHistory> = [];
         for (let jsonObject of historyArray) {
             historyObjectArray.push(new RepHistory(jsonObject));
@@ -22,7 +23,7 @@ export abstract class BarCharts {
     }
 
     protected splitOutSets(): void {
-        let newArray: Array<RepHistory> = [];
+        let newArray: Array<BarChartsBar> = [];
         for (let i = 0; i < this.exerciseHistory.length; i++) {
             for (let j = 0; j < this.exerciseHistory[i].getSets(); j++) {
                 newArray.push($.extend(true, {}, this.exerciseHistory[i]));  // deep copy necessary here
@@ -37,8 +38,8 @@ export abstract class BarCharts {
      */
     protected scaleWeights(): void {
         for (let i = 0; i < this.exerciseHistory.length; i++) {
-            this.exerciseHistory[i].setWeight(
-                this.exerciseHistory[i].getWeight() + BarCharts.WEIGHT_BUFFER
+            this.exerciseHistory[i].setWidth(
+                this.exerciseHistory[i].getWidth() + this.exerciseHistory[i].getWidthBuffer()
             );
         }
     }
@@ -62,28 +63,28 @@ export abstract class BarCharts {
             .style('fill', 'blue')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)
-            .attr('width', (d: RepHistory) => d.getWeight())
-            .attr('height', (d: RepHistory) => d.getReps() * BarCharts.REP_MULTIPLIER);
+            .attr('width', (d: RepHistory) => d.getWidth())
+            .attr('height', (d: RepHistory) => d.getHeight() * BarCharts.REP_MULTIPLIER);
         barsEnter.append('text')
-            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ','
+            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / 2 + ','
             + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
-            .text((d: RepHistory) => d.getReps().toString() + ',' + (d.getWeight() - BarCharts.WEIGHT_BUFFER).toString());
+            .text((d: RepHistory) => d.getHeight().toString() + ',' + (d.getWidth() - d.getWidthBuffer()).toString());
 
         // Update
         bars.attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
         bars.select('rect')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)
-            .attr('width', (d: RepHistory) => d.getWeight())
-            .attr('height', (d: RepHistory) => d.getReps() * BarCharts.REP_MULTIPLIER);
+            .attr('width', (d: RepHistory) => d.getWidth())
+            .attr('height', (d: RepHistory) => d.getHeight() * BarCharts.REP_MULTIPLIER);
         bars.select('text')
-            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWeight() / 2 + ','
+            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / 2 + ','
             + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
-            .text((d: RepHistory) => d.getReps().toString() + ',' + (d.getWeight() - BarCharts.WEIGHT_BUFFER).toString());
+            .text((d: RepHistory) => d.getHeight().toString() + ',' + (d.getWidth() - d.getWidthBuffer()).toString());
 
         // Exit
         let barsExit = bars.exit();
