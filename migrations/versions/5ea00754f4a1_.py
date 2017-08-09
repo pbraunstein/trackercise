@@ -17,7 +17,8 @@ depends_on = None
 
 def upgrade():
     op.drop_constraint(u'time_exercises_history_exercise_id_fkey', 'time_exercises_history', type_='foreignkey')
-    op.create_foreign_key(u'time_exercises_history_exercise_id_fkey', 'time_exercises_history', 'time_exercises_taxonomy', ['exercise_id'], ['id'])
+    op.create_foreign_key(u'time_exercises_history_exercise_id_fkey', 'time_exercises_history',
+                          'time_exercises_taxonomy', ['exercise_id'], ['id'])
 
 
 def downgrade():
