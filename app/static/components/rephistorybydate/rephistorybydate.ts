@@ -3,12 +3,12 @@ import {CSRFService} from "../../services/csrfservice";
 import {Http, Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import * as d3 from 'd3';
-import {BarCharts} from "../barcharts/barcharts";
+import {RepHistoryChart} from "../rephistorychart";
 @Component({
     selector: 'rep-history-by-date',
     templateUrl: '/static/components/rephistorybydate/rephistorybydate.html'
 })
-export class RepHistoryByDateComponent extends BarCharts {
+export class RepHistoryByDateComponent extends RepHistoryChart {
 
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_date: Observable<any>;

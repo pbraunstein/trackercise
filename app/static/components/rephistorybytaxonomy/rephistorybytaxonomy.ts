@@ -3,13 +3,13 @@ import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {CSRFService} from "../../services/csrfservice";
 import * as d3 from 'd3';
-import {BarCharts} from "../barcharts/barcharts";
+import {RepHistoryChart} from "../rephistorychart";
 
 @Component({
     selector: 'rep-history-by-taxonomy',
     templateUrl: '/static/components/rephistorybytaxonomy/rephistorybytaxonomy.html'
 })
-export class RepHistoryByTaxonomyComponent extends BarCharts {
+export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_taxonomy: Observable<any>;
     private pairs: Array<any>;

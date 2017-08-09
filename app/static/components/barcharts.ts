@@ -1,5 +1,5 @@
-import {RepHistory} from "../../models/rephistory";
-import {BarChartsBar} from "../../models/barchartsbar";
+import {RepHistory} from "../models/rephistory";
+import {BarChartsBar} from "../models/barchartsbar";
 export abstract class BarCharts {
     protected exerciseHistory: Array<BarChartsBar>;
     protected svgs: any;
@@ -13,14 +13,6 @@ export abstract class BarCharts {
     protected static IN_BETWEEN_SETS_GAP: number = 1;
     protected static IN_BETWEEN_DAYS_GAP: number = 7;
     protected static WEIGHT_BUFFER: number = 10;
-
-    protected convertJsonArrayToObjectArray(historyArray: Array<any>): Array<BarChartsBar> {
-        let historyObjectArray: Array<RepHistory> = [];
-        for (let jsonObject of historyArray) {
-            historyObjectArray.push(new RepHistory(jsonObject));
-        }
-        return historyObjectArray;
-    }
 
     protected splitOutSets(): void {
         let newArray: Array<BarChartsBar> = [];
@@ -45,7 +37,7 @@ export abstract class BarCharts {
     }
 
     protected setUpViz(data: any): void {
-        this.exerciseHistory = this.convertJsonArrayToObjectArray(data.json().history);
+        this.exerciseHistory = this.convertJsonArrayToBarChartsBarArray(data.json().history);
         this.splitOutSets();
         this.scaleWeights();
         let totalOffset = this.addOffsets();
@@ -102,4 +94,6 @@ export abstract class BarCharts {
     protected abstract addOffsets(): number;
 
     protected abstract renderXAxis(): void;
+
+    protected abstract convertJsonArrayToBarChartsBarArray(historyArray: Array<any>): Array<BarChartsBar>;
 }
