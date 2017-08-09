@@ -1,5 +1,5 @@
 /**
- * Data that wants to be represented in the BarCharts.ts bar chart must implement this interface
+ * Data that want to be represented in the BarCharts.ts bar chart must implement this interface
  */
 export interface BarChartsBar {
     getHistoryId(): number;
