@@ -2,6 +2,7 @@ import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {ButtonPainter} from "../../services/buttonpainter";
+import {SelectOption} from "../../models/selectoption";
 @Component({
     selector: 'add-rep-history',
     templateUrl: '/static/components/addrephistory/addrephistory.html'
@@ -9,7 +10,7 @@ import {ButtonPainter} from "../../services/buttonpainter";
 export class AddRepHistoryComponent {
     private endpoint_exercise_pairs: Observable<any>;
     private endpoint_add_history: Observable<any>;
-    private pairs: Array<any>;
+    private pairs: Array<SelectOption>;
     private buttonId: string = '#add-history-submit';
 
     constructor(private http: Http) {
@@ -19,7 +20,8 @@ export class AddRepHistoryComponent {
     ngOnInit(): void {
         this.endpoint_exercise_pairs.subscribe(
             data => {
-                this.pairs = data.json().pairs;
+                this.pairs = [];
+                data.json().pairs.forEach((p: any) => this.pairs.push(new SelectOption(p)));
             },
             err => console.log(err)
         );

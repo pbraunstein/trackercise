@@ -1,7 +1,7 @@
 <h2>Add Rep Workout</h2>
 <form #f="ngForm" (ngSubmit)="onSubmit(f)">
     <select class="form-control" name="history_exercise_id" required ngModel>
-        <option *ngFor="let p of pairs" [ngValue]="p[0]">{{p[1]}}</option>
+        <option *ngFor="let p of pairs" [ngValue]="p.key">{{p.value}}</option>
     </select>
     <div class="form-group">
         <label for="setsEntry">Sets</label>
