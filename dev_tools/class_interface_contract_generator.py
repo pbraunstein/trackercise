@@ -77,5 +77,6 @@ def generate_docstring(methods):
 def get_class_name_from_line(line):
     return line.split(' ')[1].split('(')[0]
 
+
 if __name__ == '__main__':
     main()

@@ -203,7 +203,8 @@ class TimeExercisesHistoryService(object):
 
     @staticmethod
     def get_user_history_by_date(user_id, exercise_date):
-        return list(db.session.query(TimeExercisesHistory).filter_by(user_id=user_id, exercise_date=exercise_date).all())
+        return list(db.session.query(TimeExercisesHistory).filter_by(user_id=user_id,
+                                                                     exercise_date=exercise_date).all())
 
     @staticmethod
     def add_entry_to_db(entry):

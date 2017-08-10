@@ -1,7 +1,7 @@
 """Create rep_exercises_history table
 
 Revision ID: 053b42be855e
-Revises: 
+Revises:
 Create Date: 2016-12-15 23:38:49.495889
 
 """
