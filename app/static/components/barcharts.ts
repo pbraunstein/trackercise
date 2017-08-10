@@ -1,5 +1,5 @@
-import {RepHistory} from "../models/rephistory";
-import {BarChartsBar} from "../models/barchartsbar";
+import {RepHistory} from "../models/barcharts/rephistory";
+import {BarChartsBar} from "../models/barcharts/barchartsbar";
 export abstract class BarCharts {
     protected exerciseHistory: Array<BarChartsBar>;
     protected svgs: any;

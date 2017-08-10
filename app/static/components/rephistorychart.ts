@@ -1,6 +1,6 @@
 import {BarCharts} from "./barcharts";
-import {BarChartsBar} from "../models/barchartsbar";
-import {RepHistory} from "../models/rephistory";
+import {BarChartsBar} from "../models/barcharts/barchartsbar";
+import {RepHistory} from "../models/barcharts/rephistory";
 
 /**
  * Intermediate class in the hierarchy of BarCharts. Any RepExercise bar chart should extend this class
