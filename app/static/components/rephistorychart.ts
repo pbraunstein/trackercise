@@ -14,5 +14,4 @@ export abstract class RepHistoryChart extends BarCharts {
         }
         return historyObjectArray;
     }
-
 }
