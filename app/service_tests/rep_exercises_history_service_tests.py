@@ -255,7 +255,8 @@ class RepExercisesHistoryTests(ServiceTestCase):
         actual_results = RepExercisesHistoryService.get_user_history_by_exercise(user_id=2, exercise_id=2)
 
         # no guarantee about ordering is made
-        self.assertListEqual(sorted(actual_results, key=self._sort_key_date), sorted(expected_results, key=self._sort_key_date))
+        self.assertListEqual(sorted(actual_results, key=self._sort_key_date),
+                             sorted(expected_results, key=self._sort_key_date))
 
     def test_get_user_history_by_exercise_different_user_did_that_exercise(self):
         entry_1 = RepExercisesHistory(

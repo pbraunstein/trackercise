@@ -18,7 +18,7 @@ class RepExercisesTaxonomyTests(ServiceTestCase):
             is_balance=False,
             is_cardio=False,
             is_weight_per_hand=True
-       )
+        )
 
         RepExercisesTaxonomyService.add_entry_to_db(expected_result)
 

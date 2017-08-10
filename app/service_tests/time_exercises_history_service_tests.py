@@ -147,7 +147,7 @@ class TimeExercisesHistoryTests(ServiceTestCase):
         TimeExercisesHistoryService.add_entry_to_db(entry_2)
         TimeExercisesHistoryService.add_entry_to_db(entry_3)
 
-        expected_results = [entry_1, entry_3] # entry_2 was done by a different user
+        expected_results = [entry_1, entry_3]  # entry_2 was done by a different user
         actual_results = TimeExercisesHistoryService.get_list_of_users_exercises(2)
 
         # no guarantee about ordering is made

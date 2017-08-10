@@ -21,4 +21,3 @@ def ts():
 @main.route('/all-data', methods=['POST'])
 def all_data():
     return dumps(all_data_to_dict(AllData.get_all_data())), 200
-
