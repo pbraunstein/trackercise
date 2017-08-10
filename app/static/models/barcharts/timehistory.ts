@@ -1,11 +1,7 @@
-import {BarChartsBar} from "./barchartsbar";
-export class TimeHistory implements BarChartsBar {
-    private historyId: number;
+import {ExerciseHistory} from "./exercisehistory";
+export class TimeHistory extends ExerciseHistory {
     private distance: number;
     private duration: number;
-    private dateStamp: string;
-    private x_offset: number;
-    private y_offset: number;
 
     getHistoryId(): number {
         return this.historyId;
