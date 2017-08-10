@@ -208,5 +208,3 @@ class UtilitiesTests(unittest.TestCase):
                 is_cardio=False,
                 is_weight_per_hand=False
             ))
-
-
