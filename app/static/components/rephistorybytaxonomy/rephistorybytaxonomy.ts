@@ -2,7 +2,6 @@ import {Component} from "@angular/core";
 import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {CSRFService} from "../../services/csrfservice";
-import * as d3 from 'd3';
 import {RepHistoryChart} from "../rephistorychart";
 import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 
@@ -11,9 +10,7 @@ import {BarChartsBar} from "../../models/barcharts/barchartsbar";
     templateUrl: '/static/components/rephistorybytaxonomy/rephistorybytaxonomy.html'
 })
 export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
-    private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_taxonomy: Observable<any>;
-    private pairs: Array<any>;
     private username: string;
 
     constructor(private http: Http, private csrfService: CSRFService) {
@@ -23,14 +20,7 @@ export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
     }
 
     ngOnInit() {
-        // Set up horizontal scrolling
-        this.initVizContainer()
-        this.endpoint_exercise_pairs.subscribe(
-            data => {
-                this.pairs = data.json().pairs;
-            },
-            err => console.log(err)
-        );
+        this.prepareViz();
     }
 
     onChange(value: any) {

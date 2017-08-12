@@ -1,15 +1,19 @@
 import {RepHistory} from "../models/barcharts/rephistory";
 import {BarChartsBar} from "../models/barcharts/barchartsbar";
 import * as d3 from 'd3';
+import {Observable} from "rxjs";
 
 /**
  * Class that renders bar charts that express two dimensional data - one datum rendered as the width
  * of the bar and the other datum rendered as the height of the bar
  */
 export abstract class BarCharts {
+    private svgs: any;
+
     protected exerciseHistory: Array<BarChartsBar>;
-    protected svgs: any;
+    protected endpoint_exercise_pairs: Observable<any>;
     protected chartSelector: string;
+    protected pairs: Array<any>;
 
     protected static ANIMATION_TIME: number = 400;  // in milliseconds
     protected static TEXT_OFFSET: number = 4;
@@ -21,12 +25,24 @@ export abstract class BarCharts {
     protected static IN_BETWEEN_DAYS_GAP: number = 7;
     protected static WEIGHT_BUFFER: number = 10;
 
-    protected initVizContainer(): void {
+
+    protected prepareViz(): void {
         d3.select(this.chartSelector)
             .style('height', '400px')
             .style('width', '100%')
             .style('overflow', 'scroll');
         this.svgs = d3.select(this.chartSelector).append('svg');
+        this.endpoint_exercise_pairs.subscribe(
+            data => {
+                this.pairs = data.json().pairs;
+                this.initPairsMap();
+            },
+            err => console.log(err)
+        );
+    }
+
+    // Hook to initiate pairs map for by date charts
+    protected initPairsMap(): void {
     }
 
     protected splitOutSets(): void {

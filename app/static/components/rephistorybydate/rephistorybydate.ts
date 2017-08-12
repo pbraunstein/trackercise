@@ -9,10 +9,8 @@ import {BarChartsBar} from "../../models/barcharts/barchartsbar";
     templateUrl: '/static/components/rephistorybydate/rephistorybydate.html'
 })
 export class RepHistoryByDateComponent extends RepHistoryChart {
-
-    private endpoint_exercise_pairs: Observable<any>;
     private endpoint_history_by_date: Observable<any>;
-    private pairs: Map<string, string>;
+    private pairsMap: Map<string, string>;
 
     constructor(private http: Http, private csrfService: CSRFService) {
         super();
@@ -21,24 +19,14 @@ export class RepHistoryByDateComponent extends RepHistoryChart {
     }
 
     ngOnInit() {
-        this.initVizContainer();
-        this.endpoint_exercise_pairs.subscribe(
-            data => {
-                console.log(data.json());
-                this.pairs = this.initPairs(data.json().pairs);
-            },
-            err => console.log(err)
-        );
+        this.prepareViz();
     }
 
-    private initPairs(jsonObject: any): Map<string, string> {
-        let pairs: Map<string, string> = new Map();
-
-        for (let aPair of jsonObject) {
-            pairs.set(aPair[0], aPair[1]);
+    protected initPairsMap(): void {
+        this.pairsMap = new Map();
+        for (let aPair of this.pairs) {
+            this.pairsMap.set(aPair[0], aPair[1]);
         }
-
-        return pairs;
     }
 
     onSubmit(form: any) {
@@ -63,6 +51,6 @@ export class RepHistoryByDateComponent extends RepHistoryChart {
     }
 
     protected getXValue(element: BarChartsBar): string {
-        return this.pairs.get(element.getHistoryId().toString());
+        return this.pairsMap.get(element.getHistoryId().toString());
     }
 }
