@@ -1,8 +1,8 @@
-<h2>Rep History by taxonomy for {{ username }}</h2>
+<h2>Time History by taxonomy for {{ username }}</h2>
 <form #f="ngForm">
     <select class="form-control" name="exercise_id" (change)="onChange(f.value)" required ngModel>
         <option *ngFor="let p of pairs" [ngValue]="p[0]">{{p[1]}}</option>
     </select>
 </form>
 <h3>History for {{ username }} </h3>
-<div id="rep-history-by-taxonomy-chart"></div>
+<div id="time-history-by-taxonomy-chart"></div>

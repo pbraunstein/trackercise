@@ -1,128 +1,42 @@
 import {Component} from "@angular/core";
 import {CSRFService} from "../../services/csrfservice";
-import {Http, Headers} from "@angular/http";
-import {Observable} from "rxjs";
-import * as d3 from 'd3';
+import {Http} from "@angular/http";
 import {RepHistoryChart} from "../rephistorychart";
+import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 @Component({
     selector: 'rep-history-by-date',
     templateUrl: '/static/components/rephistorybydate/rephistorybydate.html'
 })
 export class RepHistoryByDateComponent extends RepHistoryChart {
+    private pairsMap: Map<string, string>;
 
-    private endpoint_exercise_pairs: Observable<any>;
-    private endpoint_history_by_date: Observable<any>;
-    private pairs: Map<string, string>;
-
-    constructor(private http: Http, private csrfService: CSRFService) {
-        super();
-        this.endpoint_exercise_pairs = http.post('/get-valid-rep-id-exercise-pairs', '');
+    constructor(protected http: Http, protected csrfService: CSRFService) {
+        super(http, csrfService);
+        this.endpointExercisePairsTarget = '/get-valid-rep-id-exercise-pairs';
+        this.endpointExerciseHistoryTarget = '/rep-history-by-date';
+        this.chartSelector = '#rep-history-by-date-chart';
     }
 
     ngOnInit() {
-        // Set up horizontal scrolling
-        d3.select('#rep-history-by-date-chart')
-            .style('height', '400px')
-            .style('width', '100%')
-            .style('overflow', 'scroll');
-        this.svgs = d3.select('#rep-history-by-date-chart').append('svg');
-        this.endpoint_exercise_pairs.subscribe(
-            data => {
-                console.log(data.json());
-                this.pairs = this.initPairs(data.json().pairs);
-            },
-            err => console.log(err)
-        );
+        this.prepareViz();
     }
 
-    private initPairs(jsonObject: any): Map<string, string> {
-        let pairs: Map<string, string> = new Map();
-
-        for (let aPair of jsonObject) {
-            pairs.set(aPair[0], aPair[1]);
+    protected initPairsMap(): void {
+        this.pairsMap = new Map();
+        for (let aPair of this.pairs) {
+            this.pairsMap.set(aPair[0], aPair[1]);
         }
-
-        console.log(pairs);
-        return pairs;
     }
 
-    onSubmit(form: any) {
-        let value: any = form.value;
-        let headers: Headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('X-CSRFTOKEN', this.csrfService.getToken());
-        let data: any = {};
-        data.exercise_date = value.history_date;
-        this.endpoint_history_by_date = this.http.post(
-            '/rep-history-by-date',
-            JSON.stringify(data),
-            {headers: headers}
-        );
-        this.endpoint_history_by_date.subscribe(
-            data => {
-                console.log(data);
-                this.setUpViz(data);
-            },
-            err => console.log(err)
-        )
+    onSubmit(value: any) {
+        this.makeServerCall(value);
     }
 
-    protected addOffsets(): number {
-        let totalOffset: number = 0;
-        let currentId: number = null;
-
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisId: number = this.exerciseHistory[i].getHistoryId();
-            if (currentId) {
-                if (currentId == thisId) {
-                    totalOffset += RepHistoryByDateComponent.IN_BETWEEN_SETS_GAP;
-                } else {
-                    totalOffset += RepHistoryByDateComponent.IN_BETWEEN_DAYS_GAP;
-                }
-            }
-            this.exerciseHistory[i].setXOffset(totalOffset);
-            totalOffset += this.exerciseHistory[i].getWidth();
-            this.exerciseHistory[i].setYOffset(RepHistoryByDateComponent.VERTICAL_OFFSET
-                - this.exerciseHistory[i].getHeight() * RepHistoryByDateComponent.REP_MULTIPLIER);
-            currentId = thisId;
-        }
-
-        return totalOffset;
+    protected getXValue(element: BarChartsBar): string {
+        return this.pairsMap.get(element.getHistoryId().toString());
     }
 
-    protected renderXAxis(): void {
-        this.svgs.selectAll('.date-text').remove();
-        let iterA = 0;
-        let iterB = 0;
-        let extraOffset = 0;  // This accounts for the spaces in between columns
-
-        while (iterA < this.exerciseHistory.length) {
-            iterB = iterA;
-            let exericesIdA = this.exerciseHistory[iterA].getHistoryId();
-
-            // Find first next differing exercise Id
-            while (iterB < this.exerciseHistory.length && this.exerciseHistory[iterB].getHistoryId() == exericesIdA) {
-                iterB++;
-            }
-
-            // Need to back up one, to last one that was the same
-            iterB--;
-
-            // Add in space between bars
-            extraOffset += (iterB - iterA) * RepHistoryByDateComponent.IN_BETWEEN_SETS_GAP
-
-            let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset() + extraOffset)
-                / 2;
-            this.svgs
-                .append('text')
-                .text(this.pairs.get(String(exericesIdA)))
-                .attr('class', 'date-text')
-                .attr('text-anchor', 'end')
-                .attr('transform', 'translate(' + String(middleXOffset) + ','
-                    + String(RepHistoryByDateComponent.VERTICAL_OFFSET_2) + ') rotate(-45)');
-
-            iterA = iterB + 1;
-            extraOffset += RepHistoryByDateComponent.IN_BETWEEN_SETS_GAP;
-        }
+    protected generateDataToSendToServer(value: any): Object {
+        return {'exercise_date': value.history_date };
     }
 }

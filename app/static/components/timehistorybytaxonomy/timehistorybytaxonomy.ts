@@ -1,19 +1,19 @@
 import {Component} from "@angular/core";
-import {Http, Headers} from "@angular/http";
-import {CSRFService} from "../../services/csrfservice";
-import {RepHistoryChart} from "../rephistorychart";
+import {TimeHistoryChart} from "../timehistorychart";
 import {BarChartsBar} from "../../models/barcharts/barchartsbar";
-
+import {Http} from "@angular/http";
+import {CSRFService} from "../../services/csrfservice";
 @Component({
-    selector: 'rep-history-by-taxonomy',
-    templateUrl: '/static/components/rephistorybytaxonomy/rephistorybytaxonomy.html'
+    selector: 'time-history-by-taxonomy',
+    templateUrl: '/static/components/timehistorybytaxonomy/timehistorybytaxonomy.html'
 })
-export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
+export class TimeHistoryByTaxonomyComponent extends TimeHistoryChart {
+
     constructor(protected http: Http, protected csrfService: CSRFService) {
         super(http, csrfService);
-        this.endpointExercisePairsTarget = '/get-valid-rep-id-exercise-pairs';
-        this.endpointExerciseHistoryTarget = '/rep-history-by-taxonomy';
-        this.chartSelector = '#rep-history-by-taxonomy-chart';
+        this.endpointExercisePairsTarget = '/get-valid-time-id-exercise-pairs';
+        this.endpointExerciseHistoryTarget = '/time-history-by-taxonomy';
+        this.chartSelector = '#time-history-by-taxonomy-chart';
     }
 
     ngOnInit() {

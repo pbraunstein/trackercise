@@ -3,6 +3,7 @@
  */
 export interface BarChartsBar {
     getHistoryId(): number;
+    setHistoryId(value: number): void;
     getWidth(): number;
     setWidth(value: number): void;
     getHeight(): number;
