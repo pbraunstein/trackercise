@@ -12,6 +12,7 @@ export abstract class BarCharts {
 
     protected exerciseHistory: Array<BarChartsBar>;
     protected endpoint_exercise_pairs: Observable<any>;
+    protected endpoint_exercise_history: Observable<any>;
     protected chartSelector: string;
     protected pairs: Array<any>;
 

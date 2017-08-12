@@ -1,5 +1,4 @@
 import {Component} from "@angular/core";
-import {Observable} from "rxjs";
 import {Http, Headers} from "@angular/http";
 import {CSRFService} from "../../services/csrfservice";
 import {RepHistoryChart} from "../rephistorychart";
@@ -10,7 +9,6 @@ import {BarChartsBar} from "../../models/barcharts/barchartsbar";
     templateUrl: '/static/components/rephistorybytaxonomy/rephistorybytaxonomy.html'
 })
 export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
-    private endpoint_history_by_taxonomy: Observable<any>;
     private username: string;
 
     constructor(private http: Http, private csrfService: CSRFService) {
@@ -29,12 +27,12 @@ export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
         headers.append('X-CSRFTOKEN', this.csrfService.getToken());
         let data: any = {};
         data.exercise_id = value.exercise_id;
-        this.endpoint_history_by_taxonomy = this.http.post(
+        this.endpoint_exercise_history = this.http.post(
             '/rep-history-by-taxonomy',
             JSON.stringify(data),
             {headers: headers}
         );
-        this.endpoint_history_by_taxonomy.subscribe(
+        this.endpoint_exercise_history.subscribe(
             data => {
                 this.username = data.json().nickname;
                 this.setUpViz(data);

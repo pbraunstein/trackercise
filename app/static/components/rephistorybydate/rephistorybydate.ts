@@ -1,7 +1,6 @@
 import {Component} from "@angular/core";
 import {CSRFService} from "../../services/csrfservice";
 import {Http, Headers} from "@angular/http";
-import {Observable} from "rxjs";
 import {RepHistoryChart} from "../rephistorychart";
 import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 @Component({
@@ -9,7 +8,6 @@ import {BarChartsBar} from "../../models/barcharts/barchartsbar";
     templateUrl: '/static/components/rephistorybydate/rephistorybydate.html'
 })
 export class RepHistoryByDateComponent extends RepHistoryChart {
-    private endpoint_history_by_date: Observable<any>;
     private pairsMap: Map<string, string>;
 
     constructor(private http: Http, private csrfService: CSRFService) {
@@ -36,12 +34,12 @@ export class RepHistoryByDateComponent extends RepHistoryChart {
         headers.append('X-CSRFTOKEN', this.csrfService.getToken());
         let data: any = {};
         data.exercise_date = value.history_date;
-        this.endpoint_history_by_date = this.http.post(
+        this.endpoint_exercise_history = this.http.post(
             '/rep-history-by-date',
             JSON.stringify(data),
             {headers: headers}
         );
-        this.endpoint_history_by_date.subscribe(
+        this.endpoint_exercise_history.subscribe(
             data => {
                 console.log(data);
                 this.setUpViz(data);
