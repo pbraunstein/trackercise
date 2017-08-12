@@ -33,5 +33,4 @@ export class TimeHistory extends ExerciseHistory {
     getSets(): number {
         return 1;
     }
-
 }
