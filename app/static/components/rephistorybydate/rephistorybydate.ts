@@ -2,7 +2,6 @@ import {Component} from "@angular/core";
 import {CSRFService} from "../../services/csrfservice";
 import {Http, Headers} from "@angular/http";
 import {Observable} from "rxjs";
-import * as d3 from 'd3';
 import {RepHistoryChart} from "../rephistorychart";
 import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 @Component({
@@ -18,15 +17,11 @@ export class RepHistoryByDateComponent extends RepHistoryChart {
     constructor(private http: Http, private csrfService: CSRFService) {
         super();
         this.endpoint_exercise_pairs = http.post('/get-valid-rep-id-exercise-pairs', '');
+        this.chartSelector = '#rep-history-by-date-chart';
     }
 
     ngOnInit() {
-        // Set up horizontal scrolling
-        d3.select('#rep-history-by-date-chart')
-            .style('height', '400px')
-            .style('width', '100%')
-            .style('overflow', 'scroll');
-        this.svgs = d3.select('#rep-history-by-date-chart').append('svg');
+        this.initVizContainer();
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 console.log(data.json());

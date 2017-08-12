@@ -1,5 +1,6 @@
 import {RepHistory} from "../models/barcharts/rephistory";
 import {BarChartsBar} from "../models/barcharts/barchartsbar";
+import * as d3 from 'd3';
 
 /**
  * Class that renders bar charts that express two dimensional data - one datum rendered as the width
@@ -8,6 +9,7 @@ import {BarChartsBar} from "../models/barcharts/barchartsbar";
 export abstract class BarCharts {
     protected exerciseHistory: Array<BarChartsBar>;
     protected svgs: any;
+    protected chartSelector: string;
 
     protected static ANIMATION_TIME: number = 400;  // in milliseconds
     protected static TEXT_OFFSET: number = 4;
@@ -18,6 +20,14 @@ export abstract class BarCharts {
     protected static IN_BETWEEN_SETS_GAP: number = 1;
     protected static IN_BETWEEN_DAYS_GAP: number = 7;
     protected static WEIGHT_BUFFER: number = 10;
+
+    protected initVizContainer(): void {
+        d3.select(this.chartSelector)
+            .style('height', '400px')
+            .style('width', '100%')
+            .style('overflow', 'scroll');
+        this.svgs = d3.select(this.chartSelector).append('svg');
+    }
 
     protected splitOutSets(): void {
         let newArray: Array<BarChartsBar> = [];
