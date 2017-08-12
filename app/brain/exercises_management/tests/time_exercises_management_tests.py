@@ -27,11 +27,11 @@ class TimeExercisesManagementTests(unittest.TestCase):
         exercises[4].id = 5
         taxonomy_service_mock.return_value = exercises
         expected_results = [
-            ('2', 'a_exercise'),
-            ('5', 'b_exercise'),
-            ('1', 'c_exercise'),
-            ('4', 'd_exercise'),
-            ('3', 'e_exercise'),
+            ('2', 'a_exercise'.upper()),
+            ('5', 'b_exercise'.upper()),
+            ('1', 'c_exercise'.upper()),
+            ('4', 'd_exercise'.upper()),
+            ('3', 'e_exercise'.upper()),
         ]
         actual_results = TimeExercisesManagement.get_valid_id_exercise_pairs()
         self.assertListEqual(actual_results, expected_results)
