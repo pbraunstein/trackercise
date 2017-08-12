@@ -1,5 +1,10 @@
 import {RepHistory} from "../models/barcharts/rephistory";
 import {BarChartsBar} from "../models/barcharts/barchartsbar";
+
+/**
+ * Class that renders bar charts that express two dimensional data - one datum rendered as the width
+ * of the bar and the other datum rendered as the height of the bar
+ */
 export abstract class BarCharts {
     protected exerciseHistory: Array<BarChartsBar>;
     protected svgs: any;
@@ -152,6 +157,9 @@ export abstract class BarCharts {
 
     protected abstract convertJsonArrayToBarChartsBarArray(historyArray: Array<any>): Array<BarChartsBar>;
 
+    /**
+     * Each child class gets the value that is used on the X axis. In by taxonomy charts this is the date, and in
+     * by date charts this is the id.
+     */
     protected abstract getXValue(element: BarChartsBar): string;
-
 }
