@@ -4,6 +4,7 @@ import {Http, Headers} from "@angular/http";
 import {Observable} from "rxjs";
 import * as d3 from 'd3';
 import {RepHistoryChart} from "../rephistorychart";
+import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 @Component({
     selector: 'rep-history-by-date',
     templateUrl: '/static/components/rephistorybydate/rephistorybydate.html'
@@ -67,27 +68,8 @@ export class RepHistoryByDateComponent extends RepHistoryChart {
         )
     }
 
-    protected addOffsets(): number {
-        let totalOffset: number = 0;
-        let currentId: number = null;
-
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisId: number = this.exerciseHistory[i].getHistoryId();
-            if (currentId) {
-                if (currentId == thisId) {
-                    totalOffset += RepHistoryByDateComponent.IN_BETWEEN_SETS_GAP;
-                } else {
-                    totalOffset += RepHistoryByDateComponent.IN_BETWEEN_DAYS_GAP;
-                }
-            }
-            this.exerciseHistory[i].setXOffset(totalOffset);
-            totalOffset += this.exerciseHistory[i].getWidth();
-            this.exerciseHistory[i].setYOffset(RepHistoryByDateComponent.VERTICAL_OFFSET
-                - this.exerciseHistory[i].getHeight() * RepHistoryByDateComponent.REP_MULTIPLIER);
-            currentId = thisId;
-        }
-
-        return totalOffset;
+    protected getXValue(element: BarChartsBar): string {
+        return element.getHistoryId().toString();
     }
 
     protected renderXAxis(): void {

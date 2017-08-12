@@ -4,6 +4,7 @@ import {Http, Headers} from "@angular/http";
 import {CSRFService} from "../../services/csrfservice";
 import * as d3 from 'd3';
 import {RepHistoryChart} from "../rephistorychart";
+import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 
 @Component({
     selector: 'rep-history-by-taxonomy',
@@ -55,27 +56,8 @@ export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
         );
     }
 
-    protected addOffsets(): number {
-        let totalOffset: number = 0;
-        let currentDate: string = null;
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisDate: string = this.exerciseHistory[i].getDatestamp();
-            if (currentDate) {
-                if (currentDate == thisDate) {
-                    totalOffset += RepHistoryByTaxonomyComponent.IN_BETWEEN_SETS_GAP;
-                } else {
-                    totalOffset += RepHistoryByTaxonomyComponent.IN_BETWEEN_DAYS_GAP;
-                }
-            }
-            this.exerciseHistory[i].setXOffset(totalOffset);
-
-            totalOffset += this.exerciseHistory[i].getWidth();
-
-            this.exerciseHistory[i].setYOffset(RepHistoryByTaxonomyComponent.VERTICAL_OFFSET
-                - this.exerciseHistory[i].getHeight() * RepHistoryByTaxonomyComponent.REP_MULTIPLIER);
-            currentDate = thisDate;
-        }
-        return totalOffset;
+    protected getXValue(element: BarChartsBar): string {
+        return element.getDatestamp();
     }
 
     protected renderXAxis(): void {

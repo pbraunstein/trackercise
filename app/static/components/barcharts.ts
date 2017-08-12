@@ -91,9 +91,32 @@ export abstract class BarCharts {
             .remove();
     }
 
-    protected abstract addOffsets(): number;
+    protected addOffsets(): number {
+        let totalOffset: number = 0;
+        let currentDate: string = null;
+        for (let i = 0; i < this.exerciseHistory.length; i++) {
+            let thisDate: string = this.getXValue(this.exerciseHistory[i])
+            if (currentDate) {
+                if (currentDate == thisDate) {
+                    totalOffset += BarCharts.IN_BETWEEN_SETS_GAP;
+                } else {
+                    totalOffset += BarCharts.IN_BETWEEN_DAYS_GAP;
+                }
+            }
+            this.exerciseHistory[i].setXOffset(totalOffset);
+
+            totalOffset += this.exerciseHistory[i].getWidth();
+
+            this.exerciseHistory[i].setYOffset(BarCharts.VERTICAL_OFFSET
+                - this.exerciseHistory[i].getHeight() * BarCharts.REP_MULTIPLIER);
+            currentDate = thisDate;
+        }
+        return totalOffset;
+    }
 
     protected abstract renderXAxis(): void;
 
     protected abstract convertJsonArrayToBarChartsBarArray(historyArray: Array<any>): Array<BarChartsBar>;
+
+    protected abstract getXValue(element: BarChartsBar): string;
 }
