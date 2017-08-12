@@ -1,4 +1,5 @@
 import {ExerciseHistory} from "./exercisehistory";
+import {TimeService} from "../../services/timeservice";
 export class TimeHistory extends ExerciseHistory {
     private distance: number;
     private duration: number;
@@ -6,7 +7,7 @@ export class TimeHistory extends ExerciseHistory {
     constructor(jsonObject: any) {
         super(jsonObject);
         this.distance = jsonObject.history_distance;
-        this.duration = jsonObject.history_duration;
+        this.duration = TimeService.secondsToMinutes(jsonObject.history_duration);
     }
 
     getWidth(): number {
@@ -26,7 +27,7 @@ export class TimeHistory extends ExerciseHistory {
     }
 
     getWidthBuffer(): number {
-        return 0;
+        return 20;
     }
 
     getSets(): number {
