@@ -9,8 +9,6 @@ import {BarChartsBar} from "../../models/barcharts/barchartsbar";
     templateUrl: '/static/components/rephistorybytaxonomy/rephistorybytaxonomy.html'
 })
 export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
-    private username: string;
-
     constructor(protected http: Http, protected csrfService: CSRFService) {
         super(http, csrfService);
         this.endpointExercisePairsTarget = '/get-valid-rep-id-exercise-pairs';

@@ -10,25 +10,28 @@ import {CSRFService} from "../services/csrfservice";
  * of the bar and the other datum rendered as the height of the bar
  */
 export abstract class BarCharts {
+    // Private variables
     private svgs: any;
+    private username: string;
+    private exerciseHistory: Array<BarChartsBar>;
+    private endpoint_exercise_pairs: Observable<any>;
+    private endpoint_exercise_history: Observable<any>;
 
-    protected exerciseHistory: Array<BarChartsBar>;
-    protected endpoint_exercise_pairs: Observable<any>;
+    // Protected variables
     protected endpointExercisePairsTarget: string;
-    protected endpoint_exercise_history: Observable<any>;
     protected endpointExerciseHistoryTarget: string;
     protected chartSelector: string;
     protected pairs: Array<any>;
 
-    protected static ANIMATION_TIME: number = 400;  // in milliseconds
-    protected static TEXT_OFFSET: number = 4;
-    protected static REP_MULTIPLIER: number = 6;
-    protected static VERTICAL_OFFSET: number = 170;
-    protected static VERTICAL_OFFSET_2: number = 200;
-    protected static TEXT_ROTATION_DEGREES: number = 45;
-    protected static IN_BETWEEN_SETS_GAP: number = 1;
-    protected static IN_BETWEEN_DAYS_GAP: number = 7;
-    protected static WEIGHT_BUFFER: number = 10;
+    // Constants
+    private static ANIMATION_TIME: number = 400;  // in milliseconds
+    private static TEXT_OFFSET: number = 4;
+    private static REP_MULTIPLIER: number = 6;
+    private static VERTICAL_OFFSET: number = 170;
+    private static VERTICAL_OFFSET_2: number = 200;
+    private static TEXT_ROTATION_DEGREES: number = 45;
+    private static IN_BETWEEN_SETS_GAP: number = 1;
+    private static IN_BETWEEN_DAYS_GAP: number = 7;
 
 
     constructor(protected http: Http, protected csrfService: CSRFService) {
@@ -54,7 +57,7 @@ export abstract class BarCharts {
     protected initPairsMap(): void {
     }
 
-    protected splitOutSets(): void {
+    private splitOutSets(): void {
         let newArray: Array<BarChartsBar> = [];
         for (let i = 0; i < this.exerciseHistory.length; i++) {
             for (let j = 0; j < this.exerciseHistory[i].getSets(); j++) {
@@ -68,7 +71,7 @@ export abstract class BarCharts {
      * BarCharts.WEIGHT_BUFFER is added to every entries weight so that body weight exercises are not rendered
      * as 0-width bars
      */
-    protected scaleWeights(): void {
+    private scaleWeights(): void {
         for (let i = 0; i < this.exerciseHistory.length; i++) {
             this.exerciseHistory[i].setWidth(
                 this.exerciseHistory[i].getWidth() + this.exerciseHistory[i].getWidthBuffer()
@@ -88,13 +91,14 @@ export abstract class BarCharts {
         this.endpoint_exercise_history.subscribe(
             data => {
                 console.log(data);
+                this.username = data.json().nickname;
                 this.setUpViz(data);
             },
             err => console.log(err)
         )
     }
 
-    protected setUpViz(data: any): void {
+    private setUpViz(data: any): void {
         this.exerciseHistory = this.convertJsonArrayToBarChartsBarArray(data.json().history);
         this.splitOutSets();
         this.scaleWeights();
@@ -149,7 +153,7 @@ export abstract class BarCharts {
             .remove();
     }
 
-    protected addOffsets(): number {
+    private addOffsets(): number {
         let totalOffset: number = 0;
         let currentXValue: string = null;
         for (let i = 0; i < this.exerciseHistory.length; i++) {
@@ -172,7 +176,7 @@ export abstract class BarCharts {
         return totalOffset;
     }
 
-    protected renderXAxis(): void {
+    private renderXAxis(): void {
         this.svgs.selectAll('.date-text').remove();
         let iterA = 0;
         let iterB = 0;
