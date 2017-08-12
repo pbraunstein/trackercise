@@ -2,7 +2,7 @@ import {RepHistory} from "../models/barcharts/rephistory";
 import {BarChartsBar} from "../models/barcharts/barchartsbar";
 import * as d3 from 'd3';
 import {Observable} from "rxjs";
-import {Http} from "@angular/http";
+import {Http, Headers} from "@angular/http";
 import {CSRFService} from "../services/csrfservice";
 
 /**
@@ -74,6 +74,24 @@ export abstract class BarCharts {
                 this.exerciseHistory[i].getWidth() + this.exerciseHistory[i].getWidthBuffer()
             );
         }
+    }
+
+    protected makeServerCall(value: any) {
+        let headers: Headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('X-CSRFTOKEN', this.csrfService.getToken());
+        this.endpoint_exercise_history = this.http.post(
+            this.endpointExerciseHistoryTarget,
+            JSON.stringify(this.generateDataToSendToServer(value)),
+            {headers: headers}
+        );
+        this.endpoint_exercise_history.subscribe(
+            data => {
+                console.log(data);
+                this.setUpViz(data);
+            },
+            err => console.log(err)
+        )
     }
 
     protected setUpViz(data: any): void {
@@ -197,4 +215,6 @@ export abstract class BarCharts {
      * by date charts this is the id.
      */
     protected abstract getXValue(element: BarChartsBar): string;
+
+    protected abstract generateDataToSendToServer(value: any): Object;
 }

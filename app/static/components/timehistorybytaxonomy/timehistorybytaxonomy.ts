@@ -16,4 +16,8 @@ export class TimeHistoryByTaxonomyComponent extends TimeHistoryChart {
     protected getXValue(element: BarChartsBar): string {
         return element.getDatestamp();
     }
+    
+    protected generateDataToSendToServer(value: any): Object {
+        return undefined;
+    }
 }

@@ -1,5 +1,5 @@
 <h2>History by Date</h2>
-<form #f="ngForm" (ngSubmit)="onSubmit(f)">
+<form #f="ngForm" (ngSubmit)="onSubmit(f.value)">
     <div class="form-group">
         <label for="dateEntry">Date</label>
         <input type="date" id="dateEntry" class="form-control" name="history_date" required ngModel>

@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
 import {CSRFService} from "../../services/csrfservice";
-import {Http, Headers} from "@angular/http";
+import {Http} from "@angular/http";
 import {RepHistoryChart} from "../rephistorychart";
 import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 @Component({
@@ -13,6 +13,7 @@ export class RepHistoryByDateComponent extends RepHistoryChart {
     constructor(protected http: Http, protected csrfService: CSRFService) {
         super(http, csrfService);
         this.endpointExercisePairsTarget = '/get-valid-rep-id-exercise-pairs';
+        this.endpointExerciseHistoryTarget = '/rep-history-by-date';
         this.chartSelector = '#rep-history-by-date-chart';
     }
 
@@ -27,28 +28,15 @@ export class RepHistoryByDateComponent extends RepHistoryChart {
         }
     }
 
-    onSubmit(form: any) {
-        let value: any = form.value;
-        let headers: Headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('X-CSRFTOKEN', this.csrfService.getToken());
-        let data: any = {};
-        data.exercise_date = value.history_date;
-        this.endpoint_exercise_history = this.http.post(
-            '/rep-history-by-date',
-            JSON.stringify(data),
-            {headers: headers}
-        );
-        this.endpoint_exercise_history.subscribe(
-            data => {
-                console.log(data);
-                this.setUpViz(data);
-            },
-            err => console.log(err)
-        )
+    onSubmit(value: any) {
+        this.makeServerCall(value);
     }
 
     protected getXValue(element: BarChartsBar): string {
         return this.pairsMap.get(element.getHistoryId().toString());
+    }
+
+    protected generateDataToSendToServer(value: any): Object {
+        return {'exercise_date': value.history_date };
     }
 }

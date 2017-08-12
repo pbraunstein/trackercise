@@ -23,26 +23,16 @@ export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
     }
 
     onChange(value: any) {
-        let headers: Headers = new Headers();
-        headers.append('Content-Type', 'application/json');
-        headers.append('X-CSRFTOKEN', this.csrfService.getToken());
-        let data: any = {};
-        data.exercise_id = value.exercise_id;
-        this.endpoint_exercise_history = this.http.post(
-            this.endpointExerciseHistoryTarget,
-            JSON.stringify(data),
-            {headers: headers}
-        );
-        this.endpoint_exercise_history.subscribe(
-            data => {
-                this.username = data.json().nickname;
-                this.setUpViz(data);
-            },
-            err => console.log(err)
-        );
+        this.makeServerCall(value);
     }
 
     protected getXValue(element: BarChartsBar): string {
         return element.getDatestamp();
+    }
+
+    protected generateDataToSendToServer(value: any): Object {
+        return {
+            'exercise_id': value.exercise_id
+        };
     }
 }
