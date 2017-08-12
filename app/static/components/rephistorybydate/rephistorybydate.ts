@@ -43,7 +43,6 @@ export class RepHistoryByDateComponent extends RepHistoryChart {
             pairs.set(aPair[0], aPair[1]);
         }
 
-        console.log(pairs);
         return pairs;
     }
 
@@ -69,42 +68,6 @@ export class RepHistoryByDateComponent extends RepHistoryChart {
     }
 
     protected getXValue(element: BarChartsBar): string {
-        return element.getHistoryId().toString();
-    }
-
-    protected renderXAxis(): void {
-        this.svgs.selectAll('.date-text').remove();
-        let iterA = 0;
-        let iterB = 0;
-        let extraOffset = 0;  // This accounts for the spaces in between columns
-
-        while (iterA < this.exerciseHistory.length) {
-            iterB = iterA;
-            let exericesIdA = this.exerciseHistory[iterA].getHistoryId();
-
-            // Find first next differing exercise Id
-            while (iterB < this.exerciseHistory.length && this.exerciseHistory[iterB].getHistoryId() == exericesIdA) {
-                iterB++;
-            }
-
-            // Need to back up one, to last one that was the same
-            iterB--;
-
-            // Add in space between bars
-            extraOffset += (iterB - iterA) * RepHistoryByDateComponent.IN_BETWEEN_SETS_GAP
-
-            let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset() + extraOffset)
-                / 2;
-            this.svgs
-                .append('text')
-                .text(this.pairs.get(String(exericesIdA)))
-                .attr('class', 'date-text')
-                .attr('text-anchor', 'end')
-                .attr('transform', 'translate(' + String(middleXOffset) + ','
-                    + String(RepHistoryByDateComponent.VERTICAL_OFFSET_2) + ') rotate(-45)');
-
-            iterA = iterB + 1;
-            extraOffset += RepHistoryByDateComponent.IN_BETWEEN_SETS_GAP;
-        }
+        return this.pairs.get(element.getHistoryId().toString());
     }
 }

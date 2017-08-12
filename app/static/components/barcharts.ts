@@ -93,11 +93,11 @@ export abstract class BarCharts {
 
     protected addOffsets(): number {
         let totalOffset: number = 0;
-        let currentDate: string = null;
+        let currentXValue: string = null;
         for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisDate: string = this.getXValue(this.exerciseHistory[i])
-            if (currentDate) {
-                if (currentDate == thisDate) {
+            let thisXValue: string = this.getXValue(this.exerciseHistory[i])
+            if (currentXValue) {
+                if (currentXValue == thisXValue) {
                     totalOffset += BarCharts.IN_BETWEEN_SETS_GAP;
                 } else {
                     totalOffset += BarCharts.IN_BETWEEN_DAYS_GAP;
@@ -109,14 +109,49 @@ export abstract class BarCharts {
 
             this.exerciseHistory[i].setYOffset(BarCharts.VERTICAL_OFFSET
                 - this.exerciseHistory[i].getHeight() * BarCharts.REP_MULTIPLIER);
-            currentDate = thisDate;
+            currentXValue = thisXValue;
         }
         return totalOffset;
     }
 
-    protected abstract renderXAxis(): void;
+    protected renderXAxis(): void {
+        this.svgs.selectAll('.date-text').remove();
+        let iterA = 0;
+        let iterB = 0;
+        let extraOffset = 0;  // Space between the columns
+
+        while (iterA < this.exerciseHistory.length) {
+            iterB = iterA;
+            let xValueA = this.getXValue(this.exerciseHistory[iterA]);
+
+            // Find first differing x value
+            while (iterB < this.exerciseHistory.length && this.getXValue(this.exerciseHistory[iterB]) == xValueA) {
+                iterB++;
+            }
+
+            // Back up one to the last date that was the same
+            iterB--;
+
+            // Add in space between bars
+            extraOffset += (iterB - iterA) * BarCharts.IN_BETWEEN_SETS_GAP;
+
+            let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset()
+                + extraOffset) / 2;
+            this.svgs
+                .append('text')
+                .text(xValueA)
+                .attr('class', 'date-text')
+                .attr('text-anchor', 'end')
+                .attr('transform', 'translate(' + String(middleXOffset) + ','
+                    + String(BarCharts.VERTICAL_OFFSET_2) + ') rotate(-45)');
+
+            iterA = iterB + 1;
+            extraOffset += BarCharts.IN_BETWEEN_DAYS_GAP;
+        }
+    }
 
     protected abstract convertJsonArrayToBarChartsBarArray(historyArray: Array<any>): Array<BarChartsBar>;
 
     protected abstract getXValue(element: BarChartsBar): string;
+
 }
