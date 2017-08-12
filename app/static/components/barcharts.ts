@@ -2,6 +2,8 @@ import {RepHistory} from "../models/barcharts/rephistory";
 import {BarChartsBar} from "../models/barcharts/barchartsbar";
 import * as d3 from 'd3';
 import {Observable} from "rxjs";
+import {Http} from "@angular/http";
+import {CSRFService} from "../services/csrfservice";
 
 /**
  * Class that renders bar charts that express two dimensional data - one datum rendered as the width
@@ -12,7 +14,9 @@ export abstract class BarCharts {
 
     protected exerciseHistory: Array<BarChartsBar>;
     protected endpoint_exercise_pairs: Observable<any>;
+    protected endpointExercisePairsTarget: string;
     protected endpoint_exercise_history: Observable<any>;
+    protected endpointExerciseHistoryTarget: string;
     protected chartSelector: string;
     protected pairs: Array<any>;
 
@@ -27,12 +31,16 @@ export abstract class BarCharts {
     protected static WEIGHT_BUFFER: number = 10;
 
 
+    constructor(protected http: Http, protected csrfService: CSRFService) {
+    }
+
     protected prepareViz(): void {
         d3.select(this.chartSelector)
             .style('height', '400px')
             .style('width', '100%')
             .style('overflow', 'scroll');
         this.svgs = d3.select(this.chartSelector).append('svg');
+        this.endpoint_exercise_pairs = this.http.post(this.endpointExercisePairsTarget, '');
         this.endpoint_exercise_pairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;

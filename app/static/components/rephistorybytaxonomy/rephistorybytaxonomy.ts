@@ -11,9 +11,10 @@ import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
     private username: string;
 
-    constructor(private http: Http, private csrfService: CSRFService) {
-        super();
-        this.endpoint_exercise_pairs = http.post('/get-valid-rep-id-exercise-pairs', '');
+    constructor(protected http: Http, protected csrfService: CSRFService) {
+        super(http, csrfService);
+        this.endpointExercisePairsTarget = '/get-valid-rep-id-exercise-pairs';
+        this.endpointExerciseHistoryTarget = '/rep-history-by-taxonomy';
         this.chartSelector = '#rep-history-by-taxonomy-chart';
     }
 
@@ -28,7 +29,7 @@ export class RepHistoryByTaxonomyComponent extends RepHistoryChart {
         let data: any = {};
         data.exercise_id = value.exercise_id;
         this.endpoint_exercise_history = this.http.post(
-            '/rep-history-by-taxonomy',
+            this.endpointExerciseHistoryTarget,
             JSON.stringify(data),
             {headers: headers}
         );
