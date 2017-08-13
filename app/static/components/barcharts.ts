@@ -62,9 +62,9 @@ export abstract class BarCharts {
 
     private splitOutSets(): void {
         let newArray: Array<BarChartsBar> = [];
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            for (let j = 0; j < this.exerciseHistory[i].getSets(); j++) {
-                newArray.push($.extend(true, {}, this.exerciseHistory[i]));  // deep copy necessary here
+        for (let bar of this.exerciseHistory) {
+            for (let j = 0; j < bar.getSets(); j++) {
+                newArray.push($.extend(true, {}, bar));  // deep copy necessary here
             }
         }
         this.exerciseHistory = newArray;
@@ -75,10 +75,8 @@ export abstract class BarCharts {
      * as 0-width bars
      */
     private scaleWeights(): void {
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            this.exerciseHistory[i].setWidth(
-                this.exerciseHistory[i].getWidth() + this.exerciseHistory[i].getWidthBuffer()
-            );
+        for (let bar of this.exerciseHistory) {
+            bar.setWidth(bar.getWidth() + bar.getWidthBuffer());
         }
     }
 
@@ -159,8 +157,8 @@ export abstract class BarCharts {
     private addOffsets(): number {
         let totalOffset: number = 0;
         let currentXValue: string = null;
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisXValue: string = this.getXValue(this.exerciseHistory[i]);
+        for (let bar of this.exerciseHistory) {
+            let thisXValue: string = this.getXValue(bar);
             if (currentXValue) {
                 if (currentXValue == thisXValue) {
                     totalOffset += BarCharts.IN_BETWEEN_SETS_GAP;
@@ -168,12 +166,12 @@ export abstract class BarCharts {
                     totalOffset += BarCharts.IN_BETWEEN_DAYS_GAP;
                 }
             }
-            this.exerciseHistory[i].setXOffset(totalOffset);
+            bar.setXOffset(totalOffset);
 
-            totalOffset += this.exerciseHistory[i].getWidth();
+            totalOffset += bar.getWidth();
 
-            this.exerciseHistory[i].setYOffset(BarCharts.VERTICAL_OFFSET
-                - this.exerciseHistory[i].getHeight() * BarCharts.REP_MULTIPLIER);
+            bar.setYOffset(BarCharts.VERTICAL_OFFSET
+                - bar.getHeight() * BarCharts.REP_MULTIPLIER);
             currentXValue = thisXValue;
         }
         return totalOffset;
