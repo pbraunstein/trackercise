@@ -41,6 +41,8 @@ export abstract class BarCharts {
         d3.select(this.chartSelector)
             .style('height', '400px')
             .style('width', '100%')
+            .style('outline', '1px solid')
+            .style('outline-offset', '10px')
             .style('overflow', 'scroll');
         this.svgs = d3.select(this.chartSelector).append('svg');
         this.endpoint_exercise_pairs = this.http.post(this.endpointExercisePairsTarget, '');
