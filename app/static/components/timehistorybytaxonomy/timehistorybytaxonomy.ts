@@ -1,8 +1,10 @@
 import {Component} from "@angular/core";
-import {TimeHistoryChart} from "../timehistorychart";
-import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 import {Http} from "@angular/http";
+
+import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 import {CSRFService} from "../../services/csrfservice";
+import {TimeHistoryChart} from "../timehistorychart";
+
 @Component({
     selector: 'time-history-by-taxonomy',
     templateUrl: '/static/components/timehistorybytaxonomy/timehistorybytaxonomy.html'

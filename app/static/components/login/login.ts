@@ -1,7 +1,8 @@
 import {Component} from "@angular/core";
-import {Http, Headers} from "@angular/http";
-import {Observable} from "rxjs";
+import {Headers, Http} from "@angular/http";
 import {Router} from "@angular/router";
+import {Observable} from "rxjs";
+
 import {CSRFService} from "../../services/csrfservice";
 
 @Component({
@@ -19,10 +20,10 @@ export class LoginComponent{
     onSubmit(value: any) {
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        let data: any = {};
-        data.email = value.login_email;
-        data.password = value.login_password;
-        this.endpoint = this.http.post('/login', JSON.stringify(data), {headers: headers});
+        let dataToSend: any = {};
+        dataToSend.email = value.login_email;
+        dataToSend.password = value.login_password;
+        this.endpoint = this.http.post('/login', JSON.stringify(dataToSend), {headers: headers});
         this.endpoint.subscribe(
             data => {
                 this.router.navigate(['/']);
@@ -30,6 +31,6 @@ export class LoginComponent{
                 console.log(data);
             },
             err => console.log(err)
-        )
+        );
     }
 }

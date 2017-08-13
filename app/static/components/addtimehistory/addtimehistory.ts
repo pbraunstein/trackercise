@@ -1,25 +1,27 @@
 import {Component} from "@angular/core";
-import {Http, Headers} from "@angular/http";
+import {Headers, Http} from "@angular/http";
 import {Observable} from "rxjs";
-import {TimeService} from "../../services/timeservice";
-import {ButtonPainter} from "../../services/buttonpainter";
+
 import {SelectOption} from "../../models/selectoption";
+import {ButtonPainter} from "../../services/buttonpainter";
+import {TimeService} from "../../services/timeservice";
+
 @Component({
     selector: 'add-time-history',
     templateUrl: '/static/components/addtimehistory/addtimehistory.html'
 })
 export class AddTimeHistoryComponent {
-    private endpoint_time_exercise_pairs: Observable<any>;
-    private endpoint_add_time_history: Observable<any>;
+    private endpointTimeExercisePairs: Observable<any>;
+    private endpointAddTimeHistory: Observable<any>;
     private timeExercisePairs: Array<SelectOption>;
     private buttonId: string = '#add-time-history-submit';
 
     constructor(private http: Http) {
-        this.endpoint_time_exercise_pairs = http.post('/get-valid-time-id-exercise-pairs', '');
+        this.endpointTimeExercisePairs = http.post('/get-valid-time-id-exercise-pairs', '');
     }
 
     ngOnInit(): void {
-        this.endpoint_time_exercise_pairs.subscribe(
+        this.endpointTimeExercisePairs.subscribe(
             data => {
                 this.timeExercisePairs = [];
                 data.json().pairs.forEach((p: any) => this.timeExercisePairs.push(new SelectOption(p)));
@@ -35,7 +37,7 @@ export class AddTimeHistoryComponent {
         let value: any = form.value;
         let durationSeconds: number;
         durationSeconds = TimeService.minutesToSeconds(value.time_history_duration_minutes)
-            + value.time_history_duration_seconds;
+            + Number(value.time_history_duration_seconds);
         let dataToSend: Object = {
             'history_exercise_id': value.time_history_exercise_id,
             'history_distance': value.time_history_distance,
@@ -43,9 +45,11 @@ export class AddTimeHistoryComponent {
             'history_date': value.time_history_date
         };
 
-        this.endpoint_add_time_history = this.http.post('/add-time-history', JSON.stringify(dataToSend), {headers: headers});
+        this.endpointAddTimeHistory = this.http.post(
+            '/add-time-history', JSON.stringify(dataToSend), {headers: headers}
+            );
 
-        this.endpoint_add_time_history.subscribe(
+        this.endpointAddTimeHistory.subscribe(
             data => {
                 console.log(data);
                 ButtonPainter.handleFormSubmitSuccess(form, this.buttonId);
@@ -54,6 +58,6 @@ export class AddTimeHistoryComponent {
                 console.log(err);
                 ButtonPainter.handleFormSubmitFailure(this.buttonId);
             }
-        )
+        );
     }
 }

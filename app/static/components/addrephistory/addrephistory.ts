@@ -1,24 +1,26 @@
 import {Component} from "@angular/core";
+import {Headers, Http} from "@angular/http";
 import {Observable} from "rxjs";
-import {Http, Headers} from "@angular/http";
-import {ButtonPainter} from "../../services/buttonpainter";
+
 import {SelectOption} from "../../models/selectoption";
+import {ButtonPainter} from "../../services/buttonpainter";
+
 @Component({
     selector: 'add-rep-history',
     templateUrl: '/static/components/addrephistory/addrephistory.html'
 })
 export class AddRepHistoryComponent {
-    private endpoint_exercise_pairs: Observable<any>;
-    private endpoint_add_history: Observable<any>;
+    private endpointExercisePairs: Observable<any>;
+    private endpointAddHistory: Observable<any>;
     private repExercisePairs: Array<SelectOption>;
     private buttonId: string = '#add-history-submit';
 
     constructor(private http: Http) {
-        this.endpoint_exercise_pairs = http.post('/get-valid-rep-id-exercise-pairs', '');
+        this.endpointExercisePairs = http.post('/get-valid-rep-id-exercise-pairs', '');
     }
 
     ngOnInit(): void {
-        this.endpoint_exercise_pairs.subscribe(
+        this.endpointExercisePairs.subscribe(
             data => {
                 this.repExercisePairs = [];
                 data.json().pairs.forEach((p: any) => this.repExercisePairs.push(new SelectOption(p)));
@@ -32,14 +34,14 @@ export class AddRepHistoryComponent {
         ButtonPainter.handleFormSubmitProcessing(this.buttonId);
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        let data: any = {};
-        data.history_exercise_id = value.history_exercise_id;
-        data.history_sets = value.rep_history_sets;
-        data.history_reps = value.rep_history_reps;
-        data.history_weight = value.rep_history_weight;
-        data.history_date = value.rep_history_date;
-        this.endpoint_add_history = this.http.post('/add-rep-history', JSON.stringify(data), {headers: headers});
-        this.endpoint_add_history.subscribe(
+        let dataToSend: any = {};
+        dataToSend.history_exercise_id = value.history_exercise_id;
+        dataToSend.history_sets = value.rep_history_sets;
+        dataToSend.history_reps = value.rep_history_reps;
+        dataToSend.history_weight = value.rep_history_weight;
+        dataToSend.history_date = value.rep_history_date;
+        this.endpointAddHistory = this.http.post('/add-rep-history', JSON.stringify(dataToSend), {headers: headers});
+        this.endpointAddHistory.subscribe(
             data => {
                 console.log(data);
                 ButtonPainter.handleFormSubmitSuccess(form, this.buttonId);
@@ -48,6 +50,6 @@ export class AddRepHistoryComponent {
                 console.log(err);
                 ButtonPainter.handleFormSubmitFailure(this.buttonId);
             }
-        )
+        );
     }
 }

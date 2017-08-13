@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {Observable} from "rxjs";
 import {Http} from "@angular/http";
+import {Observable} from "rxjs";
 
 @Component({
     selector:'current-user',
@@ -12,7 +12,7 @@ export class CurrentUserComponent {
     private currentPassword: string;
 
     constructor(private http: Http) {
-        this.endpoint = http.post('/who-am-i', '');
+        this.endpoint = this.http.post('/who-am-i', '');
     }
 
     ngOnInit() {

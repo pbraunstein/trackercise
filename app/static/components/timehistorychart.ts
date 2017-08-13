@@ -1,6 +1,6 @@
-import {BarCharts} from "./barcharts";
 import {BarChartsBar} from "../models/barcharts/barchartsbar";
 import {TimeHistory} from "../models/barcharts/timehistory";
+import {BarCharts} from "./barcharts";
 /**
  * Intermediate class in the hierarchy of BarCharts. Any TimeExercise bar chart should extend this class
  * and implement the remaining abstract methods

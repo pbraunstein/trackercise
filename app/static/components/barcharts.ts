@@ -1,8 +1,9 @@
-import {RepHistory} from "../models/barcharts/rephistory";
-import {BarChartsBar} from "../models/barcharts/barchartsbar";
+import {Headers, Http} from "@angular/http";
 import * as d3 from 'd3';
 import {Observable} from "rxjs";
-import {Http, Headers} from "@angular/http";
+
+import {BarChartsBar} from "../models/barcharts/barchartsbar";
+import {RepHistory} from "../models/barcharts/rephistory";
 import {CSRFService} from "../services/csrfservice";
 
 /**
@@ -14,8 +15,8 @@ export abstract class BarCharts {
     private svgs: any;
     private username: string;
     private exerciseHistory: Array<BarChartsBar>;
-    private endpoint_exercise_pairs: Observable<any>;
-    private endpoint_exercise_history: Observable<any>;
+    private endpointExercisePairs: Observable<any>;
+    private endpointExerciseHistory: Observable<any>;
 
     // Protected variables
     protected endpointExercisePairsTarget: string;
@@ -32,7 +33,7 @@ export abstract class BarCharts {
     private static TEXT_ROTATION_DEGREES: number = 45;
     private static IN_BETWEEN_SETS_GAP: number = 1;
     private static IN_BETWEEN_DAYS_GAP: number = 7;
-
+    private static TWO: number = 2;
 
     constructor(protected http: Http, protected csrfService: CSRFService) {
     }
@@ -45,8 +46,8 @@ export abstract class BarCharts {
             .style('outline-offset', '10px')
             .style('overflow', 'scroll');
         this.svgs = d3.select(this.chartSelector).append('svg');
-        this.endpoint_exercise_pairs = this.http.post(this.endpointExercisePairsTarget, '');
-        this.endpoint_exercise_pairs.subscribe(
+        this.endpointExercisePairs = this.http.post(this.endpointExercisePairsTarget, '');
+        this.endpointExercisePairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;
                 this.initPairsMap();
@@ -56,14 +57,14 @@ export abstract class BarCharts {
     }
 
     // Hook to initiate pairs map for by date charts
-    protected initPairsMap(): void {
+    protected initPairsMap(): void {  // tslint:disable-line
     }
 
     private splitOutSets(): void {
         let newArray: Array<BarChartsBar> = [];
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            for (let j = 0; j < this.exerciseHistory[i].getSets(); j++) {
-                newArray.push($.extend(true, {}, this.exerciseHistory[i]));  // deep copy necessary here
+        for (let bar of this.exerciseHistory) {
+            for (let j = 0; j < bar.getSets(); j++) {
+                newArray.push($.extend(true, {}, bar));  // deep copy necessary here
             }
         }
         this.exerciseHistory = newArray;
@@ -74,10 +75,8 @@ export abstract class BarCharts {
      * as 0-width bars
      */
     private scaleWeights(): void {
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            this.exerciseHistory[i].setWidth(
-                this.exerciseHistory[i].getWidth() + this.exerciseHistory[i].getWidthBuffer()
-            );
+        for (let bar of this.exerciseHistory) {
+            bar.setWidth(bar.getWidth() + bar.getWidthBuffer());
         }
     }
 
@@ -85,19 +84,19 @@ export abstract class BarCharts {
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('X-CSRFTOKEN', this.csrfService.getToken());
-        this.endpoint_exercise_history = this.http.post(
+        this.endpointExerciseHistory = this.http.post(
             this.endpointExerciseHistoryTarget,
             JSON.stringify(this.generateDataToSendToServer(value)),
             {headers: headers}
         );
-        this.endpoint_exercise_history.subscribe(
+        this.endpointExerciseHistory.subscribe(
             data => {
                 console.log(data);
                 this.username = data.json().nickname;
                 this.setUpViz(data);
             },
             err => console.log(err)
-        )
+        );
     }
 
     private setUpViz(data: any): void {
@@ -107,14 +106,14 @@ export abstract class BarCharts {
         let totalOffset = this.addOffsets();
         this.renderXAxis();
         this.svgs.attr('width', totalOffset)
-            .attr('height', BarCharts.VERTICAL_OFFSET * 2);
+            .attr('height', BarCharts.VERTICAL_OFFSET * BarCharts.TWO);
         let bars = this.svgs.selectAll('g')
             .data(this.exerciseHistory);
 
         // Enter
         let barsEnter = bars.enter()
             .append('g')
-            .attr('transform', (d: any, i: number) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
+            .attr('transform', (d: any, i: number) => 'translate(' + String(d.xOffset) + ',' + String(d.yOffset) + ')');
         barsEnter.append('rect')
             .style('fill', 'blue')
             .transition()
@@ -122,22 +121,25 @@ export abstract class BarCharts {
             .attr('width', (d: RepHistory) => d.getWidth())
             .attr('height', (d: RepHistory) => d.getHeight() * BarCharts.REP_MULTIPLIER);
         barsEnter.append('text')
-            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / 2 + ','
-            + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
+            .attr('transform', (d: RepHistory, i: number) => 'translate(' + String(d.getWidth() / BarCharts.TWO) +
+            ',' + String(-1 * BarCharts.TEXT_OFFSET) + ')' + ' rotate(' +
+            String(-1 * BarCharts.TEXT_ROTATION_DEGREES) + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
             .text((d: RepHistory) => d.getHeight().toString() + ',' + (d.getWidth() - d.getWidthBuffer()).toString());
 
         // Update
-        bars.attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
+        bars.attr('transform', (d: RepHistory,
+                                i: number) => 'translate(' + String(d.getXOffset()) + ',' +
+                                                String(d.getYOffset()) + ')');
         bars.select('rect')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)
             .attr('width', (d: RepHistory) => d.getWidth())
             .attr('height', (d: RepHistory) => d.getHeight() * BarCharts.REP_MULTIPLIER);
         bars.select('text')
-            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / 2 + ','
-            + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
+            .attr('transform', (d: RepHistory, i: number) => 'translate(' + String(d.getWidth() / BarCharts.TWO) + ',' +
+            String(-1 * BarCharts.TEXT_OFFSET) + ')' + ' rotate(' + String(-1 * BarCharts.TEXT_ROTATION_DEGREES) + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
             .text((d: RepHistory) => d.getHeight().toString() + ',' + (d.getWidth() - d.getWidthBuffer()).toString());
@@ -146,7 +148,7 @@ export abstract class BarCharts {
         let barsExit = bars.exit();
         barsExit.select('rect')
             .transition()
-            .duration(400)
+            .duration(BarCharts.ANIMATION_TIME)
             .attr('height', 0);
         barsExit.transition()
             .delay(BarCharts.ANIMATION_TIME)
@@ -158,21 +160,21 @@ export abstract class BarCharts {
     private addOffsets(): number {
         let totalOffset: number = 0;
         let currentXValue: string = null;
-        for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisXValue: string = this.getXValue(this.exerciseHistory[i])
-            if (currentXValue) {
-                if (currentXValue == thisXValue) {
+        for (let bar of this.exerciseHistory) {
+            let thisXValue: string = this.getXValue(bar);
+            if (currentXValue !== null) {
+                if (currentXValue === thisXValue) {
                     totalOffset += BarCharts.IN_BETWEEN_SETS_GAP;
                 } else {
                     totalOffset += BarCharts.IN_BETWEEN_DAYS_GAP;
                 }
             }
-            this.exerciseHistory[i].setXOffset(totalOffset);
+            bar.setXOffset(totalOffset);
 
-            totalOffset += this.exerciseHistory[i].getWidth();
+            totalOffset += bar.getWidth();
 
-            this.exerciseHistory[i].setYOffset(BarCharts.VERTICAL_OFFSET
-                - this.exerciseHistory[i].getHeight() * BarCharts.REP_MULTIPLIER);
+            bar.setYOffset(BarCharts.VERTICAL_OFFSET
+                - bar.getHeight() * BarCharts.REP_MULTIPLIER);
             currentXValue = thisXValue;
         }
         return totalOffset;
@@ -189,7 +191,7 @@ export abstract class BarCharts {
             let xValueA = this.getXValue(this.exerciseHistory[iterA]);
 
             // Find first differing x value
-            while (iterB < this.exerciseHistory.length && this.getXValue(this.exerciseHistory[iterB]) == xValueA) {
+            while (iterB < this.exerciseHistory.length && this.getXValue(this.exerciseHistory[iterB]) === xValueA) {
                 iterB++;
             }
 
@@ -200,7 +202,7 @@ export abstract class BarCharts {
             extraOffset += (iterB - iterA) * BarCharts.IN_BETWEEN_SETS_GAP;
 
             let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset()
-                + extraOffset) / 2;
+                + extraOffset) / BarCharts.TWO;
             this.svgs
                 .append('text')
                 .text(xValueA)

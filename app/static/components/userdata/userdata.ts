@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
-import {Observable} from "rxjs";
 import {Http} from "@angular/http";
+import {Observable} from "rxjs";
+
 @Component({
     selector:'user-data',
     templateUrl: '/static/components/userdata/userdata.html'
@@ -12,7 +13,7 @@ export class UserDataComponent {
     private history: Array<any>;
 
     constructor(private http: Http) {
-        this.endpoint = http.post('/user-data', '');
+        this.endpoint = this.http.post('/user-data', '');
     }
 
     ngOnInit() {
@@ -23,6 +24,6 @@ export class UserDataComponent {
                 this.history = data.json().history;
             },
             err => console.log(err)
-        )
+        );
     }
 }

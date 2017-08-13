@@ -1,8 +1,9 @@
 import {Component} from "@angular/core";
-import {Http, Headers} from "@angular/http";
+import {Http} from "@angular/http";
+
+import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 import {CSRFService} from "../../services/csrfservice";
 import {RepHistoryChart} from "../rephistorychart";
-import {BarChartsBar} from "../../models/barcharts/barchartsbar";
 
 @Component({
     selector: 'rep-history-by-taxonomy',

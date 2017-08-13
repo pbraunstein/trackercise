@@ -1,7 +1,9 @@
 import {Component} from "@angular/core";
-import {Observable} from "rxjs";
-import {ButtonPainter} from "../../services/buttonpainter";
 import {Headers, Http} from "@angular/http";
+import {Observable} from "rxjs";
+
+import {ButtonPainter} from "../../services/buttonpainter";
+
 @Component({
     selector: 'add-time-taxonomy',
     templateUrl: '/static/components/addtimetaxonomy/addtimetaxonomy.html'
@@ -20,20 +22,20 @@ export class AddTimeTaxonomyComponent {
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
-        let data: Object = {
+        let dataToSend: Object = {
             'taxonomy_name' : exerciseName
         };
 
-        this.endpoint = this.http.post('/add-time-taxonomy', JSON.stringify(data), {headers: headers});
+        this.endpoint = this.http.post('/add-time-taxonomy', JSON.stringify(dataToSend), {headers: headers});
         this.endpoint.subscribe(
             data => {
                 console.log(data);
-                ButtonPainter.handleFormSubmitSuccess(form, this.buttonId)
+                ButtonPainter.handleFormSubmitSuccess(form, this.buttonId);
             },
             err => {
-                console.log(err)
-                ButtonPainter.handleFormSubmitFailure(this.buttonId)
+                console.log(err);
+                ButtonPainter.handleFormSubmitFailure(this.buttonId);
             }
-        )
+        );
     }
 }
