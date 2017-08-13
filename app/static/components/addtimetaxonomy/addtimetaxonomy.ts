@@ -22,11 +22,11 @@ export class AddTimeTaxonomyComponent {
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
 
-        let data: Object = {
+        let dataToSend: Object = {
             'taxonomy_name' : exerciseName
         };
 
-        this.endpoint = this.http.post('/add-time-taxonomy', JSON.stringify(data), {headers: headers});
+        this.endpoint = this.http.post('/add-time-taxonomy', JSON.stringify(dataToSend), {headers: headers});
         this.endpoint.subscribe(
             data => {
                 console.log(data);

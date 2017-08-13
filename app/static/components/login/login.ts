@@ -20,10 +20,10 @@ export class LoginComponent{
     onSubmit(value: any) {
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        let data: any = {};
-        data.email = value.login_email;
-        data.password = value.login_password;
-        this.endpoint = this.http.post('/login', JSON.stringify(data), {headers: headers});
+        let dataToSend: any = {};
+        dataToSend.email = value.login_email;
+        dataToSend.password = value.login_password;
+        this.endpoint = this.http.post('/login', JSON.stringify(dataToSend), {headers: headers});
         this.endpoint.subscribe(
             data => {
                 this.router.navigate(['/']);

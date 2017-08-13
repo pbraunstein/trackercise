@@ -15,11 +15,11 @@ export class RegisterComponent {
     onSubmit(value: any) {
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        let data: any = {};
-        data.email = value.register_email;
-        data.nickname = value.register_nickname;
-        data.password = value.register_password;
-        this.endpoint = this.http.post('/register', JSON.stringify(data), {headers: headers});
+        let dataToSend: any = {};
+        dataToSend.email = value.register_email;
+        dataToSend.nickname = value.register_nickname;
+        dataToSend.password = value.register_password;
+        this.endpoint = this.http.post('/register', JSON.stringify(dataToSend), {headers: headers});
         this.endpoint.subscribe(
             data => console.log(data),
             err => console.log(err)

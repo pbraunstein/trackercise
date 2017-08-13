@@ -34,13 +34,13 @@ export class AddRepHistoryComponent {
         ButtonPainter.handleFormSubmitProcessing(this.buttonId);
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
-        let data: any = {};
-        data.history_exercise_id = value.history_exercise_id;
-        data.history_sets = value.rep_history_sets;
-        data.history_reps = value.rep_history_reps;
-        data.history_weight = value.rep_history_weight;
-        data.history_date = value.rep_history_date;
-        this.endpointAddHistory = this.http.post('/add-rep-history', JSON.stringify(data), {headers: headers});
+        let dataToSend: any = {};
+        dataToSend.history_exercise_id = value.history_exercise_id;
+        dataToSend.history_sets = value.rep_history_sets;
+        dataToSend.history_reps = value.rep_history_reps;
+        dataToSend.history_weight = value.rep_history_weight;
+        dataToSend.history_date = value.rep_history_date;
+        this.endpointAddHistory = this.http.post('/add-rep-history', JSON.stringify(dataToSend), {headers: headers});
         this.endpointAddHistory.subscribe(
             data => {
                 console.log(data);
