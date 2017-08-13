@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
-import {CanActivate, Router} from "@angular/router";
 import {Http} from "@angular/http";
+import {CanActivate, Router} from "@angular/router";
 import {Observable} from "rxjs";
 import 'rxjs/Rx';
 

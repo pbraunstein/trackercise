@@ -35,7 +35,6 @@ export abstract class BarCharts {
     private static IN_BETWEEN_DAYS_GAP: number = 7;
     private static TWO: number = 2;
 
-
     constructor(protected http: Http, protected csrfService: CSRFService) {
     }
 
@@ -58,7 +57,7 @@ export abstract class BarCharts {
     }
 
     // Hook to initiate pairs map for by date charts
-    protected initPairsMap(): void {
+    protected initPairsMap(): void {  // tslint:disable-line
     }
 
     private splitOutSets(): void {
@@ -114,7 +113,7 @@ export abstract class BarCharts {
         // Enter
         let barsEnter = bars.enter()
             .append('g')
-            .attr('transform', (d: any, i: number) => 'translate(' + d.xOffset + ',' + d.yOffset + ')');
+            .attr('transform', (d: any, i: number) => 'translate(' + String(d.xOffset) + ',' + String(d.yOffset) + ')');
         barsEnter.append('rect')
             .style('fill', 'blue')
             .transition()
@@ -122,23 +121,25 @@ export abstract class BarCharts {
             .attr('width', (d: RepHistory) => d.getWidth())
             .attr('height', (d: RepHistory) => d.getHeight() * BarCharts.REP_MULTIPLIER);
         barsEnter.append('text')
-            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / BarCharts.TWO + ','
-            + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
+            .attr('transform', (d: RepHistory, i: number) => 'translate(' + String(d.getWidth() / BarCharts.TWO) +
+            ',' + String(-1 * BarCharts.TEXT_OFFSET) + ')' + ' rotate(' +
+            String(-1 * BarCharts.TEXT_ROTATION_DEGREES) + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
             .text((d: RepHistory) => d.getHeight().toString() + ',' + (d.getWidth() - d.getWidthBuffer()).toString());
 
         // Update
         bars.attr('transform', (d: RepHistory,
-                                i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
+                                i: number) => 'translate(' + String(d.getXOffset()) + ',' +
+                                                String(d.getYOffset()) + ')');
         bars.select('rect')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)
             .attr('width', (d: RepHistory) => d.getWidth())
             .attr('height', (d: RepHistory) => d.getHeight() * BarCharts.REP_MULTIPLIER);
         bars.select('text')
-            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / BarCharts.TWO + ','
-            + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
+            .attr('transform', (d: RepHistory, i: number) => 'translate(' + String(d.getWidth() / BarCharts.TWO) + ',' +
+            String(-1 * BarCharts.TEXT_OFFSET) + ')' + ' rotate(' + String(-1 * BarCharts.TEXT_ROTATION_DEGREES) + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
             .text((d: RepHistory) => d.getHeight().toString() + ',' + (d.getWidth() - d.getWidthBuffer()).toString());

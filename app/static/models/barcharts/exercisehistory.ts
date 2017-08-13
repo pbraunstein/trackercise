@@ -20,7 +20,6 @@ export abstract class ExerciseHistory implements BarChartsBar {
         this.yOffset = 0;
     }
 
-
     public getHistoryId(): number {
         return this.historyId;
     }
