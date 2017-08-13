@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
-import {Observable} from "rxjs";
 import {Headers, Http} from "@angular/http";
+import {Observable} from "rxjs";
+
 @Component({
     selector: 'change-password',
     templateUrl: '/static/components/changepassword/changepassword.html'

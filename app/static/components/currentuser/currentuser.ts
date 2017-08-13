@@ -1,6 +1,6 @@
 import {Component} from "@angular/core";
-import {Observable} from "rxjs";
 import {Http} from "@angular/http";
+import {Observable} from "rxjs";
 
 @Component({
     selector:'current-user',

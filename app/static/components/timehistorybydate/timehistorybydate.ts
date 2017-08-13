@@ -1,8 +1,11 @@
 import {Component} from "@angular/core";
-import {CSRFService} from "../../services/csrfservice";
 import {Http} from "@angular/http";
+
+
 import {BarChartsBar} from "../../models/barcharts/barchartsbar";
+import {CSRFService} from "../../services/csrfservice";
 import {TimeHistoryChart} from "../timehistorychart";
+
 @Component({
     selector: 'time-history-by-date',
     templateUrl: '/static/components/timehistorybydate/timehistorybydate.html'

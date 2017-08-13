@@ -1,8 +1,9 @@
-import {RepHistory} from "../models/barcharts/rephistory";
-import {BarChartsBar} from "../models/barcharts/barchartsbar";
+import {Headers, Http} from "@angular/http";
 import * as d3 from 'd3';
 import {Observable} from "rxjs";
-import {Headers, Http} from "@angular/http";
+
+import {BarChartsBar} from "../models/barcharts/barchartsbar";
+import {RepHistory} from "../models/barcharts/rephistory";
 import {CSRFService} from "../services/csrfservice";
 
 /**

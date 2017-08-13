@@ -1,6 +1,6 @@
-import {Observable} from "rxjs";
-import {Http} from "@angular/http";
 import {Component} from "@angular/core";
+import {Http} from "@angular/http";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'all-data',

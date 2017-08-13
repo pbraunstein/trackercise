@@ -1,5 +1,6 @@
-import {ExerciseHistory} from "./exercisehistory";
 import {TimeService} from "../../services/timeservice";
+import {ExerciseHistory} from "./exercisehistory";
+
 export class TimeHistory extends ExerciseHistory {
     private distance: number;
     private duration: number;

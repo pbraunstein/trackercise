@@ -1,8 +1,10 @@
 import {Component} from "@angular/core";
-import {CSRFService} from "../../services/csrfservice";
 import {Http} from "@angular/http";
-import {RepHistoryChart} from "../rephistorychart";
+
 import {BarChartsBar} from "../../models/barcharts/barchartsbar";
+import {CSRFService} from "../../services/csrfservice";
+import {RepHistoryChart} from "../rephistorychart";
+
 @Component({
     selector: 'rep-history-by-date',
     templateUrl: '/static/components/rephistorybydate/rephistorybydate.html'

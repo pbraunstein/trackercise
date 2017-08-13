@@ -1,9 +1,11 @@
 import {Component} from "@angular/core";
 import {Headers, Http} from "@angular/http";
 import {Observable} from "rxjs";
-import {TimeService} from "../../services/timeservice";
-import {ButtonPainter} from "../../services/buttonpainter";
+
 import {SelectOption} from "../../models/selectoption";
+import {ButtonPainter} from "../../services/buttonpainter";
+import {TimeService} from "../../services/timeservice";
+
 @Component({
     selector: 'add-time-history',
     templateUrl: '/static/components/addtimehistory/addtimehistory.html'

@@ -1,7 +1,9 @@
 import {Component} from "@angular/core";
-import {Observable} from "rxjs";
 import {Headers, Http} from "@angular/http";
+import {Observable} from "rxjs";
+
 import {ButtonPainter} from "../../services/buttonpainter";
+
 @Component({
     selector: 'add-rep-taxonomy',
     templateUrl: '/static/components/addreptaxonomy/addreptaxonomy.html'

@@ -1,8 +1,10 @@
 import {Component} from "@angular/core";
-import {Observable} from "rxjs";
 import {Headers, Http} from "@angular/http";
-import {ButtonPainter} from "../../services/buttonpainter";
+import {Observable} from "rxjs";
+
 import {SelectOption} from "../../models/selectoption";
+import {ButtonPainter} from "../../services/buttonpainter";
+
 @Component({
     selector: 'add-rep-history',
     templateUrl: '/static/components/addrephistory/addrephistory.html'
