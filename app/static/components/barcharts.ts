@@ -161,7 +161,7 @@ export abstract class BarCharts {
         let currentXValue: string = null;
         for (let bar of this.exerciseHistory) {
             let thisXValue: string = this.getXValue(bar);
-            if (currentXValue) {
+            if (currentXValue !== null) {
                 if (currentXValue === thisXValue) {
                     totalOffset += BarCharts.IN_BETWEEN_SETS_GAP;
                 } else {

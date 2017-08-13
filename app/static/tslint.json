@@ -1,7 +1,6 @@
 {
   "rules": {
     "arrow-return-shorthand": true,
-    "array-type": true,
     "class-name": true,
     "comment-format": true,
     "curly": true,
