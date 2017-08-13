@@ -33,6 +33,7 @@ export abstract class BarCharts {
     private static TEXT_ROTATION_DEGREES: number = 45;
     private static IN_BETWEEN_SETS_GAP: number = 1;
     private static IN_BETWEEN_DAYS_GAP: number = 7;
+    private static TWO: number = 2;
 
 
     constructor(protected http: Http, protected csrfService: CSRFService) {
@@ -106,7 +107,7 @@ export abstract class BarCharts {
         let totalOffset = this.addOffsets();
         this.renderXAxis();
         this.svgs.attr('width', totalOffset)
-            .attr('height', BarCharts.VERTICAL_OFFSET * 2);
+            .attr('height', BarCharts.VERTICAL_OFFSET * BarCharts.TWO);
         let bars = this.svgs.selectAll('g')
             .data(this.exerciseHistory);
 
@@ -121,21 +122,22 @@ export abstract class BarCharts {
             .attr('width', (d: RepHistory) => d.getWidth())
             .attr('height', (d: RepHistory) => d.getHeight() * BarCharts.REP_MULTIPLIER);
         barsEnter.append('text')
-            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / 2 + ','
-            + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
+            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / BarCharts.TWO + ','
+            + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES * -1 + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
             .text((d: RepHistory) => d.getHeight().toString() + ',' + (d.getWidth() - d.getWidthBuffer()).toString());
 
         // Update
-        bars.attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
+        bars.attr('transform', (d: RepHistory,
+                                i: number) => 'translate(' + d.getXOffset() + ',' + d.getYOffset() + ')');
         bars.select('rect')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)
             .attr('width', (d: RepHistory) => d.getWidth())
             .attr('height', (d: RepHistory) => d.getHeight() * BarCharts.REP_MULTIPLIER);
         bars.select('text')
-            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / 2 + ','
+            .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / BarCharts.TWO + ','
             + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
@@ -145,7 +147,7 @@ export abstract class BarCharts {
         let barsExit = bars.exit();
         barsExit.select('rect')
             .transition()
-            .duration(400)
+            .duration(BarCharts.ANIMATION_TIME)
             .attr('height', 0);
         barsExit.transition()
             .delay(BarCharts.ANIMATION_TIME)
@@ -160,7 +162,7 @@ export abstract class BarCharts {
         for (let bar of this.exerciseHistory) {
             let thisXValue: string = this.getXValue(bar);
             if (currentXValue) {
-                if (currentXValue == thisXValue) {
+                if (currentXValue === thisXValue) {
                     totalOffset += BarCharts.IN_BETWEEN_SETS_GAP;
                 } else {
                     totalOffset += BarCharts.IN_BETWEEN_DAYS_GAP;
@@ -188,7 +190,7 @@ export abstract class BarCharts {
             let xValueA = this.getXValue(this.exerciseHistory[iterA]);
 
             // Find first differing x value
-            while (iterB < this.exerciseHistory.length && this.getXValue(this.exerciseHistory[iterB]) == xValueA) {
+            while (iterB < this.exerciseHistory.length && this.getXValue(this.exerciseHistory[iterB]) === xValueA) {
                 iterB++;
             }
 
@@ -199,7 +201,7 @@ export abstract class BarCharts {
             extraOffset += (iterB - iterA) * BarCharts.IN_BETWEEN_SETS_GAP;
 
             let middleXOffset = (this.exerciseHistory[iterA].getXOffset() + this.exerciseHistory[iterB].getXOffset()
-                + extraOffset) / 2;
+                + extraOffset) / BarCharts.TWO;
             this.svgs
                 .append('text')
                 .text(xValueA)

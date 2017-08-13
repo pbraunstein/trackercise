@@ -8,7 +8,7 @@ export class LogoutService {
     private endpoint: Observable<any>;
 
     constructor(private http: Http, private router: Router) {
-        this.endpoint = http.post('/logout', '');
+        this.endpoint = this.http.post('/logout', '');
     }
 
     public logout(): void {

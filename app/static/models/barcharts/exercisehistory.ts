@@ -1,5 +1,7 @@
 import {BarChartsBar} from "./barchartsbar";
 export abstract class ExerciseHistory implements BarChartsBar {
+    private static DATESTAMP_LENGTH: number = 10;
+
     protected historyId: number;
     protected dateStamp: string;
     protected x_offset: number;
@@ -7,7 +9,11 @@ export abstract class ExerciseHistory implements BarChartsBar {
 
     constructor(jsonObject: any) {
         this.historyId = jsonObject.history_exercise_id;
-        this.dateStamp = jsonObject.history_date.slice(0, 10);  // fragile - this should happen serverside
+
+        // fragile - this should happen serverside
+        this.dateStamp = jsonObject.history_date.slice(
+            0, ExerciseHistory.DATESTAMP_LENGTH
+        );
 
         // Default values -- will be changed
         this.x_offset = 0;

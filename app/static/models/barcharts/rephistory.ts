@@ -3,6 +3,8 @@ import {ExerciseHistory} from "./exercisehistory";
  * Model for rep based history exercises
  */
 export class RepHistory extends ExerciseHistory {
+    private static WEIGHT_BUFFER: number = 10;
+
     private sets: number;
     private reps: number;
     private weight: number;
@@ -39,6 +41,6 @@ export class RepHistory extends ExerciseHistory {
     }
 
     public getWidthBuffer(): number {
-        return 10;
+        return RepHistory.WEIGHT_BUFFER;
     }
 }

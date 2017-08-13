@@ -11,7 +11,7 @@ export class LoginGuard implements CanActivate {
     private userReturned: boolean;
 
     constructor(private http: Http, router: Router) {
-        this.endpoint = http.post('/who-am-i', '');
+        this.endpoint = this.http.post('/who-am-i', '');
         this.router = router;
         this.userReturned = false;
     }

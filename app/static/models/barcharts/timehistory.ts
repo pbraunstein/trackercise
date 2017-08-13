@@ -2,6 +2,8 @@ import {TimeService} from "../../services/timeservice";
 import {ExerciseHistory} from "./exercisehistory";
 
 export class TimeHistory extends ExerciseHistory {
+    private static WIDTH_BUFFER: number = 20;
+
     private distance: number;
     private duration: number;
 
@@ -28,7 +30,7 @@ export class TimeHistory extends ExerciseHistory {
     }
 
     getWidthBuffer(): number {
-        return 20;
+        return TimeHistory.WIDTH_BUFFER;
     }
 
     getSets(): number {

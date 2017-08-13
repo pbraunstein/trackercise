@@ -45,7 +45,9 @@ export class AddTimeHistoryComponent {
             'history_date': value.time_history_date
         };
 
-        this.endpoint_add_time_history = this.http.post('/add-time-history', JSON.stringify(dataToSend), {headers: headers});
+        this.endpoint_add_time_history = this.http.post(
+            '/add-time-history', JSON.stringify(dataToSend), {headers: headers}
+            );
 
         this.endpoint_add_time_history.subscribe(
             data => {

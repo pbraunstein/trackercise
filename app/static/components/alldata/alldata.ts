@@ -13,7 +13,7 @@ export class AllDataComponent {
     private repHistory: Array<any>;
 
     constructor(private http: Http) {
-        this.endpoint = http.post('/all-data', '');
+        this.endpoint = this.http.post('/all-data', '');
     }
 
     ngOnInit() {
