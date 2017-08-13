@@ -123,7 +123,7 @@ export abstract class BarCharts {
             .attr('height', (d: RepHistory) => d.getHeight() * BarCharts.REP_MULTIPLIER);
         barsEnter.append('text')
             .attr('transform', (d: RepHistory, i: number) => 'translate(' + d.getWidth() / BarCharts.TWO + ','
-            + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES * -1 + ')')
+            + -1 * BarCharts.TEXT_OFFSET + ')' + ' rotate(' + -1 * BarCharts.TEXT_ROTATION_DEGREES + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
             .text((d: RepHistory) => d.getHeight().toString() + ',' + (d.getWidth() - d.getWidthBuffer()).toString());
