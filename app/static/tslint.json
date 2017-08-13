@@ -5,6 +5,7 @@
     "comment-format": true,
     "curly": true,
     "eofline": true,
+    "import-spacing": true,
     "linebreak-style": true,
     "max-line-length": [true, 120],
     "new-parens": true,
@@ -39,6 +40,7 @@
     "strict-boolean-expressions": true,
     "switch-default": true,
     "triple-equals": true,
+    "type-literal-delimiter": true,
     "use-isnan": true,
     "variable-name": true,
     "whitespace": true
