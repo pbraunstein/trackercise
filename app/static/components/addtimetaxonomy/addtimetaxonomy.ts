@@ -28,12 +28,12 @@ export class AddTimeTaxonomyComponent {
         this.endpoint.subscribe(
             data => {
                 console.log(data);
-                ButtonPainter.handleFormSubmitSuccess(form, this.buttonId)
+                ButtonPainter.handleFormSubmitSuccess(form, this.buttonId);
             },
             err => {
-                console.log(err)
-                ButtonPainter.handleFormSubmitFailure(this.buttonId)
+                console.log(err);
+                ButtonPainter.handleFormSubmitFailure(this.buttonId);
             }
-        )
+        );
     }
 }

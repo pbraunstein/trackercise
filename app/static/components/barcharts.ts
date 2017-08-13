@@ -97,7 +97,7 @@ export abstract class BarCharts {
                 this.setUpViz(data);
             },
             err => console.log(err)
-        )
+        );
     }
 
     private setUpViz(data: any): void {
@@ -159,7 +159,7 @@ export abstract class BarCharts {
         let totalOffset: number = 0;
         let currentXValue: string = null;
         for (let i = 0; i < this.exerciseHistory.length; i++) {
-            let thisXValue: string = this.getXValue(this.exerciseHistory[i])
+            let thisXValue: string = this.getXValue(this.exerciseHistory[i]);
             if (currentXValue) {
                 if (currentXValue == thisXValue) {
                     totalOffset += BarCharts.IN_BETWEEN_SETS_GAP;

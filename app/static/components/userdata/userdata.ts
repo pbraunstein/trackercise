@@ -23,6 +23,6 @@ export class UserDataComponent {
                 this.history = data.json().history;
             },
             err => console.log(err)
-        )
+        );
     }
 }

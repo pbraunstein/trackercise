@@ -16,7 +16,7 @@ export class ApplicationComponent {
     ngOnInit() {
         $("#main-navbar").on("click", () => {
             $("#main-navbar").collapse('hide');
-        })
+        });
     }
 
     public logout(): void {

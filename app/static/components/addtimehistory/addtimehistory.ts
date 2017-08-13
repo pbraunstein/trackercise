@@ -54,6 +54,6 @@ export class AddTimeHistoryComponent {
                 console.log(err);
                 ButtonPainter.handleFormSubmitFailure(this.buttonId);
             }
-        )
+        );
     }
 }

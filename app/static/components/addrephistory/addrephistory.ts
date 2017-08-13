@@ -48,6 +48,6 @@ export class AddRepHistoryComponent {
                 console.log(err);
                 ButtonPainter.handleFormSubmitFailure(this.buttonId);
             }
-        )
+        );
     }
 }

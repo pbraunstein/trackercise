@@ -18,10 +18,10 @@ export class RegisterComponent {
         data.email = value.register_email;
         data.nickname = value.register_nickname;
         data.password = value.register_password;
-        this.endpoint = this.http.post('/register', JSON.stringify(data), {headers: headers})
+        this.endpoint = this.http.post('/register', JSON.stringify(data), {headers: headers});
         this.endpoint.subscribe(
             data => console.log(data),
             err => console.log(err)
-        )
+        );
     }
 }

@@ -30,6 +30,6 @@ export class LoginComponent{
                 console.log(data);
             },
             err => console.log(err)
-        )
+        );
     }
 }

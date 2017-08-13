@@ -40,7 +40,7 @@ export class AddRepTaxonomyComponent {
                 console.log(err);
                 ButtonPainter.handleFormSubmitFailure(this.buttonId);
             }
-        )
+        );
     }
 
     /**

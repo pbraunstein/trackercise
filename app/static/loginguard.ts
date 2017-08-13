@@ -32,6 +32,6 @@ export class LoginGuard implements CanActivate {
     currentUser(): Observable<String> {
         return this.endpoint.map(
             response => response.json().user
-        )
+        );
     }
 }

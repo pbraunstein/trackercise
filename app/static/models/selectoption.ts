@@ -7,6 +7,6 @@ export class SelectOption {
 
    constructor(jsonObject: any) {
        this.key = jsonObject[0];
-       this.value = jsonObject[1]
+       this.value = jsonObject[1];
    }
 }
