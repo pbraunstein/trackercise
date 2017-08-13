@@ -16,7 +16,7 @@ import {AddRepTaxonomyComponent} from "./components/addreptaxonomy/addreptaxonom
 import {AddRepHistoryComponent} from "./components/addrephistory/addrephistory";
 import {RepHistoryByTaxonomyComponent} from "./components/rephistorybytaxonomy/rephistorybytaxonomy";
 import {ApplicationComponent} from "./components/application/application";
-import {LocationStrategy, HashLocationStrategy} from "@angular/common";
+import {HashLocationStrategy, LocationStrategy} from "@angular/common";
 import {routing} from './routing';
 import {IntroductionComponent} from "./components/introduction/introduction";
 import {LoginGuard} from "./loginguard";

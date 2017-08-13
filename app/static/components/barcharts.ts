@@ -2,7 +2,7 @@ import {RepHistory} from "../models/barcharts/rephistory";
 import {BarChartsBar} from "../models/barcharts/barchartsbar";
 import * as d3 from 'd3';
 import {Observable} from "rxjs";
-import {Http, Headers} from "@angular/http";
+import {Headers, Http} from "@angular/http";
 import {CSRFService} from "../services/csrfservice";
 
 /**

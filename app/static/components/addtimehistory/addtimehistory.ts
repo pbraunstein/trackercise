@@ -1,5 +1,5 @@
 import {Component} from "@angular/core";
-import {Http, Headers} from "@angular/http";
+import {Headers, Http} from "@angular/http";
 import {Observable} from "rxjs";
 import {TimeService} from "../../services/timeservice";
 import {ButtonPainter} from "../../services/buttonpainter";

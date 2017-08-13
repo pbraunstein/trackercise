@@ -1,4 +1,4 @@
-import {Routes, RouterModule} from "@angular/router";
+import {RouterModule, Routes} from "@angular/router";
 import {CurrentUserComponent} from "./components/currentuser/currentuser";
 import {IntroductionComponent} from "./components/introduction/introduction";
 import {LoginComponent} from "./components/login/login";
