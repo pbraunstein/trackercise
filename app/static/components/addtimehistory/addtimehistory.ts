@@ -11,17 +11,17 @@ import {TimeService} from "../../services/timeservice";
     templateUrl: '/static/components/addtimehistory/addtimehistory.html'
 })
 export class AddTimeHistoryComponent {
-    private endpoint_time_exercise_pairs: Observable<any>;
-    private endpoint_add_time_history: Observable<any>;
+    private endpointTimeExercisePairs: Observable<any>;
+    private endpointAddTimeHistory: Observable<any>;
     private timeExercisePairs: Array<SelectOption>;
     private buttonId: string = '#add-time-history-submit';
 
     constructor(private http: Http) {
-        this.endpoint_time_exercise_pairs = http.post('/get-valid-time-id-exercise-pairs', '');
+        this.endpointTimeExercisePairs = http.post('/get-valid-time-id-exercise-pairs', '');
     }
 
     ngOnInit(): void {
-        this.endpoint_time_exercise_pairs.subscribe(
+        this.endpointTimeExercisePairs.subscribe(
             data => {
                 this.timeExercisePairs = [];
                 data.json().pairs.forEach((p: any) => this.timeExercisePairs.push(new SelectOption(p)));
@@ -45,11 +45,11 @@ export class AddTimeHistoryComponent {
             'history_date': value.time_history_date
         };
 
-        this.endpoint_add_time_history = this.http.post(
+        this.endpointAddTimeHistory = this.http.post(
             '/add-time-history', JSON.stringify(dataToSend), {headers: headers}
             );
 
-        this.endpoint_add_time_history.subscribe(
+        this.endpointAddTimeHistory.subscribe(
             data => {
                 console.log(data);
                 ButtonPainter.handleFormSubmitSuccess(form, this.buttonId);

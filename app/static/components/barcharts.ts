@@ -15,8 +15,8 @@ export abstract class BarCharts {
     private svgs: any;
     private username: string;
     private exerciseHistory: Array<BarChartsBar>;
-    private endpoint_exercise_pairs: Observable<any>;
-    private endpoint_exercise_history: Observable<any>;
+    private endpointExercisePairs: Observable<any>;
+    private endpointExerciseHistory: Observable<any>;
 
     // Protected variables
     protected endpointExercisePairsTarget: string;
@@ -47,8 +47,8 @@ export abstract class BarCharts {
             .style('outline-offset', '10px')
             .style('overflow', 'scroll');
         this.svgs = d3.select(this.chartSelector).append('svg');
-        this.endpoint_exercise_pairs = this.http.post(this.endpointExercisePairsTarget, '');
-        this.endpoint_exercise_pairs.subscribe(
+        this.endpointExercisePairs = this.http.post(this.endpointExercisePairsTarget, '');
+        this.endpointExercisePairs.subscribe(
             data => {
                 this.pairs = data.json().pairs;
                 this.initPairsMap();
@@ -85,12 +85,12 @@ export abstract class BarCharts {
         let headers: Headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('X-CSRFTOKEN', this.csrfService.getToken());
-        this.endpoint_exercise_history = this.http.post(
+        this.endpointExerciseHistory = this.http.post(
             this.endpointExerciseHistoryTarget,
             JSON.stringify(this.generateDataToSendToServer(value)),
             {headers: headers}
         );
-        this.endpoint_exercise_history.subscribe(
+        this.endpointExerciseHistory.subscribe(
             data => {
                 console.log(data);
                 this.username = data.json().nickname;
@@ -114,7 +114,7 @@ export abstract class BarCharts {
         // Enter
         let barsEnter = bars.enter()
             .append('g')
-            .attr('transform', (d: any, i: number) => 'translate(' + d.x_offset + ',' + d.y_offset + ')');
+            .attr('transform', (d: any, i: number) => 'translate(' + d.xOffset + ',' + d.yOffset + ')');
         barsEnter.append('rect')
             .style('fill', 'blue')
             .transition()
