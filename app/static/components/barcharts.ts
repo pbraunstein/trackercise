@@ -12,6 +12,7 @@ import {CSRFService} from "../services/csrfservice";
 export abstract class BarCharts {
     // Private variables
     private svgs: any;
+    private border: any;
     private username: string;
     private exerciseHistory: Array<BarChartsBar>;
     private endpoint_exercise_pairs: Observable<any>;
@@ -42,7 +43,19 @@ export abstract class BarCharts {
             .style('height', '400px')
             .style('width', '100%')
             .style('overflow', 'scroll');
-        this.svgs = d3.select(this.chartSelector).append('svg');
+        this.svgs = d3.select(this.chartSelector)
+            .append('svg')
+            .style('height', '400px')
+            .style('width', '100%');
+        this.border = this.svgs
+            .append('rect')
+            .attr('x', 0)
+            .attr('y', 0)
+            .style('height', '400px')
+            .style('width', '100%')
+            .style('fill', 'none')
+            .style('stroke', '#000000')
+            .style('stroke-width', '2px');
         this.endpoint_exercise_pairs = this.http.post(this.endpointExercisePairsTarget, '');
         this.endpoint_exercise_pairs.subscribe(
             data => {
@@ -105,6 +118,8 @@ export abstract class BarCharts {
         let totalOffset = this.addOffsets();
         this.renderXAxis();
         this.svgs.attr('width', totalOffset)
+            .attr('height', BarCharts.VERTICAL_OFFSET * 2);
+        this.border.attr('width', totalOffset)
             .attr('height', BarCharts.VERTICAL_OFFSET * 2);
         let bars = this.svgs.selectAll('g')
             .data(this.exerciseHistory);
