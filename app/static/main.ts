@@ -29,6 +29,8 @@ import {AddTimeTaxonomyComponent} from "./components/addtimetaxonomy/addtimetaxo
 import {AddTimeHistoryComponent} from "./components/addtimehistory/addtimehistory";
 import {TimeHistoryByTaxonomyComponent} from "./components/timehistorybytaxonomy/timehistorybytaxonomy";
 import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/historybytaxonomy";
+import {HistoryByDateComponent} from "./components/historybydate/historybydate";
+import {TimeHistoryByDateComponent} from "./components/timehistorybydate/timehistorybydate";
 
 
 @NgModule({
@@ -37,7 +39,8 @@ import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/history
         ApplicationComponent, AllDataComponent, LoginComponent, CurrentUserComponent, RegisterComponent,
         UserDataComponent, AddRepTaxonomyComponent, AddRepHistoryComponent, RepHistoryByTaxonomyComponent,
         IntroductionComponent, ChangePasswordComponent, RepHistoryByDateComponent, AddEntriesComponent,
-        AddTimeTaxonomyComponent, AddTimeHistoryComponent, TimeHistoryByTaxonomyComponent, HistoryByTaxonomyComponent
+        AddTimeTaxonomyComponent, AddTimeHistoryComponent, TimeHistoryByTaxonomyComponent, HistoryByTaxonomyComponent,
+        HistoryByDateComponent, TimeHistoryByDateComponent
     ],
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},

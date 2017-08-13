@@ -220,5 +220,8 @@ export abstract class BarCharts {
      */
     protected abstract getXValue(element: BarChartsBar): string;
 
+    /**
+     * The params sent down to the server are different based on whether the chart is rep history time history
+     */
     protected abstract generateDataToSendToServer(value: any): Object;
 }
