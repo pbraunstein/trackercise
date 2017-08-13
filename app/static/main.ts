@@ -32,7 +32,6 @@ import {HistoryByTaxonomyComponent} from "./components/historybytaxonomy/history
 import {HistoryByDateComponent} from "./components/historybydate/historybydate";
 import {TimeHistoryByDateComponent} from "./components/timehistorybydate/timehistorybydate";
 
-
 @NgModule({
     imports: [BrowserModule, HttpModule, FormsModule, routing],
     declarations: [
