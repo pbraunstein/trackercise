@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Runs unit tests, service tests, flake8, and tslint in parallel. This can be run to see verify that a branch is
+# ready to be PRed. For clarity, this script suppresses all outputs of the test jobs. If a job fails, it
+# displays the command to run to see the output
 main() {
     PIDS=""
     # Unit tests
@@ -13,7 +16,7 @@ main() {
     PIDS+="$FLAKE8_PID "
 
     # tslint
-    {  ./app/static/node_modules/tslint/bin/tslint --project app/static/tsconfig.json &} &> /dev/null
+    {  ./app/static/node_modules/tslint/bin/tslint --project app/static/tsconfig.json & } &> /dev/null
     TSLINT_PID=$!
     PIDS+="$TSLINT_PID "
 
@@ -46,14 +49,19 @@ main() {
         wait $p
         if [ $? -eq 0 ]; then
             echo "$COMMAND_NAME passed."
+            echo ""  # new line
         else
             echo "$COMMAND_NAME FAILED"
+            echo $INSTRUCTIONS
+            echo ""  # new line
             NUM_FAILURES+=1
         fi
      done;
      if [ $NUM_FAILURES -eq 0 ]; then
+        echo "all test types passed."
         echo "SUCCESS"
      else
+        echo "$NUM_FAILURES test types failed."
         echo "FAILURE"
      fi
 }
