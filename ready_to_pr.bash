@@ -54,7 +54,7 @@ main() {
             echo "$COMMAND_NAME FAILED"
             echo $INSTRUCTIONS
             echo ""  # new line
-            NUM_FAILURES+=1
+            NUM_FAILURES=$((NUM_FAILURES + 1))
         fi
      done;
      if [ $NUM_FAILURES -eq 0 ]; then
