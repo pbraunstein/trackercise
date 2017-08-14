@@ -4,6 +4,9 @@
 # ready to be PRed. For clarity, this script suppresses all outputs of the test jobs. If a job fails, it
 # displays the command to run to see the output
 main() {
+    BLACK="\033[0;30m"
+    RED="\033[0;31m"
+    GREEN="\033[0;32m"
     PIDS=""
     # Unit tests
     { nosetests --exclude-dir=app/service_tests & } &> /dev/null
@@ -48,21 +51,21 @@ main() {
         esac
         wait $p
         if [ $? -eq 0 ]; then
-            echo "$COMMAND_NAME passed."
+            echo -e "$COMMAND_NAME ${GREEN}passed$BLACK."
             echo ""  # new line
         else
-            echo "$COMMAND_NAME FAILED"
+            echo -e "$COMMAND_NAME ${RED}FAILED$BLACK"
             echo $INSTRUCTIONS
             echo ""  # new line
             NUM_FAILURES=$((NUM_FAILURES + 1))
         fi
      done;
      if [ $NUM_FAILURES -eq 0 ]; then
-        echo "all test types passed."
-        echo "SUCCESS"
+        echo -e "all test types ${GREEN}passed$BLACK."
+        echo -e "${GREEN}SUCCESS$BLACK"
      else
-        echo "$NUM_FAILURES test types failed."
-        echo "FAILURE"
+        echo -e "$NUM_FAILURES test types ${RED}failed$BLACK."
+        echo -e "${RED}FAILURE$BLACK"
      fi
 }
 
