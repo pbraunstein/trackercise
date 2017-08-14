@@ -43,4 +43,8 @@ export class RepHistory extends ExerciseHistory {
     public getWidthBuffer(): number {
         return RepHistory.WEIGHT_BUFFER;
     }
+
+    public getDataLabel(): string {
+        return '';
+    }
 }

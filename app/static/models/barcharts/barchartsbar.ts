@@ -16,4 +16,5 @@ export interface BarChartsBar {
     setDatestamp(value: string): void;
     getWidthBuffer(): number;
     getSets(): number;
+    getDataLabel(): string;
 }

@@ -59,4 +59,5 @@ export abstract class ExerciseHistory implements BarChartsBar {
     public abstract setHeight(value: number): void;
     public abstract getWidthBuffer(): number;
     public abstract getSets(): number;
+    public abstract getDataLabel(): string;
 }
