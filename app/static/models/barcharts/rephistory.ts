@@ -9,11 +9,13 @@ export class RepHistory extends ExerciseHistory {
     private reps: number;
     private weight: number;
 
+
     constructor(jsonObject: any) {
         super(jsonObject);
         this.sets = jsonObject.history_sets;
         this.reps = jsonObject.history_reps;
         this.weight = jsonObject.history_weight;
+        this.dataLabel = this.reps.toString() + ' reps, ' + this.weight.toString() + ' lbs'
     }
 
     public getSets(): number {
@@ -42,9 +44,5 @@ export class RepHistory extends ExerciseHistory {
 
     public getWidthBuffer(): number {
         return RepHistory.WEIGHT_BUFFER;
-    }
-
-    public getDataLabel(): string {
-        return '';
     }
 }

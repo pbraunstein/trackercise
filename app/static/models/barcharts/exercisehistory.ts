@@ -6,6 +6,7 @@ export abstract class ExerciseHistory implements BarChartsBar {
     protected dateStamp: string;
     protected xOffset: number;
     protected yOffset: number;
+    protected dataLabel: string;
 
     constructor(jsonObject: any) {
         this.historyId = jsonObject.history_exercise_id;
@@ -52,6 +53,10 @@ export abstract class ExerciseHistory implements BarChartsBar {
         this.yOffset = value;
     }
 
+    public getDataLabel(): string {
+        return this.dataLabel;
+    }
+
     // These methods must be implemented by the child classes
     public abstract getWidth(): number;
     public abstract setWidth(value: number): void;
@@ -59,5 +64,4 @@ export abstract class ExerciseHistory implements BarChartsBar {
     public abstract setHeight(value: number): void;
     public abstract getWidthBuffer(): number;
     public abstract getSets(): number;
-    public abstract getDataLabel(): string;
 }
