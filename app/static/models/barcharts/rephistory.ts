@@ -15,7 +15,7 @@ export class RepHistory extends ExerciseHistory {
         this.sets = jsonObject.history_sets;
         this.reps = jsonObject.history_reps;
         this.weight = jsonObject.history_weight;
-        this.dataLabel = this.reps.toString() + ' reps, ' + this.weight.toString() + ' lbs'
+        this.dataLabel = this.reps.toString() + ',' + this.weight.toString();
     }
 
     public getSets(): number {

@@ -11,7 +11,7 @@ export class TimeHistory extends ExerciseHistory {
         super(jsonObject);
         this.distance = jsonObject.history_distance;
         this.duration = TimeService.secondsToMinutes(jsonObject.history_duration);
-        this.dataLabel = this.duration.toString() + ' min, ' + this.distance.toString() + ' mi';
+        this.dataLabel = this.duration.toString() + ',' + this.distance.toString();
     }
 
     getWidth(): number {
