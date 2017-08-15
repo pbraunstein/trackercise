@@ -126,7 +126,7 @@ export abstract class BarCharts {
             String(-1 * BarCharts.TEXT_ROTATION_DEGREES) + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
-            .text((d: RepHistory) => d.getHeight().toString() + ',' + (d.getWidth() - d.getWidthBuffer()).toString());
+            .text((d: RepHistory) => d.getDataLabel());
 
         // Update
         bars.attr('transform', (d: RepHistory,
@@ -142,7 +142,7 @@ export abstract class BarCharts {
             String(-1 * BarCharts.TEXT_OFFSET) + ')' + ' rotate(' + String(-1 * BarCharts.TEXT_ROTATION_DEGREES) + ')')
             .transition()
             .duration(BarCharts.ANIMATION_TIME)  // Label (actual weight) shouldn't include buffer for UI purposes
-            .text((d: RepHistory) => d.getHeight().toString() + ',' + (d.getWidth() - d.getWidthBuffer()).toString());
+            .text((d: RepHistory) => d.getDataLabel());
 
         // Exit
         let barsExit = bars.exit();

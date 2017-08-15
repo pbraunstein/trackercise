@@ -46,7 +46,7 @@ main() {
             ;;
          $TSLINT_PID )
             COMMAND_NAME="tslint"
-            INSTRUCTIONS="Run cd app/static && ./node_modules/tslint/bin/tslint to view what went wrong"
+            INSTRUCTIONS="Run ./app/static/node_modules/tslint/bin/tslint --project app/static/tsconfig.json to view what went wrong"
             ;;
         esac
         wait $p
