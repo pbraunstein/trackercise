@@ -9,7 +9,6 @@ export class RepHistory extends ExerciseHistory {
     private reps: number;
     private weight: number;
 
-
     constructor(jsonObject: any) {
         super(jsonObject);
         this.sets = jsonObject.history_sets;
