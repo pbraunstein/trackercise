@@ -56,7 +56,9 @@ def run_importers():
     """
     import_users()
     import_rep_taxonomies()
+    import_time_taxonomies()
     import_rep_history()
+    import_time_history()
 
 
 @manager.command
@@ -66,7 +68,9 @@ def run_exporters():
     """
     export_users()
     export_rep_taxonomies()
+    export_time_taxonomies()
     export_rep_history()
+    export_time_history()
 
 
 @manager.command
@@ -138,6 +142,16 @@ def export_rep_taxonomies():
 
 
 @manager.command
+def import_time_taxonomies():
+    pass
+
+
+@manager.command
+def export_time_taxonomies():
+    pass
+
+
+@manager.command
 def import_rep_history():
     """
     Imports the rep exercise history sample data into the rep_exercises_history db table
@@ -168,6 +182,16 @@ def export_rep_history():
                 history_writer.writerow(h.get_attribute_list())
             except AttributeError:
                 pass
+
+
+@manager.command
+def import_time_history():
+    pass
+
+
+@manager.command
+def export_time_history():
+    pass
 
 
 def _booleanize(yes_or_no):
