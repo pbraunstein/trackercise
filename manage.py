@@ -18,24 +18,44 @@ manager = Manager(app)
 
 manager.add_command('db', MigrateCommand)
 
-# FILE PATH CONSTANTS
-USERS_FILE_PATH = os.path.join(app.root_path,
-                               FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION)
-REP_TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.REP_TAXONOMY + FILE_HANDLES.SEPARATOR + str(
+# EXPORT FILE PATH CONSTANTS
+EXPORT_USERS_FILE_PATH = os.path.join(app.root_path,
+                                      FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION)
+EXPORT_REP_TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.REP_TAXONOMY + FILE_HANDLES.SEPARATOR + str(
     date.today()) + FILE_HANDLES.EXTENSION)
-REP_HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.REP_HISTORY + FILE_HANDLES.SEPARATOR + str(
+EXPORT_REP_HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.REP_HISTORY + FILE_HANDLES.SEPARATOR + str(
     date.today()) + FILE_HANDLES.EXTENSION)
-TIME_TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TIME_TAXONOMY + FILE_HANDLES.SEPARATOR + str(
+EXPORT_TIME_TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TIME_TAXONOMY + FILE_HANDLES.SEPARATOR + str(
     date.today()) + FILE_HANDLES.EXTENSION)
-TIME_HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TIME_HISTORY + FILE_HANDLES.SEPARATOR + str(
+EXPORT_TIME_HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TIME_HISTORY + FILE_HANDLES.SEPARATOR + str(
     date.today()) + FILE_HANDLES.EXTENSION)
 
-FILE_PATHS_MODELS_MAP = {
-    USERS_FILE_PATH: Users,
-    REP_TAXONOMY_FILE_PATH: RepExercisesTaxonomy,
-    REP_HISTORY_FILE_PATH: RepExercisesHistory,
-    TIME_TAXONOMY_FILE_PATH: TimeExercisesTaxonomy,
-    TIME_HISTORY_FILE_PATH: TimeExercisesHistory
+EXPORT_FILE_PATHS_MODELS_MAP = {
+    EXPORT_USERS_FILE_PATH: Users,
+    EXPORT_REP_TAXONOMY_FILE_PATH: RepExercisesTaxonomy,
+    EXPORT_REP_HISTORY_FILE_PATH: RepExercisesHistory,
+    EXPORT_TIME_TAXONOMY_FILE_PATH: TimeExercisesTaxonomy,
+    EXPORT_TIME_HISTORY_FILE_PATH: TimeExercisesHistory
+}
+
+# IMPORT FILE PATH CONSTANTS
+IMPORT_USERS_FILE_PATH = os.path.join(app.root_path,
+                                      FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION)
+IMPORT_REP_TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.REP_TAXONOMY + FILE_HANDLES.SEPARATOR + str(
+    date.today()) + FILE_HANDLES.EXTENSION)
+IMPORT_REP_HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.REP_HISTORY + FILE_HANDLES.SEPARATOR + str(
+    date.today()) + FILE_HANDLES.EXTENSION)
+IMPORT_TIME_TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TIME_TAXONOMY + FILE_HANDLES.SEPARATOR + str(
+    date.today()) + FILE_HANDLES.EXTENSION)
+IMPORT_TIME_HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TIME_HISTORY + FILE_HANDLES.SEPARATOR + str(
+    date.today()) + FILE_HANDLES.EXTENSION)
+
+IMPORT_FILE_PATHS_MODELS_MAP = {
+    IMPORT_USERS_FILE_PATH: Users,
+    IMPORT_REP_TAXONOMY_FILE_PATH: RepExercisesTaxonomy,
+    IMPORT_REP_HISTORY_FILE_PATH: RepExercisesHistory,
+    IMPORT_TIME_TAXONOMY_FILE_PATH: TimeExercisesTaxonomy,
+    IMPORT_TIME_HISTORY_FILE_PATH: TimeExercisesHistory
 }
 
 
@@ -50,12 +70,12 @@ def backup_data_to_s3():
 
 
 def _upload_files_s3():
-    for file_path in FILE_PATHS_MODELS_MAP.keys():
+    for file_path in EXPORT_FILE_PATHS_MODELS_MAP.keys():
         subprocess.call(['aws', 's3', 'cp', file_path, 's3://trackercise'])
 
 
 def _clean_up_from_export():
-    for file_path in FILE_PATHS_MODELS_MAP.keys():
+    for file_path in EXPORT_FILE_PATHS_MODELS_MAP.keys():
         os.unlink(file_path)
 
 
@@ -73,7 +93,7 @@ def run_importers():
 
 @manager.command
 def run_exporters():
-    for file_path, model in FILE_PATHS_MODELS_MAP.iteritems():
+    for file_path, model in EXPORT_FILE_PATHS_MODELS_MAP.iteritems():
         export_model(file_path, model)
 
 
@@ -159,7 +179,7 @@ def export_rep_history():
     Exports the rep exercise history from the db into a csv file
     """
     history = RepExercisesHistory.query.all()
-    with open(REP_HISTORY_FILE_PATH, 'w') as csvfile:
+    with open(EXPORT_REP_HISTORY_FILE_PATH, 'w') as csvfile:
         history_writer = writer(csvfile)
         history_writer.writerow(RepExercisesHistory.get_attribute_header_list())
         for h in history:
