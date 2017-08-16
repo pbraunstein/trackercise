@@ -45,3 +45,4 @@ class FILE_HANDLES:
     TIME_HISTORY = 'time_history'
     SEPARATOR = '_'
     EXTENSION = '.csv'
+    SAMPLE_DATA_DIR = 'sample_data'
