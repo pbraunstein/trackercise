@@ -91,11 +91,11 @@ def run_importers():
     """
     Import rep taxonomy and rep history
     """
-    import_users()
+    # import_users()
     import_rep_taxonomies()
-    import_time_taxonomies()
-    import_rep_history()
-    import_time_history()
+    # import_time_taxonomies()
+    # import_rep_history()
+    # import_time_history()
 
 
 @manager.command
@@ -139,6 +139,7 @@ def import_rep_taxonomies():
         taxonomy_reader.next()  # skip header line
         for row in taxonomy_reader:
             try:
+                row = row[1:]  # remove the previous row id that was in the table
                 entries.append(RepExercisesTaxonomy(
                     row[0].upper(),
                     _string_to_bool(row[1]),
