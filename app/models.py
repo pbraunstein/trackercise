@@ -237,6 +237,13 @@ class TimeExercisesHistory(db.Model):
             self.user_id, self.exercise_id, self.distance, self.duration
         )
 
+    @classmethod
+    def get_attribute_header_list(cls):
+        return ['id', 'user_id', 'exercise_id', 'distance', 'duration', 'exercise_dat']
+
+    def get_attribute_list(self):
+        return [self.id, self.user_id, self.exercise_id, self.distance, self.duration, self.exercise_date]
+
 
 @login_manager.user_loader
 def user_loader(user_email):

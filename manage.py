@@ -203,7 +203,18 @@ def import_time_history():
 
 @manager.command
 def export_time_history():
-    pass
+    """
+    Exports the time exercise history from the db into a csv file
+    """
+    history = TimeExercisesHistory.query.all()
+    with open(TIME_HISTORY_FILE_PATH, 'w') as csvfile:
+        history_writer = writer(csvfile)
+        history_writer.writerow(TimeExercisesHistory.get_attribute_header_list())
+        for h in history:
+            try:
+                history_writer.writerow(h.get_attribute_list())
+            except AttributeError:
+                pass
 
 
 def _booleanize(yes_or_no):
