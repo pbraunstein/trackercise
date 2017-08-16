@@ -19,8 +19,8 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 # EXPORT FILE PATH CONSTANTS
-EXPORT_USERS_FILE_PATH = os.path.join(app.root_path,
-                                      FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(date.today()) + FILE_HANDLES.EXTENSION)
+EXPORT_USERS_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + str(
+    date.today()) + FILE_HANDLES.EXTENSION)
 EXPORT_REP_TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.REP_TAXONOMY + FILE_HANDLES.SEPARATOR + str(
     date.today()) + FILE_HANDLES.EXTENSION)
 EXPORT_REP_HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.REP_HISTORY + FILE_HANDLES.SEPARATOR + str(
@@ -40,28 +40,30 @@ EXPORT_FILE_PATHS_MODELS_MAP = {
 
 # IMPORT FILE PATH CONSTANTS
 IMPORT_USERS_FILE_PATH = os.path.join(
-    FILE_HANDLES.SAMPLE_DATA_DIR, FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
+    app.root_path,
+    FILE_HANDLES.SAMPLE_DATA_DIR,
+    FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
 )
 IMPORT_REP_TAXONOMY_FILE_PATH = os.path.join(
-    FILE_HANDLES.SAMPLE_DATA_DIR, FILE_HANDLES.REP_TAXONOMY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
+    app.root_path,
+    FILE_HANDLES.SAMPLE_DATA_DIR,
+    FILE_HANDLES.REP_TAXONOMY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
 )
 IMPORT_REP_HISTORY_FILE_PATH = os.path.join(
-    FILE_HANDLES.SAMPLE_DATA_DIR, FILE_HANDLES.REP_HISTORY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
+    app.root_path,
+    FILE_HANDLES.SAMPLE_DATA_DIR,
+    FILE_HANDLES.REP_HISTORY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
 )
 IMPORT_TIME_TAXONOMY_FILE_PATH = os.path.join(
-    FILE_HANDLES.SAMPLE_DATA_DIR, FILE_HANDLES.TIME_TAXONOMY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
+    app.root_path,
+    FILE_HANDLES.SAMPLE_DATA_DIR,
+    FILE_HANDLES.TIME_TAXONOMY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
 )
 IMPORT_TIME_HISTORY_FILE_PATH = os.path.join(
-    FILE_HANDLES.SAMPLE_DATA_DIR, FILE_HANDLES.TIME_HISTORY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
+    app.root_path,
+    FILE_HANDLES.SAMPLE_DATA_DIR,
+    FILE_HANDLES.TIME_HISTORY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
 )
-
-IMPORT_FILE_PATHS_MODELS_MAP = {
-    IMPORT_USERS_FILE_PATH: Users,
-    IMPORT_REP_TAXONOMY_FILE_PATH: RepExercisesTaxonomy,
-    IMPORT_REP_HISTORY_FILE_PATH: RepExercisesHistory,
-    IMPORT_TIME_TAXONOMY_FILE_PATH: TimeExercisesTaxonomy,
-    IMPORT_TIME_HISTORY_FILE_PATH: TimeExercisesHistory
-}
 
 
 @manager.command
@@ -139,18 +141,18 @@ def import_rep_taxonomies():
             try:
                 entries.append(RepExercisesTaxonomy(
                     row[0].upper(),
-                    _booleanize(row[1]),
-                    _booleanize(row[2]),
-                    _booleanize(row[3]),
-                    _booleanize(row[4]),
-                    _booleanize(row[5]),
-                    _booleanize(row[7]),
-                    _booleanize(row[6]),
-                    _booleanize(row[10]),
-                    _booleanize(row[9]),
-                    _booleanize(row[8]),
+                    _string_to_bool(row[1]),
+                    _string_to_bool(row[2]),
+                    _string_to_bool(row[3]),
+                    _string_to_bool(row[4]),
+                    _string_to_bool(row[5]),
+                    _string_to_bool(row[7]),
+                    _string_to_bool(row[6]),
+                    _string_to_bool(row[10]),
+                    _string_to_bool(row[9]),
+                    _string_to_bool(row[8]),
                 ))
-            except ValueError:
+            except:  # messy but effective
                 pass
     db.session.add_all(entries)
     db.session.commit()
@@ -173,7 +175,10 @@ def import_rep_history():
         history_reader = reader(csvfile)
         history_reader.next()  # skip header line
         for row in history_reader:
-            entries.append(_generate_rep_history_from_row(row, user_id))
+            try:
+                entries.append(_generate_rep_history_from_row(row, user_id))
+            except:  # messy but effective
+                pass
     db.session.add_all(entries)
     db.session.commit()
 
@@ -197,22 +202,6 @@ def export_rep_history():
 @manager.command
 def import_time_history():
     pass
-
-
-def _booleanize(yes_or_no):
-    """
-    Takes in the string YES or NO and booleanizes it to True of False
-
-    :param yes_or_no: the string to booleanize
-    :return: the boolean
-    """
-    yes_or_no = yes_or_no.upper()
-    if yes_or_no == 'YES':
-        return True
-    elif yes_or_no == 'NO':
-        return False
-    else:
-        raise ValueError("{0} is not a yes or no".format(yes_or_no))
 
 
 def _generate_rep_history_from_row(row, user_id):
@@ -248,6 +237,13 @@ def _get_exercise_id_for_name(exercise_name):
     if result is None:
         raise TypeError("No types match: {0} row is {1}".format(exercise_name))
     return result.id
+
+
+def _string_to_bool(string):
+    if string.upper() == 'TRUE':
+        return True
+    else:
+        return False
 
 
 if __name__ == '__main__':
