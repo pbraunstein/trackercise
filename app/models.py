@@ -195,6 +195,13 @@ class TimeExercisesTaxonomy(db.Model):
     def __repr__(self):
         return '<name: {0}>'.format(self.name)
 
+    @classmethod
+    def get_attribute_header_list(cls):
+        return ['id', 'name']
+
+    def get_attribute_list(self):
+        return [self.id, self.name]
+
 
 class TimeExercisesHistory(db.Model):
     __tablename__ = 'time_exercises_history'
@@ -229,6 +236,13 @@ class TimeExercisesHistory(db.Model):
         return '<user_id: {0} exercise_id: {1}; {2} distance in {3} time>'.format(
             self.user_id, self.exercise_id, self.distance, self.duration
         )
+
+    @classmethod
+    def get_attribute_header_list(cls):
+        return ['id', 'user_id', 'exercise_id', 'distance', 'duration', 'exercise_dat']
+
+    def get_attribute_list(self):
+        return [self.id, self.user_id, self.exercise_id, self.distance, self.duration, self.exercise_date]
 
 
 @login_manager.user_loader
