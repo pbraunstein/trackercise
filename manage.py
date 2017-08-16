@@ -30,6 +30,14 @@ TIME_TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TIME_TAXONOMY
 TIME_HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TIME_HISTORY + FILE_HANDLES.SEPARATOR + str(
     date.today()) + FILE_HANDLES.EXTENSION)
 
+FILE_PATHS_MODELS_MAP = {
+    USERS_FILE_PATH: Users,
+    REP_TAXONOMY_FILE_PATH: RepExercisesTaxonomy,
+    REP_HISTORY_FILE_PATH: RepExercisesHistory,
+    TIME_TAXONOMY_FILE_PATH: TimeExercisesTaxonomy,
+    TIME_HISTORY_FILE_PATH: TimeExercisesHistory
+}
+
 
 @manager.command
 def backup_data_to_s3():
@@ -42,15 +50,13 @@ def backup_data_to_s3():
 
 
 def _upload_files_s3():
-    subprocess.call(['aws', 's3', 'cp', USERS_FILE_PATH, 's3://trackercise'])
-    subprocess.call(['aws', 's3', 'cp', REP_TAXONOMY_FILE_PATH, 's3://trackercise'])
-    subprocess.call(['aws', 's3', 'cp', REP_HISTORY_FILE_PATH, 's3://trackercise'])
+    for file_path in FILE_PATHS_MODELS_MAP.keys():
+        subprocess.call(['aws', 's3', 'cp', file_path, 's3://trackercise'])
 
 
 def _clean_up_from_export():
-    os.unlink(USERS_FILE_PATH)
-    os.unlink(REP_TAXONOMY_FILE_PATH)
-    os.unlink(REP_HISTORY_FILE_PATH)
+    for file_path in FILE_PATHS_MODELS_MAP.keys():
+        os.unlink(file_path)
 
 
 @manager.command
@@ -67,14 +73,20 @@ def run_importers():
 
 @manager.command
 def run_exporters():
-    """
-    Exports all db contents into three csv files
-    """
-    export_users()
-    export_rep_taxonomies()
-    export_time_taxonomies()
-    export_rep_history()
-    export_time_history()
+    for file_path, model in FILE_PATHS_MODELS_MAP.iteritems():
+        export_model(file_path, model)
+
+
+def export_model(file_path, model):
+    data = model.query.all()
+    with open(file_path, 'w') as csvfile:
+        data_writer = writer(csvfile)
+        data_writer.writerow(model.get_attribute_header_list())
+        for d in data:
+            try:
+                data_writer.writerow(d.get_attribute_list())
+            except:  # messy but it works
+                pass
 
 
 @manager.command
@@ -85,19 +97,6 @@ def import_users():
     user = Users(email='a@a.a', nickname='Phil', password=password)
     db.session.add(user)
     db.session.commit()
-
-
-@manager.command
-def export_users():
-    """
-    Exports the users from the db into a CSV file
-    """
-    users = Users.query.all()
-    with open(USERS_FILE_PATH, 'w') as csvfile:
-        user_writer = writer(csvfile)
-        user_writer.writerow(Users.get_attribute_header_list())
-        for u in users:
-            user_writer.writerow(u.get_attribute_list())
 
 
 @manager.command
@@ -133,34 +132,8 @@ def import_rep_taxonomies():
 
 
 @manager.command
-def export_rep_taxonomies():
-    """
-    Exports the rep taxonomies from the db into a CSV file
-    """
-    taxonomies = RepExercisesTaxonomy.query.all()
-    with open(REP_TAXONOMY_FILE_PATH, 'w') as csvfile:
-        taxonomy_writer = writer(csvfile)
-        taxonomy_writer.writerow(RepExercisesTaxonomy.get_attribute_header_list())
-        for t in taxonomies:
-            taxonomy_writer.writerow(t.get_attribute_list())
-
-
-@manager.command
 def import_time_taxonomies():
     pass
-
-
-@manager.command
-def export_time_taxonomies():
-    """
-    Exports the time taxonomies from the db into a CSV file
-    """
-    taxonomies = TimeExercisesTaxonomy.query.all()
-    with open(TIME_TAXONOMY_FILE_PATH, 'w') as csvfile:
-        taxonomy_writer = writer(csvfile)
-        taxonomy_writer.writerow(TimeExercisesTaxonomy.get_attribute_header_list())
-        for t in taxonomies:
-            taxonomy_writer.writerow(t.get_attribute_list())
 
 
 @manager.command
@@ -199,22 +172,6 @@ def export_rep_history():
 @manager.command
 def import_time_history():
     pass
-
-
-@manager.command
-def export_time_history():
-    """
-    Exports the time exercise history from the db into a csv file
-    """
-    history = TimeExercisesHistory.query.all()
-    with open(TIME_HISTORY_FILE_PATH, 'w') as csvfile:
-        history_writer = writer(csvfile)
-        history_writer.writerow(TimeExercisesHistory.get_attribute_header_list())
-        for h in history:
-            try:
-                history_writer.writerow(h.get_attribute_list())
-            except AttributeError:
-                pass
 
 
 def _booleanize(yes_or_no):
