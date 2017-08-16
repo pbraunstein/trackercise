@@ -25,6 +25,10 @@ REP_TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.REP_TAXONOMY +
     date.today()) + FILE_HANDLES.EXTENSION)
 REP_HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.REP_HISTORY + FILE_HANDLES.SEPARATOR + str(
     date.today()) + FILE_HANDLES.EXTENSION)
+TIME_TAXONOMY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TIME_TAXONOMY + FILE_HANDLES.SEPARATOR + str(
+    date.today()) + FILE_HANDLES.EXTENSION)
+TIME_HISTORY_FILE_PATH = os.path.join(app.root_path, FILE_HANDLES.TIME_HISTORY + FILE_HANDLES.SEPARATOR + str(
+    date.today()) + FILE_HANDLES.EXTENSION)
 
 
 @manager.command
@@ -152,6 +156,11 @@ def export_time_taxonomies():
     Exports the time taxonomies from the db into a CSV file
     """
     taxonomies = TimeExercisesTaxonomy.query.all()
+    with open(TIME_TAXONOMY_FILE_PATH, 'w') as csvfile:
+        taxonomy_writer = writer(csvfile)
+        taxonomy_writer.writerow(TimeExercisesTaxonomy.get_attribute_header_list())
+        for t in taxonomies:
+            taxonomy_writer.writerow(t.get_attribute_list())
 
 
 @manager.command

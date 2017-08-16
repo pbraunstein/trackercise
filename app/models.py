@@ -195,6 +195,13 @@ class TimeExercisesTaxonomy(db.Model):
     def __repr__(self):
         return '<name: {0}>'.format(self.name)
 
+    @classmethod
+    def get_attribute_header_list(cls):
+        return ['id', 'name']
+
+    def get_attribute_list(self):
+        return [self.id, self.name]
+
 
 class TimeExercisesHistory(db.Model):
     __tablename__ = 'time_exercises_history'
