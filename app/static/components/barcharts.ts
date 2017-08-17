@@ -60,6 +60,14 @@ export abstract class BarCharts {
     protected initPairsMap(): void {  // tslint:disable-line
     }
 
+    // Hook to scale heights of all elements
+    protected scaleHeights(): void { // tslint:disable-line
+    }
+
+    // HOok to scale widths of all elements
+    protected scaleWidths(): {  // tslint:disable-line
+    }
+
     private splitOutSets(): void {
         let newArray: Array<BarChartsBar> = [];
         for (let bar of this.exerciseHistory) {
@@ -74,7 +82,7 @@ export abstract class BarCharts {
      * BarCharts.WEIGHT_BUFFER is added to every entries weight so that body weight exercises are not rendered
      * as 0-width bars
      */
-    private scaleWeights(): void {
+    private bufferWidths(): void {
         for (let bar of this.exerciseHistory) {
             bar.setWidth(bar.getWidth() + bar.getWidthBuffer());
         }
@@ -102,7 +110,7 @@ export abstract class BarCharts {
     private setUpViz(data: any): void {
         this.exerciseHistory = this.convertJsonArrayToBarChartsBarArray(data.json().history);
         this.splitOutSets();
-        this.scaleWeights();
+        this.bufferWidths();
         let totalOffset = this.addOffsets();
         this.renderXAxis();
         this.svgs.attr('width', totalOffset)
