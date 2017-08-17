@@ -39,9 +39,10 @@ class HISTORY_CONSTANTS:
 
 class FILE_HANDLES:
     USERS = 'users'
-    REP_TAXONOMY = 'rep_taxomony'
+    REP_TAXONOMY = 'rep_taxonomy'
     REP_HISTORY = 'rep_history'
     TIME_TAXONOMY = 'time_taxonomy'
     TIME_HISTORY = 'time_history'
     SEPARATOR = '_'
     EXTENSION = '.csv'
+    SAMPLE_DATA_DIR = 'sample_data'
