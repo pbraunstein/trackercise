@@ -42,27 +42,27 @@ EXPORT_FILE_PATHS_MODELS_MAP = {
 IMPORT_USERS_FILE_PATH = os.path.join(
     app.root_path,
     FILE_HANDLES.SAMPLE_DATA_DIR,
-    FILE_HANDLES.USERS + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
+    FILE_HANDLES.USERS + FILE_HANDLES.EXTENSION
 )
 IMPORT_REP_TAXONOMY_FILE_PATH = os.path.join(
     app.root_path,
     FILE_HANDLES.SAMPLE_DATA_DIR,
-    FILE_HANDLES.REP_TAXONOMY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
+    FILE_HANDLES.REP_TAXONOMY + FILE_HANDLES.EXTENSION
 )
 IMPORT_REP_HISTORY_FILE_PATH = os.path.join(
     app.root_path,
     FILE_HANDLES.SAMPLE_DATA_DIR,
-    FILE_HANDLES.REP_HISTORY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
+    FILE_HANDLES.REP_HISTORY + FILE_HANDLES.EXTENSION
 )
 IMPORT_TIME_TAXONOMY_FILE_PATH = os.path.join(
     app.root_path,
     FILE_HANDLES.SAMPLE_DATA_DIR,
-    FILE_HANDLES.TIME_TAXONOMY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
+    FILE_HANDLES.TIME_TAXONOMY + FILE_HANDLES.EXTENSION
 )
 IMPORT_TIME_HISTORY_FILE_PATH = os.path.join(
     app.root_path,
     FILE_HANDLES.SAMPLE_DATA_DIR,
-    FILE_HANDLES.TIME_HISTORY + FILE_HANDLES.SEPARATOR + FILE_HANDLES.EXTENSION
+    FILE_HANDLES.TIME_HISTORY + FILE_HANDLES.EXTENSION
 )
 
 
@@ -91,10 +91,10 @@ def run_importers():
     """
     Import rep taxonomy and rep history
     """
-    # import_users()
+    import_users()
     import_rep_taxonomies()
     # import_time_taxonomies()
-    # import_rep_history()
+    import_rep_history()
     # import_time_history()
 
 
@@ -134,7 +134,7 @@ def import_rep_taxonomies():
     Depends on the different ordering in the google drive file and the table columns. TODO: Very fragile
     """
     entries = []
-    with open(os.path.join(app.root_path, 'sample_data/rep_taxonomy.csv'), 'rb') as csvfile:
+    with open(os.path.join(app.root_path, IMPORT_REP_TAXONOMY_FILE_PATH), 'rb') as csvfile:
         taxonomy_reader = reader(csvfile)
         taxonomy_reader.next()  # skip header line
         for row in taxonomy_reader:
@@ -172,12 +172,13 @@ def import_rep_history():
     entries = []
     user = Users.query.first()
     user_id = user.id
-    with open(os.path.join(app.root_path, 'sample_data/rep_history.csv'), 'rb') as csvfile:
+    with open(os.path.join(app.root_path, IMPORT_REP_HISTORY_FILE_PATH), 'rb') as csvfile:
         history_reader = reader(csvfile)
         history_reader.next()  # skip header line
         for row in history_reader:
+            row = row[1:]
             try:
-                entries.append(_generate_rep_history_from_row(row, user_id))
+                entries.append(_generate_rep_history_from_row(row))
             except:  # messy but effective
                 pass
     db.session.add_all(entries)
@@ -205,39 +206,21 @@ def import_time_history():
     pass
 
 
-def _generate_rep_history_from_row(row, user_id):
+def _generate_rep_history_from_row(row):
     """
     Generates a RepExercisesHistory object from one row of the csv file
 
-    !!! Raises ValueError
     :param row: from csv sample data for rep exercises history csv file
-    :param user_id: id of user
     :return: RepExercisesHistory taxonomy object representing one row in the db table
     """
     return RepExercisesHistory(
-        user_id=user_id,
-        exercise_id=_get_exercise_id_for_name(row[0]),
-        sets=int(row[1]),
-        reps=int(row[2]),
-        weight=float(row[3]),
-        date=row[4]
+        user_id=int(row[0]),
+        exercise_id=int(row[1]),
+        sets=int(row[2]),
+        reps=int(row[3]),
+        weight=float(row[4]),
+        date=row[5]
     )
-
-
-def _get_exercise_id_for_name(exercise_name):
-    """
-    Gets the id of an exercise in the rep_exercises_taxonomy table
-
-    !!! Throws TypeError
-
-    :param exercise_name: name of exercise to look up
-    :return: id of exercise in rep_exercises_taxonomy table
-    """
-    exercise_name = exercise_name.upper()
-    result = RepExercisesTaxonomy.query.filter_by(name=exercise_name).first()
-    if result is None:
-        raise TypeError("No types match: {0} row is {1}".format(exercise_name))
-    return result.id
 
 
 def _string_to_bool(string):
