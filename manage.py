@@ -93,9 +93,9 @@ def run_importers():
     """
     import_users()
     import_rep_taxonomies()
-    # import_time_taxonomies()
+    import_time_taxonomies()
     import_rep_history()
-    # import_time_history()
+    import_time_history()
 
 
 @manager.command
@@ -171,7 +171,22 @@ def import_rep_taxonomies():
 
 @manager.command
 def import_time_taxonomies():
-    pass
+    entries = []
+    with open(IMPORT_TIME_TAXONOMY_FILE_PATH, 'rb') as csvfile:
+        taxonomy_reader = reader(csvfile)
+        taxonomy_reader.next()  # skip header line
+        for row in taxonomy_reader:
+            try:
+                row = row[1:]  # remove the previous row id
+                entries.append(
+                    TimeExercisesTaxonomy(
+                        row[0].upper()
+                    )
+                )
+            except:  # messy but effective
+                pass
+    db.session.add_all(entries)
+    db.session.commit()
 
 
 @manager.command
