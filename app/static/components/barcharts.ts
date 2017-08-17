@@ -65,7 +65,7 @@ export abstract class BarCharts {
     }
 
     // HOok to scale widths of all elements
-    protected scaleWidths(): {  // tslint:disable-line
+    protected scaleWidths(): void {  // tslint:disable-line
     }
 
     private splitOutSets(): void {
