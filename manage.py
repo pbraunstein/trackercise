@@ -1,6 +1,5 @@
 from csv import reader, writer
 from datetime import date
-import hashlib
 import os
 import subprocess
 
@@ -115,6 +114,7 @@ def _generate_time_history_from_row(row):
         duration=int(row[3]),
         exercise_date=row[4]
     )
+
 
 IMPORT_FILE_PATHS_FACTORY_METHOD_MAP = {
     IMPORT_USERS_FILE_PATH: _generate_user_from_row,
