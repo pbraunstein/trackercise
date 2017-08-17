@@ -180,7 +180,6 @@ def import_rep_history():
     Imports the rep exercise history sample data into the rep_exercises_history db table
     """
     entries = []
-    user = Users.query.first()
     with open(IMPORT_REP_HISTORY_FILE_PATH, 'rb') as csvfile:
         history_reader = reader(csvfile)
         history_reader.next()  # skip header line
