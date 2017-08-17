@@ -215,7 +215,7 @@ def export_rep_history():
         for h in history:
             try:
                 history_writer.writerow(h.get_attribute_list())
-            except AttributeError:
+            except:  # messy but effective
                 pass
 
 
