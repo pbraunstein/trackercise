@@ -118,11 +118,23 @@ def export_model(file_path, model):
 
 @manager.command
 def import_users():
-    hasher = hashlib.sha256()
-    hasher.update('a')
-    password = hasher.hexdigest()
-    user = Users(email='a@a.a', nickname='Phil', password=password)
-    db.session.add(user)
+    entries = []
+    with open(IMPORT_USERS_FILE_PATH, 'rb') as csvfile:
+        users_reader = reader(csvfile)
+        users_reader.next()  # skip the header line
+        for row in users_reader:
+            try:
+                row = row[1:]  # remove previous row id
+                entries.append(
+                    Users(
+                        email=row[0],
+                        nickname=row[1],
+                        password=row[2]
+                    )
+                )
+            except:  # messy but effective
+                pass
+    db.session.add_all(entries)
     db.session.commit()
 
 
@@ -130,11 +142,9 @@ def import_users():
 def import_rep_taxonomies():
     """
     Imports sample rep taxonomy data into the rep_exercise_taxonomy table
-
-    Depends on the different ordering in the google drive file and the table columns. TODO: Very fragile
     """
     entries = []
-    with open(os.path.join(app.root_path, IMPORT_REP_TAXONOMY_FILE_PATH), 'rb') as csvfile:
+    with open(IMPORT_REP_TAXONOMY_FILE_PATH, 'rb') as csvfile:
         taxonomy_reader = reader(csvfile)
         taxonomy_reader.next()  # skip header line
         for row in taxonomy_reader:
@@ -171,14 +181,22 @@ def import_rep_history():
     """
     entries = []
     user = Users.query.first()
-    user_id = user.id
-    with open(os.path.join(app.root_path, IMPORT_REP_HISTORY_FILE_PATH), 'rb') as csvfile:
+    with open(IMPORT_REP_HISTORY_FILE_PATH, 'rb') as csvfile:
         history_reader = reader(csvfile)
         history_reader.next()  # skip header line
         for row in history_reader:
             row = row[1:]
             try:
-                entries.append(_generate_rep_history_from_row(row))
+                entries.append(
+                    RepExercisesHistory(
+                        user_id=int(row[0]),
+                        exercise_id=int(row[1]),
+                        sets=int(row[2]),
+                        reps=int(row[3]),
+                        weight=float(row[4]),
+                        date=row[5]
+                    )
+                )
             except:  # messy but effective
                 pass
     db.session.add_all(entries)
@@ -204,23 +222,6 @@ def export_rep_history():
 @manager.command
 def import_time_history():
     pass
-
-
-def _generate_rep_history_from_row(row):
-    """
-    Generates a RepExercisesHistory object from one row of the csv file
-
-    :param row: from csv sample data for rep exercises history csv file
-    :return: RepExercisesHistory taxonomy object representing one row in the db table
-    """
-    return RepExercisesHistory(
-        user_id=int(row[0]),
-        exercise_id=int(row[1]),
-        sets=int(row[2]),
-        reps=int(row[3]),
-        weight=float(row[4]),
-        date=row[5]
-    )
 
 
 def _string_to_bool(string):
